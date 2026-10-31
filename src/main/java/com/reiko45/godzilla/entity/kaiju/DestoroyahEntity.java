@@ -129,9 +129,13 @@ public class DestoroyahEntity extends FlyingKaijuEntity {
     @Override
     public void setVariant(int form) {
         super.setVariant(form);
-        var health = getAttribute(Attributes.MAX_HEALTH);
-        if (health != null) health.setBaseValue(HEALTH[Math.max(0, Math.min(2, form))]);
         refreshDimensions();
+    }
+
+    @Override
+    protected void applyVariantAttributes() {
+        var health = getAttribute(Attributes.MAX_HEALTH);
+        if (health != null) health.setBaseValue(HEALTH[Math.max(0, Math.min(2, getVariant()))]);
     }
 
     private void evolve() {

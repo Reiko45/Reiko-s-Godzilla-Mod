@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SGS",
+    "SNS",
+    "T T"
+  ],
+  "key": {
+    "S": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "G": {
+      "item": "reikogodzilla:ghidorah_scale"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "T": {
+      "item": "reikogodzilla:maser_tank"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:gforce_mechagodzilla",
+    "count": 1
+  }
+}

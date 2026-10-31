@@ -100,12 +100,16 @@ public class GodzillaJuniorEntity extends TameableKaijuEntity {
     @Override
     public void setVariant(int stage) {
         super.setVariant(stage);
-        int s = Math.max(0, Math.min(2, stage));
+        setHealth(getMaxHealth());
+    }
+
+    @Override
+    protected void applyVariantAttributes() {
+        int s = Math.max(0, Math.min(2, getVariant()));
         var health = getAttribute(Attributes.MAX_HEALTH);
         if (health != null) health.setBaseValue(HEALTH[s]);
         var attack = getAttribute(Attributes.ATTACK_DAMAGE);
         if (attack != null) attack.setBaseValue(ATTACK[s]);
-        setHealth(getMaxHealth());
     }
 
     /** Grow to the next stage. */

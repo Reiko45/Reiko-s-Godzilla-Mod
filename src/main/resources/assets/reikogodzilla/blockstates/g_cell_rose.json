@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "growth=0": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=1": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=2": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=3": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=4": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=5": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=6": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=7": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=8": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=9": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=10": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=11": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=12": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=13": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=14": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    },
+    "growth=15": {
+      "model": "reikogodzilla:block/g_cell_rose"
+    }
+  }
+}

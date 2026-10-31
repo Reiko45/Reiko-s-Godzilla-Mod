@@ -191,8 +191,12 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     public void setVariant(int variant) {
         entityData.set(DATA_VARIANT, variant);
+        applyVariantAttributes();
         applyScale();
     }
+
+    /** Set per-variant attribute base values (max health and so on). Called on variant change and on load. */
+    protected void applyVariantAttributes() {}
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
@@ -830,6 +834,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(DATA_VARIANT, tag.getInt("Variant"));
+        applyVariantAttributes();
         destination = NbtUtils.readBlockPos(tag, "Destination").orElse(null);
         regenSuppressedTicks = tag.getInt("RegenSuppressed");
         entityData.set(DATA_FREEZE, tag.getFloat("Freeze"));

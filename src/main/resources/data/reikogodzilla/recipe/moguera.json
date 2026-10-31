@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SBS",
+    "SNS",
+    "D D"
+  ],
+  "key": {
+    "S": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "B": {
+      "item": "minecraft:beacon"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond_pickaxe"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:moguera",
+    "count": 1
+  }
+}

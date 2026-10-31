@@ -1,0 +1,170 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "idle": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "walk": {
+   "loop": true,
+   "animation_length": 0.5,
+   "bones": {
+    "hull": {
+     "position": {
+      "0.00": [
+       0,
+       0,
+       0
+      ],
+      "0.25": [
+       0,
+       0.3,
+       0
+      ],
+      "0.50": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "fly": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "attack": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "roar": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "charge": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "beam": {
+   "loop": true,
+   "animation_length": 0.2,
+   "bones": {
+    "emitter": {
+     "position": {
+      "0.00": [
+       0,
+       0,
+       0
+      ],
+      "0.10": [
+       0,
+       0,
+       0.6
+      ],
+      "0.20": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "tail": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "pulse": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "gust": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "scales": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "spray": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "dive": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "curl": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "roll": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "missiles": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "shield": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "sit": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "cocoon": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "lash": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "grab": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "spores": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "tornado": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "ram": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "drill": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  }
+ }
+}

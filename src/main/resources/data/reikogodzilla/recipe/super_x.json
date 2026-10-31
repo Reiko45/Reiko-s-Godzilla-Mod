@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IKI",
+    "RER",
+    "IKI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "K": {
+      "item": "reikogodzilla:kaiju_scale"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:super_x",
+    "count": 1
+  }
+}

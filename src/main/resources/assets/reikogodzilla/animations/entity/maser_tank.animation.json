@@ -135,6 +135,36 @@
    "loop": true,
    "animation_length": 2,
    "bones": {}
+  },
+  "lash": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "grab": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "spores": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "tornado": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "ram": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "drill": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
   }
  }
 }

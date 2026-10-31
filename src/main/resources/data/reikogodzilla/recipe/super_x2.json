@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "KDK",
+    "DXD",
+    "KRK"
+  ],
+  "key": {
+    "K": {
+      "item": "reikogodzilla:kaiju_scale"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "X": {
+      "item": "reikogodzilla:super_x"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:super_x2",
+    "count": 1
+  }
+}

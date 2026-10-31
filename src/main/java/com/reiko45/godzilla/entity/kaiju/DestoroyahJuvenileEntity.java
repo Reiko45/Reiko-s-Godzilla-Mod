@@ -80,7 +80,7 @@ public class DestoroyahJuvenileEntity extends Monster implements GeoEntity, Kaij
     public void tick() {
         super.tick();
         if (!(level() instanceof ServerLevel server) || tickCount < 1200 || tickCount % 100 != 0) return;
-        List<DestoroyahJuvenileEntity> swarm = server.getEntitiesOfClass(DestoroyahJuvenileEntity.class, getBoundingBox().inflate(12), LivingEntity::isAlive);
+        List<DestoroyahJuvenileEntity> swarm = server.getEntitiesOfClass(DestoroyahJuvenileEntity.class, getBoundingBox().inflate(16, 24, 16), LivingEntity::isAlive);
         if (swarm.size() < MERGE_COUNT || swarm.stream().anyMatch(j -> j.getId() < getId())) return;
         // This one leads: the swarm fuses into an aggregate.
         DestoroyahEntity aggregate = ModEntities.DESTOROYAH.get().create(server);

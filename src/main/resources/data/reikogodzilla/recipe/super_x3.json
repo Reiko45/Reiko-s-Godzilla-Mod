@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SBS",
+    "BXB",
+    "SNS"
+  ],
+  "key": {
+    "S": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "B": {
+      "item": "minecraft:blue_ice"
+    },
+    "X": {
+      "item": "reikogodzilla:super_x2"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:super_x3",
+    "count": 1
+  }
+}

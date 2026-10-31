@@ -77,6 +77,12 @@ public class BiollanteEntity extends KaijuEntity {
     }
 
     @Override
+    protected void applyVariantAttributes() {
+        var health = getAttribute(Attributes.MAX_HEALTH);
+        if (health != null) health.setBaseValue(getVariant() == PLANT_BEAST ? 1000 : 700);
+    }
+
+    @Override
     public boolean canWander() {
         return false;
     }
@@ -103,8 +109,6 @@ public class BiollanteEntity extends KaijuEntity {
         if (getVariant() == FLOWER && !level().isClientSide) {
             // Her spores scatter and she returns as the Plant Beast.
             setVariant(PLANT_BEAST);
-            var health = getAttribute(Attributes.MAX_HEALTH);
-            if (health != null) health.setBaseValue(1000);
             setHealth(getMaxHealth());
             if (level() instanceof ServerLevel server) {
                 server.sendParticles(new DustParticleOptions(new Vector3f(1f, 0.85f, 0.3f), 2f), getX(), getY(0.6), getZ(), 200,

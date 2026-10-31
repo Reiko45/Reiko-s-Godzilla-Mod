@@ -325,5 +325,74 @@
         "attenuation_distance": 64
       }
     ]
+  },
+  "battra_cry": {
+    "subtitle": "subtitles.reikogodzilla.battra_cry",
+    "sounds": [
+      {
+        "name": "minecraft:mob/phantom/idle4",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/phantom/idle5",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/hoglin/angry4",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "spacegodzilla_roar": {
+    "subtitle": "subtitles.reikogodzilla.spacegodzilla_roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/warden/roar_4",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/warden/roar_5",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/enderdragon/growl3",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "destoroyah_roar": {
+    "subtitle": "subtitles.reikogodzilla.destoroyah_roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/ravager/roar4",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ravager/roar2",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ghast/scream5",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
   }
 }

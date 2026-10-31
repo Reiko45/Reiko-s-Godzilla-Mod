@@ -140,17 +140,11 @@ public class GodzillaEntity extends KaijuEntity {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData data) {
         setVariant(random.nextInt(2));
-        applyVariantHealth();
         return super.finalizeSpawn(level, difficulty, spawnType, data);
     }
 
     @Override
-    public void setVariant(int variant) {
-        super.setVariant(variant);
-        applyVariantHealth();
-    }
-
-    private void applyVariantHealth() {
+    protected void applyVariantAttributes() {
         var health = getAttribute(Attributes.MAX_HEALTH);
         if (health != null) health.setBaseValue(getVariant() == HEISEI ? 1024 : 800);
     }
@@ -233,7 +227,8 @@ public class GodzillaEntity extends KaijuEntity {
             double radius = 6 * getScale() + getBbWidth();
             DamageSource radiation = ModDamageTypes.source(server, ModDamageTypes.RADIATION, this);
             for (LivingEntity e : server.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(radius),
-                    e -> e != this && !isAlliedTo(e) && !(e instanceof net.minecraft.world.entity.player.Player p && (p.isCreative() || p.isSpectator())))) {
+                    e -> e != this && !isAlliedTo(e) && !(e instanceof com.reiko45.godzilla.entity.KaijuAligned a && !getFaction().isHostileTo(a.getFaction()))
+                            && !(e instanceof net.minecraft.world.entity.player.Player p && (p.isCreative() || p.isSpectator())))) {
                 e.hurt(radiation, 4f);
                 if (!e.fireImmune()) e.igniteForSeconds(3);
             }
@@ -269,6 +264,10 @@ public class GodzillaEntity extends KaijuEntity {
     private void meltdown(boolean explode) {
         if (meltedDown || !(level() instanceof ServerLevel server)) return;
         meltedDown = true;
+        // A Godzilla Junior nearby takes in the radiation first, so it survives the blast as the new Godzilla.
+        server.getEntitiesOfClass(GodzillaJuniorEntity.class, getBoundingBox().inflate(96)).stream()
+                .min(java.util.Comparator.comparingDouble(this::distanceToSqr))
+                .ifPresent(GodzillaJuniorEntity::absorbMeltdown);
         if (explode && GodzillaConfig.get(GodzillaConfig.MELTDOWN_EXPLOSION, true)) {
             boolean grief = KaijuDestruction.canGrief(server, this);
             server.explode(this, ModDamageTypes.source(server, ModDamageTypes.MELTDOWN, this), null, getX(), getY(0.5), getZ(),
@@ -278,9 +277,6 @@ public class GodzillaEntity extends KaijuEntity {
             announce("message.reikogodzilla.meltdown_contained", ChatFormatting.AQUA);
         }
         server.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY(0.5), getZ(), 4, getBbWidth(), getBbHeight() * 0.3, getBbWidth(), 0);
-        server.getEntitiesOfClass(GodzillaJuniorEntity.class, getBoundingBox().inflate(96)).stream()
-                .min(java.util.Comparator.comparingDouble(this::distanceToSqr))
-                .ifPresent(GodzillaJuniorEntity::absorbMeltdown);
         if (isAlive()) {
             entityData.set(DATA_BURNING, false);
             hurt(ModDamageTypes.source(server, ModDamageTypes.MELTDOWN, null), Float.MAX_VALUE);

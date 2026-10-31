@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S S",
+    "SES",
+    "RMR"
+  ],
+  "key": {
+    "S": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "M": {
+      "item": "reikogodzilla:maser_tank"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:garuda",
+    "count": 1
+  }
+}
