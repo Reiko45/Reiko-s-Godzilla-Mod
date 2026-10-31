@@ -101,11 +101,6 @@ public class MothraLarvaEntity extends KaijuEntity {
     }
 
     @Override
-    public boolean isImmobile() {
-        return isCocoon() || super.isImmobile();
-    }
-
-    @Override
     public boolean hurt(DamageSource source, float amount) {
         // The cocoon is tough silk: most damage is absorbed.
         return super.hurt(source, isCocoon() ? amount * 0.25f : amount);
@@ -116,6 +111,8 @@ public class MothraLarvaEntity extends KaijuEntity {
         super.customServerAiStep();
         if (isCocoon()) {
             setTarget(null);
+            setZza(0);
+            setDeltaMovement(getDeltaMovement().multiply(0, 1, 0));
             if (++cocoonTicks >= COCOON_TICKS) emerge();
             else if (cocoonTicks % 20 == 0 && level() instanceof ServerLevel server) {
                 server.sendParticles(ParticleTypes.END_ROD, getX(), getY(0.6), getZ(), 4, getBbWidth() * 0.5, getBbHeight() * 0.4, getBbWidth() * 0.5, 0.01);

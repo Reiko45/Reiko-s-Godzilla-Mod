@@ -6,35 +6,37 @@ Target: **Minecraft 1.21.1 · NeoForge · GeckoLib 4**
 
 ---
 
-## Phase 1: "King of the Monsters" core
+## Phase 1: "King of the Monsters" core ✅ (v0.1.0)
 
 The best-known monsters, plus the systems every later monster reuses.
 
 **Monsters**
-- [ ] Godzilla: Showa (1954–75) and Heisei (1984–95) variants
-- [ ] King Ghidorah (three independent gravity beams, flight, wing gusts)
-- [ ] Mothra: larva (silk spray) → cocoon → imago (poison scales, hurricane gusts)
-- [ ] Rodan (supersonic flight, sonic-boom dive)
-- [ ] Anguirus (spiked shell, Thunderball roll, tameable and rideable)
-- [ ] Mechagodzilla, Showa (Space Beam, finger missiles, force field, "Fake Godzilla" disguise)
+- [x] Godzilla: Showa (1954–75) and Heisei (1984–95) variants
+- [x] King Ghidorah (three independent gravity beams, flight, wing gusts)
+- [x] Mothra: larva (silk spray) → cocoon → imago (poison scales, hurricane gusts)
+- [x] Rodan (supersonic flight, sonic-boom dive)
+- [x] Anguirus (spiked shell, Thunderball roll, tameable and rideable)
+- [x] Mechagodzilla, Showa (Space Beam, finger missiles, force field, "Fake Godzilla" disguise)
 
 **Tech and items**
-- [ ] Type 66 Maser Tank (drivable; unmanned tanks auto-fire at hostile kaiju)
-- [ ] Oxygen Destroyer (endgame weapon)
-- [ ] Kaiju drops: G-Cells, Space Titanium, Ghidorah Scales, Mothra Scales, Kaiju Scales
+- [x] Type 66 Maser Tank (drivable; unmanned tanks auto-fire at hostile kaiju)
+- [x] Oxygen Destroyer (endgame weapon)
+- [x] Kaiju drops: G-Cells, Space Titanium, Ghidorah Scales, Mothra Scales, Kaiju Scales
 
 **World**
-- [ ] Monster Island (volcano, Godzilla, Rodan, Anguirus lairs)
-- [ ] Infant Island (jungle, shrine, Mothra Egg)
-- [ ] Kaiju events: Godzilla surfaces offshore, Ghidorah meteor, Mechagodzilla invasion
+- [x] Monster Island (volcano, Godzilla, Rodan, Anguirus lairs)
+- [x] Infant Island (jungle, shrine, Mothra Egg)
+- [x] Kaiju events: Godzilla surfaces offshore, Ghidorah meteor, Mechagodzilla invasion
 
 **Core systems**
-- [ ] Charged beam attacks (raycast, block damage throttle, rendered beams)
-- [ ] Flight AI for flying kaiju
-- [ ] Multipart hitboxes
-- [ ] Faction AI (Titans / Guardians / Invaders)
-- [ ] Configurable scale (default 1/5 film size) and anti-grief settings
-- [ ] Boss bars
+- [x] Charged beam attacks (raycast, block damage throttle, rendered beams)
+- [x] Flight AI for flying kaiju
+- [x] Multipart hitboxes
+- [x] Faction AI (Titans / Guardians / Invaders)
+- [x] Configurable scale (default 1/5 film size) and anti-grief settings
+- [x] Boss bars
+
+**Still to do for Phase 1:** final Blockbench models and textures (stand-ins ship for now), custom sounds.
 
 ---
 

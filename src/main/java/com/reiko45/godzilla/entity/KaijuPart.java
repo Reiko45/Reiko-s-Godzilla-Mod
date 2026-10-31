@@ -57,6 +57,12 @@ public class KaijuPart extends PartEntity<KaijuEntity> {
         return !this.isInvulnerableTo(source) && getParent().hurtFromPart(this, source, amount);
     }
 
+    /** Commands like /kill @e[type=...] also select parts (they share the parent's type), so pass it on. */
+    @Override
+    public void kill() {
+        getParent().kill();
+    }
+
     @Override
     public boolean is(Entity entity) {
         return this == entity || getParent() == entity;

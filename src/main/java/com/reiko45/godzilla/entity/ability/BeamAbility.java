@@ -194,7 +194,8 @@ public class BeamAbility extends KaijuAbility {
                         com.reiko45.godzilla.registry.ModDamageTypes.source(level, damageType, kaiju), damage,
                         e -> shouldHit(kaiju, e, t),
                         e -> {
-                            if (lift > 0) e.push(0, lift, 0);
+                            // Toss small things into the air; something as heavy as a kaiju only staggers.
+                            if (lift > 0 && !(e instanceof KaijuEntity)) e.push(0, lift, 0);
                             if (setsFire && !e.fireImmune()) e.igniteForSeconds(4);
                         });
                 if (hit.getType() != HitResult.Type.MISS) {
