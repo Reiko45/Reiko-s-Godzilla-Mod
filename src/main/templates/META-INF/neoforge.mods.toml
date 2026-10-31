@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Reiko45/Reiko-s-Godzilla-Mod/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Reiko45"
+description='''
+Giant monsters from every era of the Godzilla films: Showa, Heisei, Millennium, Reiwa and the MonsterVerse.
+Kaiju battle each other, level cities with charged beams, and can be fought with film-accurate human tech
+like Maser tanks and the Oxygen Destroyer.
+
+Unofficial fan mod. Godzilla and related characters are trademarks of Toho Co., Ltd.
+'''
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    type="required"
+    versionRange="[${geckolib_version},)"
+    ordering="AFTER"
+    side="BOTH"
