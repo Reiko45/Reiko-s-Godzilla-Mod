@@ -27,6 +27,10 @@ import org.lwjgl.glfw.GLFW;
 public final class ClientSetup {
     public static final KeyMapping FIRE_WEAPON = new KeyMapping("key.reikogodzilla.fire_weapon",
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.reikogodzilla");
+    public static final KeyMapping SPECIAL_WEAPON = new KeyMapping("key.reikogodzilla.special_weapon",
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, "key.categories.reikogodzilla");
+    public static final KeyMapping TRANSFORM = new KeyMapping("key.reikogodzilla.transform",
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, "key.categories.reikogodzilla");
 
     private ClientSetup() {}
 
@@ -50,6 +54,8 @@ public final class ClientSetup {
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(FIRE_WEAPON);
+        event.register(SPECIAL_WEAPON);
+        event.register(TRANSFORM);
     }
 
     /** Game-bus client events. */
@@ -60,10 +66,29 @@ public final class ClientSetup {
         @SubscribeEvent
         public static void onClientTick(ClientTickEvent.Post event) {
             Minecraft mc = Minecraft.getInstance();
-            while (FIRE_WEAPON.consumeClick()) {
-                if (mc.player != null && mc.player.getVehicle() instanceof VehicleWeapon) {
-                    PacketDistributor.sendToServer(new FireWeaponPayload());
+            boolean riding = mc.player != null && mc.player.getVehicle() instanceof VehicleWeapon;
+            KeyMapping[] keys = {FIRE_WEAPON, SPECIAL_WEAPON, TRANSFORM};
+            for (int action = 0; action < keys.length; action++) {
+                while (keys[action].consumeClick()) {
+                    if (riding) PacketDistributor.sendToServer(new FireWeaponPayload(action));
                 }
+            }
+        }
+
+        /** Pull the third-person camera back far enough to see the kaiju or mech you're riding. */
+        @SubscribeEvent
+        public static void onCameraDistance(net.neoforged.neoforge.client.event.CalculateDetachedCameraDistanceEvent event) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player != null && mc.player.getVehicle() instanceof com.reiko45.godzilla.entity.KaijuEntity kaiju) {
+                event.setDistance(Math.max(event.getDistance(), kaiju.getBbHeight() * 1.4f + kaiju.getBbWidth()));
+            }
+        }
+
+        /** Pilots sit inside their mechs. */
+        @SubscribeEvent
+        public static void onRenderPlayer(net.neoforged.neoforge.client.event.RenderPlayerEvent.Pre event) {
+            if (event.getEntity().getVehicle() instanceof com.reiko45.godzilla.entity.KaijuEntity kaiju && kaiju.hidesPilot()) {
+                event.setCanceled(true);
             }
         }
     }

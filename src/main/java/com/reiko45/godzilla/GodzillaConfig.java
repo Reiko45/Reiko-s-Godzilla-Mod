@@ -26,6 +26,15 @@ public final class GodzillaConfig {
     public static final ModConfigSpec.DoubleValue MASER_DAMAGE;
     public static final ModConfigSpec.DoubleValue OXYGEN_DESTROYER_KAIJU_DAMAGE;
 
+    // Phase 2
+    public static final ModConfigSpec.BooleanValue BURNING_GODZILLA;
+    public static final ModConfigSpec.IntValue MELTDOWN_TICKS;
+    public static final ModConfigSpec.BooleanValue MELTDOWN_EXPLOSION;
+    public static final ModConfigSpec.IntValue FROZEN_TICKS;
+    public static final ModConfigSpec.IntValue JUNIOR_GROWTH_TICKS;
+    public static final ModConfigSpec.DoubleValue DESTOROYAH_CHANCE;
+    public static final ModConfigSpec.IntValue BIOLLANTE_GROWTH_STAGES;
+
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
 
@@ -68,6 +77,20 @@ public final class GodzillaConfig {
                 .defineInRange("maserDamage", 8.0, 0.0, 1000.0);
         OXYGEN_DESTROYER_KAIJU_DAMAGE = b.comment("Fraction of a kaiju's max health removed per Oxygen Destroyer pulse (10 pulses).")
                 .defineInRange("oxygenDestroyerKaijuDamage", 0.09, 0.0, 1.0);
+        b.pop();
+
+        b.push("heisei");
+        BURNING_GODZILLA = b.comment("Heisei Godzilla goes into meltdown (Burning Godzilla) when badly hurt.").define("burningGodzilla", true);
+        MELTDOWN_TICKS = b.comment("Ticks from the start of Burning Godzilla until meltdown, if nothing cools him down (6000 = 5 minutes).")
+                .defineInRange("meltdownTicks", 6000, 600, 1_000_000);
+        MELTDOWN_EXPLOSION = b.comment("Meltdown causes a huge explosion (also needs kaijuGriefing for block damage).").define("meltdownExplosion", true);
+        FROZEN_TICKS = b.comment("How long a kaiju stays frozen solid once its freeze meter fills.").defineInRange("frozenTicks", 120, 20, 2400);
+        JUNIOR_GROWTH_TICKS = b.comment("Ticks for Baby Godzilla to grow to Little Godzilla, and again from Little to Junior.")
+                .defineInRange("juniorGrowthTicks", 24000, 200, 10_000_000);
+        DESTOROYAH_CHANCE = b.comment("Chance that using an Oxygen Destroyer awakens Destoroyah juveniles a few minutes later.")
+                .defineInRange("destoroyahChance", 0.35, 0.0, 1.0);
+        BIOLLANTE_GROWTH_STAGES = b.comment("Random-tick growth stages before a G-Cell Rose becomes Biollante.")
+                .defineInRange("biollanteGrowthStages", 6, 1, 100);
         b.pop();
 
         SPEC = b.build();

@@ -47,6 +47,10 @@ public class BeamAbility extends KaijuAbility {
     @Nullable
     private Supplier<SoundEvent> fireSound;
     private ParticleOptions chargeParticle = ParticleTypes.ELECTRIC_SPARK;
+    private boolean nuclear;
+    @Nullable
+    private java.util.function.BiConsumer<KaijuEntity, LivingEntity> onHit;
+    private String beamAnim = "beam";
 
     private final Vec3[] aim = new Vec3[3];
     private final LivingEntity[] targets = new LivingEntity[3];
@@ -104,6 +108,27 @@ public class BeamAbility extends KaijuAbility {
         return this;
     }
 
+    /** Nuclear beams (atomic breath, heat rays) can't be used while suppressed by cadmium. */
+    public BeamAbility nuclear() {
+        this.nuclear = true;
+        return this;
+    }
+
+    public boolean isNuclear() {
+        return nuclear;
+    }
+
+    /** Extra effect on every entity hit (freeze, slow, cadmium...). */
+    public BeamAbility onHit(java.util.function.BiConsumer<KaijuEntity, LivingEntity> effect) {
+        this.onHit = effect;
+        return this;
+    }
+
+    @Override
+    public boolean isReady(KaijuEntity kaiju) {
+        return super.isReady(kaiju) && !(nuclear && kaiju.isCadmiumSuppressed());
+    }
+
     @Override
     protected boolean extraStartCheck(KaijuEntity kaiju, LivingEntity target) {
         return kaiju.hasLineOfSight(target) || kaiju.distanceTo(target) < 24 * kaiju.getScale();
@@ -125,7 +150,10 @@ public class BeamAbility extends KaijuAbility {
 
     @Override
     public void tickCharge(KaijuEntity kaiju, @Nullable LivingEntity target, int tick) {
-        if (target != null) {
+        if (kaiju.getPilot() != null) {
+            Vec3 aimAt = kaiju.getPilotAimPoint();
+            if (aimAt != null) kaiju.getLookControl().setLookAt(aimAt.x, aimAt.y, aimAt.z);
+        } else if (target != null) {
             kaiju.getLookControl().setLookAt(target, 10f, 10f);
             faceTowards(kaiju, target.getX(), target.getZ(), 6f);
         }
@@ -159,7 +187,8 @@ public class BeamAbility extends KaijuAbility {
     @Override
     public void tickActive(KaijuEntity kaiju, @Nullable LivingEntity target, int tick) {
         if (!(kaiju.level() instanceof ServerLevel level)) return;
-        if (target != null) {
+        Vec3 pilotAim = kaiju.getPilotAimPoint();
+        if (pilotAim == null && target != null) {
             kaiju.getLookControl().setLookAt(target, 10f, 10f);
             faceTowards(kaiju, target.getX(), target.getZ(), 3f);
         }
@@ -172,7 +201,9 @@ public class BeamAbility extends KaijuAbility {
             LivingEntity t = targets[i] != null && targets[i].isAlive() ? targets[i] : target;
             Vec3 origin = kaiju.getBeamOrigin(i, 1f);
             if (aim[i] == null) aim[i] = origin.add(kaiju.getLookAngle().scale(10));
-            if (t != null) {
+            if (pilotAim != null) {
+                aim[i] = aim[i].lerp(pilotAim, Math.max(0.35f, trackSpeed));
+            } else if (t != null) {
                 Vec3 desired = t.getBoundingBox().getCenter();
                 if (jitter > 0) {
                     desired = desired.add((kaiju.getRandom().nextFloat() - 0.5f) * jitter, (kaiju.getRandom().nextFloat() - 0.5f) * jitter,
@@ -190,14 +221,23 @@ public class BeamAbility extends KaijuAbility {
 
             if (hitTick) {
                 float radius = width * kaiju.getScale() + 0.4f;
-                KaijuDestruction.damageAlongSegment(kaiju, origin, end, radius,
-                        com.reiko45.godzilla.registry.ModDamageTypes.source(level, damageType, kaiju), damage,
-                        e -> shouldHit(kaiju, e, t),
-                        e -> {
-                            // Toss small things into the air; something as heavy as a kaiju only staggers.
-                            if (lift > 0 && !(e instanceof KaijuEntity)) e.push(0, lift, 0);
-                            if (setsFire && !e.fireImmune()) e.igniteForSeconds(4);
-                        });
+                net.minecraft.world.damagesource.DamageSource source = com.reiko45.godzilla.registry.ModDamageTypes.source(level, damageType, kaiju);
+                int segments = style.shape == BeamStyle.Shape.CURVED ? 8 : 1;
+                Vec3 prev = origin;
+                java.util.Set<LivingEntity> hitOnce = new java.util.HashSet<>();
+                for (int seg = 1; seg <= segments; seg++) {
+                    Vec3 next = style.pointAt(origin, end, (double) seg / segments);
+                    KaijuDestruction.damageAlongSegment(kaiju, prev, next, radius, source, damage,
+                            e -> !hitOnce.contains(e) && shouldHit(kaiju, e, t),
+                            e -> {
+                                hitOnce.add(e);
+                                // Toss small things into the air; something as heavy as a kaiju only staggers.
+                                if (lift > 0 && !(e instanceof KaijuEntity)) e.push(0, lift, 0);
+                                if (setsFire && !e.fireImmune()) e.igniteForSeconds(4);
+                                if (onHit != null) onHit.accept(kaiju, e);
+                            });
+                    prev = next;
+                }
                 if (hit.getType() != HitResult.Type.MISS) {
                     float r = blockRadius * Math.max(1.0f, kaiju.getScale() * 0.75f);
                     if (griefing) KaijuDestruction.breakSphere(level, end, r, budget / emitters, setsFire, kaiju.getRandom());
@@ -206,7 +246,7 @@ public class BeamAbility extends KaijuAbility {
             }
             if (tick % 3 == 0) {
                 for (int s = 0; s < 6; s++) {
-                    Vec3 p = origin.lerp(end, kaiju.getRandom().nextDouble());
+                    Vec3 p = style.pointAt(origin, end, kaiju.getRandom().nextDouble());
                     level.sendParticles(new DustParticleOptions(new Vector3f(style.r, style.g, style.b), 2.5f), p.x, p.y, p.z, 1, 0.2, 0.2, 0.2, 0);
                 }
                 level.sendParticles(ParticleTypes.LARGE_SMOKE, end.x, end.y, end.z, 3, 0.5, 0.5, 0.5, 0.02);
@@ -218,6 +258,7 @@ public class BeamAbility extends KaijuAbility {
         if (e == target) return true;
         if (kaiju.isAlliedTo(e) || kaiju.hasPassenger(e)) return false;
         if (e instanceof Player p && (p.isCreative() || p.isSpectator())) return false;
+        if ((kaiju.getPilot() != null || kaiju.getFaction() == com.reiko45.godzilla.entity.KaijuFaction.HUMAN) && e instanceof Player) return false;
         // Don't fry friendly kaiju standing in the way.
         if (e instanceof com.reiko45.godzilla.entity.KaijuAligned other && !kaiju.getFaction().isHostileTo(other.getFaction())) return false;
         return true;

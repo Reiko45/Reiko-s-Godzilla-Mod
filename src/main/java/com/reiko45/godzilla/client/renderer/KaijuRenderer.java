@@ -21,6 +21,14 @@ public class KaijuRenderer<T extends KaijuEntity> extends GeoEntityRenderer<T> {
         BeamRenderer.renderBeams(entity, partialTick, poseStack, buffers);
     }
 
+    /** Icy blue while freezing, orange while Burning Godzilla melts down, and so on. */
+    @Override
+    public software.bernie.geckolib.util.Color getRenderColor(T entity, float partialTick, int packedLight) {
+        float[] tint = entity.getTint();
+        if (tint == null) return super.getRenderColor(entity, partialTick, packedLight);
+        return software.bernie.geckolib.util.Color.ofRGBA(tint[0], tint[1], tint[2], 1.0f);
+    }
+
     @Override
     protected float getDeathMaxRotation(T entity) {
         return 90f;

@@ -2,7 +2,9 @@ package com.reiko45.godzilla.entity;
 
 import net.minecraft.server.level.ServerPlayer;
 
-/** Rideable things whose weapon the rider fires with the "Fire Weapon" key (default R). */
+/**
+ * Rideable things the rider can trigger with keys: action 0 = Fire (R), 1 = Special (V), 2 = Transform/Dock (G).
+ */
 public interface VehicleWeapon {
-    void fireWeapon(ServerPlayer rider);
+    void vehicleAction(ServerPlayer rider, int action);
 }

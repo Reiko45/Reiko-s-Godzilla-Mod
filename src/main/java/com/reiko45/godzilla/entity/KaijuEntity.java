@@ -49,10 +49,13 @@ import java.util.List;
  * Base class for every giant monster: scaling, boss bars, multipart hitboxes, special abilities (beams and so on),
  * faction-based targeting, block crushing and regeneration.
  */
-public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned {
+public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned, VehicleWeapon {
     private static final EntityDataAccessor<Integer> DATA_VARIANT = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_ABILITY = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_ABILITY_PHASE = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DATA_FREEZE = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> DATA_FROZEN = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_CADMIUM = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
     @SuppressWarnings("unchecked")
     private static final EntityDataAccessor<Vector3f>[] DATA_BEAM_END = new EntityDataAccessor[]{
             SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.VECTOR3),
@@ -84,6 +87,13 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     @Nullable
     private BlockPos destination;
     private float lastPartScale = -1;
+    private int frozenTicks;
+    private int cadmiumTicks;
+
+    /** Pilot actions sent by the rider's keys. */
+    public static final int ACTION_PRIMARY = 0;
+    public static final int ACTION_SECONDARY = 1;
+    public static final int ACTION_TRANSFORM = 2;
 
     protected KaijuEntity(EntityType<? extends KaijuEntity> type, Level level) {
         super(type, level);
@@ -169,6 +179,9 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         builder.define(DATA_VARIANT, 0);
         builder.define(DATA_ABILITY, -1);
         builder.define(DATA_ABILITY_PHASE, 0);
+        builder.define(DATA_FREEZE, 0f);
+        builder.define(DATA_FROZEN, false);
+        builder.define(DATA_CADMIUM, false);
         for (EntityDataAccessor<Vector3f> a : DATA_BEAM_END) builder.define(a, new Vector3f());
     }
 
@@ -276,6 +289,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     }
 
     public void startAbility(int index, @Nullable LivingEntity target) {
+        if (isFrozenSolid()) return;
         KaijuAbility ability = abilities.get(index);
         entityData.set(DATA_ABILITY, index);
         entityData.set(DATA_ABILITY_PHASE, ability.chargeTicks > 0 ? PHASE_CHARGE : PHASE_ACTIVE);
@@ -364,7 +378,12 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     /** Whether this kaiju picks a fight with {@code other} unprovoked. */
     public boolean wantsToAttack(LivingEntity other) {
         if (other == this || !other.isAlive() || isAlliedTo(other)) return false;
-        if (other instanceof KaijuAligned aligned) return getFaction().isHostileTo(aligned.getFaction());
+        if (other instanceof KaijuAligned aligned) {
+            if (getFaction().isHostileTo(aligned.getFaction())) return true;
+            // Human tech also engages any kaiju that is attacking people.
+            return getFaction() == KaijuFaction.HUMAN && other instanceof Mob mob
+                    && (mob.getTarget() instanceof Player || mob.getTarget() instanceof KaijuAligned t && t.getFaction() == KaijuFaction.HUMAN);
+        }
         if (other instanceof Player player) {
             return !player.isCreative() && !player.isSpectator() && attacksPlayersOnSight();
         }
@@ -407,6 +426,10 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     public void aiStep() {
         super.aiStep();
         if (parts.length > 0) updateParts();
+        if (!level().isClientSide && isAlive()) tickWeaknesses();
+        if (level().isClientSide && isFrozenSolid() && random.nextInt(3) == 0) {
+            level().addParticle(net.minecraft.core.particles.ParticleTypes.SNOWFLAKE, getRandomX(0.8), getRandomY(), getRandomZ(0.8), 0, -0.02, 0);
+        }
         if (!level().isClientSide && isAlive()) {
             Vec3 motion = getDeltaMovement();
             boolean moving = motion.horizontalDistanceSqr() > 0.0016;
@@ -432,7 +455,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, feet)) {
             if (e == this || e instanceof KaijuEntity || e.isPassengerOfSameVehicle(this) || hasPassenger(e) || isAlliedTo(e)) continue;
             if (e.getBbHeight() > getBbHeight() * 0.4f) continue;
-            if (e instanceof Player p && (p.isCreative() || p.isSpectator())) continue;
+            if (e instanceof Player p && (p.isCreative() || p.isSpectator() || getFaction() == KaijuFaction.HUMAN)) continue;
             e.hurt(stomp, 6.0f * getScale());
         }
     }
@@ -448,7 +471,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
         if (tickCount % 20 == 0) {
             float regen = regenPerSecond();
-            if (regen > 0 && regenSuppressedTicks <= 0 && getHealth() < getMaxHealth()) heal(regen);
+            if (regen > 0 && regenSuppressedTicks <= 0 && !isCadmiumSuppressed() && getHealth() < getMaxHealth()) heal(regen);
             updateBossBarViewers();
         }
         bossEvent.setProgress(getHealth() / getMaxHealth());
@@ -464,7 +487,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     private void updateBossBarViewers() {
         if (!(level() instanceof ServerLevel server)) return;
         bossEvent.setName(getDisplayName());
-        boolean enabled = GodzillaConfig.get(GodzillaConfig.BOSS_BARS, true);
+        boolean enabled = GodzillaConfig.get(GodzillaConfig.BOSS_BARS, true) && showsBossBar();
         for (ServerPlayer p : List.copyOf(bossEvent.getPlayers())) {
             if (!enabled || !p.isAlive() || p.level() != level() || p.distanceToSqr(this) > 112 * 112) bossEvent.removePlayer(p);
         }
@@ -490,6 +513,225 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     public void setCustomName(@Nullable net.minecraft.network.chat.Component name) {
         super.setCustomName(name);
         bossEvent.setName(getDisplayName());
+    }
+
+    // ---------------------------------------------------------------- weaknesses: freeze, cadmium (Phase 2)
+
+    public float getFreeze() {
+        return entityData.get(DATA_FREEZE);
+    }
+
+    public boolean isFrozenSolid() {
+        return entityData.get(DATA_FROZEN);
+    }
+
+    public boolean isCadmiumSuppressed() {
+        return entityData.get(DATA_CADMIUM);
+    }
+
+    /** How quickly freezer weapons work on this kaiju (Destoroyah is very vulnerable). */
+    public float freezeMultiplier() {
+        return 1.0f;
+    }
+
+    /**
+     * Freezer weapons (Super X3, DAG-MB96 tanks). At 100 the kaiju freezes solid for a few seconds: it can't move or
+     * attack and takes extra damage.
+     */
+    public void addFreeze(float amount) {
+        if (isFrozenSolid()) {
+            frozenTicks = Math.min(frozenTicks + (int) amount, 200);
+            return;
+        }
+        float value = Math.min(100f, getFreeze() + amount * freezeMultiplier());
+        entityData.set(DATA_FREEZE, value);
+        if (value >= 100f) {
+            frozenTicks = (int) GodzillaConfig.get(GodzillaConfig.FROZEN_TICKS, 120);
+            entityData.set(DATA_FROZEN, true);
+            if (isAbilityActive()) stopAbility();
+            playSound(net.minecraft.sounds.SoundEvents.GLASS_BREAK, 4f, 0.5f);
+        }
+    }
+
+    /**
+     * Cadmium (Super X, Super X3) dampens nuclear reactions: no regeneration and no nuclear attacks for a while.
+     */
+    public void applyCadmium(int ticks) {
+        cadmiumTicks = Math.max(cadmiumTicks, ticks);
+        entityData.set(DATA_CADMIUM, true);
+        if (getActiveAbility() instanceof BeamAbility beam && beam.isNuclear()) stopAbility();
+    }
+
+    private void tickWeaknesses() {
+        if (frozenTicks > 0) {
+            if (--frozenTicks <= 0) {
+                entityData.set(DATA_FROZEN, false);
+                entityData.set(DATA_FREEZE, 40f);
+                playSound(net.minecraft.sounds.SoundEvents.GLASS_BREAK, 4f, 0.8f);
+            } else if (tickCount % 4 == 0 && level() instanceof ServerLevel server) {
+                server.sendParticles(net.minecraft.core.particles.ParticleTypes.SNOWFLAKE, getX(), getY(0.5), getZ(), 8,
+                        getBbWidth() * 0.5, getBbHeight() * 0.4, getBbWidth() * 0.5, 0.01);
+            }
+        } else if (getFreeze() > 0) {
+            float thaw = isOnFire() || isInLava() ? 2.0f : 0.25f;
+            entityData.set(DATA_FREEZE, Math.max(0f, getFreeze() - thaw));
+        }
+        if (cadmiumTicks > 0 && --cadmiumTicks <= 0) entityData.set(DATA_CADMIUM, false);
+    }
+
+    @Override
+    public boolean isImmobile() {
+        return isFrozenSolid() || super.isImmobile();
+    }
+
+    /**
+     * Colour multiplier for the renderer: icy blue while freezing, or null for none. Subclasses add their own
+     * (Burning Godzilla glows orange).
+     */
+    @Nullable
+    public float[] getTint() {
+        float f = isFrozenSolid() ? 1.0f : getFreeze() / 100f * 0.6f;
+        if (f <= 0.01f) return null;
+        return new float[]{1.0f - 0.45f * f, 1.0f - 0.15f * f, 1.0f};
+    }
+
+    // ---------------------------------------------------------------- beam reflection & absorption
+
+    /** True while a shield or mirror bounces beams back at whoever fired them. */
+    public boolean reflectsBeams() {
+        return false;
+    }
+
+    public static boolean isBeam(DamageSource source) {
+        return source.is(com.reiko45.godzilla.registry.ModDamageTypes.KAIJU_BEAM);
+    }
+
+    /** Called when a beam is reflected. Return the damage multiplier sent back. */
+    protected float onBeamReflected(DamageSource source, float amount) {
+        return 1.0f;
+    }
+
+    /** Lets a kaiju soak up part of a beam (Heisei Mechagodzilla's Plasma Grenade). Returns damage still taken. */
+    protected float absorbBeam(DamageSource source, float amount) {
+        return amount;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!level().isClientSide && isBeam(source) && source.getEntity() instanceof LivingEntity attacker && attacker != this) {
+            if (reflectsBeams()) {
+                float multiplier = onBeamReflected(source, amount);
+                if (level() instanceof ServerLevel server) {
+                    server.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD, getX(), getY(0.6), getZ(), 20,
+                            getBbWidth() * 0.5, getBbHeight() * 0.3, getBbWidth() * 0.5, 0.2);
+                    KaijuDestruction.hurtIgnoringCooldown(attacker, new DamageSource(source.typeHolder(), this), amount * multiplier);
+                }
+                return false;
+            }
+            amount = absorbBeam(source, amount);
+            if (amount <= 0) return false;
+        }
+        if (isFrozenSolid()) amount *= 1.5f;
+        if (source.is(DamageTypeTags.IS_FIRE) && getFreeze() > 0) entityData.set(DATA_FREEZE, Math.max(0f, getFreeze() - amount));
+        return super.hurt(source, amount);
+    }
+
+    // ---------------------------------------------------------------- piloting (mechs, ridden kaiju)
+
+    /** Whether {@code player} can steer this kaiju when riding it. */
+    public boolean canBePilotedBy(Player player) {
+        return false;
+    }
+
+    /** Pilots of big mechs sit in an armoured cockpit: they can't be hurt while inside. */
+    public boolean protectsPilot() {
+        return false;
+    }
+
+    /** Hide the pilot model (they're inside the machine). */
+    public boolean hidesPilot() {
+        return protectsPilot();
+    }
+
+    /** Ability index fired by a pilot key, or -1. */
+    protected int pilotAbility(int action) {
+        return -1;
+    }
+
+    public boolean showsBossBar() {
+        return getFaction() != KaijuFaction.HUMAN;
+    }
+
+    @Nullable
+    public Player getPilot() {
+        return getControllingPassenger() instanceof Player p ? p : null;
+    }
+
+    @Nullable
+    @Override
+    public LivingEntity getControllingPassenger() {
+        if (getFirstPassenger() instanceof Player player && canBePilotedBy(player)) return player;
+        return super.getControllingPassenger();
+    }
+
+    @Override
+    public void vehicleAction(ServerPlayer rider, int action) {
+        if (getPilot() != rider) return;
+        onPilotAction(rider, action);
+    }
+
+    protected void onPilotAction(ServerPlayer pilot, int action) {
+        int index = pilotAbility(action);
+        if (index >= 0) tryPilotAbility(index, pilot);
+    }
+
+    protected boolean tryPilotAbility(int index, ServerPlayer pilot) {
+        if (isAbilityActive() || isFrozenSolid()) return false;
+        KaijuAbility ability = abilities.get(index);
+        if (!ability.isReady(this)) {
+            pilot.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.reikogodzilla.recharging",
+                    net.minecraft.network.chat.Component.translatable("ability.reikogodzilla." + ability.name)), true);
+            return false;
+        }
+        startAbility(index, null);
+        return true;
+    }
+
+    /** Where the pilot is aiming: the first block along their view, up to 160 blocks away. */
+    @Nullable
+    public Vec3 getPilotAimPoint() {
+        Player pilot = getPilot();
+        if (pilot == null) return null;
+        Vec3 eye = pilot.getEyePosition();
+        Vec3 far = eye.add(pilot.getLookAngle().scale(160));
+        net.minecraft.world.phys.BlockHitResult hit = level().clip(new net.minecraft.world.level.ClipContext(eye, far,
+                net.minecraft.world.level.ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, pilot));
+        return hit.getType() == net.minecraft.world.phys.HitResult.Type.MISS ? far : hit.getLocation();
+    }
+
+    @Override
+    protected void tickRidden(Player player, Vec3 input) {
+        super.tickRidden(player, input);
+        float yaw = net.minecraft.util.Mth.approachDegrees(getYRot(), player.getYRot(), pilotTurnSpeed());
+        setRot(yaw, player.getXRot() * 0.5f);
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+    }
+
+    protected float pilotTurnSpeed() {
+        return 10f;
+    }
+
+    @Override
+    protected Vec3 getRiddenInput(Player player, Vec3 input) {
+        float strafe = player.xxa * 0.5f;
+        float forward = player.zza;
+        if (forward <= 0) forward *= 0.4f;
+        return new Vec3(strafe, 0, forward);
+    }
+
+    @Override
+    protected float getRiddenSpeed(Player player) {
+        return (float) getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.9f;
     }
 
     // ---------------------------------------------------------------- damage & misc behaviour
@@ -569,6 +811,9 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         tag.putInt("Variant", getVariant());
         if (destination != null) tag.put("Destination", NbtUtils.writeBlockPos(destination));
         tag.putInt("RegenSuppressed", regenSuppressedTicks);
+        tag.putFloat("Freeze", getFreeze());
+        tag.putInt("FrozenTicks", frozenTicks);
+        tag.putInt("Cadmium", cadmiumTicks);
     }
 
     @Override
@@ -577,6 +822,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         entityData.set(DATA_VARIANT, tag.getInt("Variant"));
         destination = NbtUtils.readBlockPos(tag, "Destination").orElse(null);
         regenSuppressedTicks = tag.getInt("RegenSuppressed");
+        entityData.set(DATA_FREEZE, tag.getFloat("Freeze"));
+        frozenTicks = tag.getInt("FrozenTicks");
+        entityData.set(DATA_FROZEN, frozenTicks > 0);
+        cadmiumTicks = tag.getInt("Cadmium");
+        entityData.set(DATA_CADMIUM, cadmiumTicks > 0);
         applyScale();
         if (hasCustomName()) bossEvent.setName(getDisplayName());
     }

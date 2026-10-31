@@ -9,11 +9,11 @@ public final class ModNetwork {
     private ModNetwork() {}
 
     public static void register(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar("1");
+        PayloadRegistrar registrar = event.registrar("2");
         registrar.playToServer(FireWeaponPayload.TYPE, FireWeaponPayload.STREAM_CODEC, (payload, context) ->
                 context.enqueueWork(() -> {
                     if (context.player() instanceof ServerPlayer player && player.getVehicle() instanceof VehicleWeapon weapon) {
-                        weapon.fireWeapon(player);
+                        weapon.vehicleAction(player, payload.action());
                     }
                 }));
     }

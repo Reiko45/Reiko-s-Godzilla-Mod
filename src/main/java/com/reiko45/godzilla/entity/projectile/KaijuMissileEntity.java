@@ -1,8 +1,18 @@
 package com.reiko45.godzilla.entity.projectile;
 
+import com.reiko45.godzilla.entity.KaijuEntity;
 import com.reiko45.godzilla.registry.ModEntities;
 import com.reiko45.godzilla.util.KaijuDestruction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -11,15 +21,43 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.entity.PartEntity;
 
-/** A small explosive rocket (Mechagodzilla's finger missiles). */
+/**
+ * A rocket fired by a kaiju or mecha. The payload decides what it does:
+ * <ul>
+ *     <li>EXPLOSIVE: a small explosion (Showa Mechagodzilla's finger missiles).</li>
+ *     <li>PARALYZER: stuns and slows (Heisei Mechagodzilla).</li>
+ *     <li>CADMIUM: shuts down regeneration and nuclear attacks (Super X).</li>
+ *     <li>FREEZER: fills the freeze meter (Super X3).</li>
+ * </ul>
+ */
 public class KaijuMissileEntity extends ThrowableItemProjectile {
+    public enum Payload { EXPLOSIVE, PARALYZER, CADMIUM, FREEZER }
+
+    private static final EntityDataAccessor<Integer> DATA_PAYLOAD = SynchedEntityData.defineId(KaijuMissileEntity.class, EntityDataSerializers.INT);
+
     public KaijuMissileEntity(EntityType<? extends KaijuMissileEntity> type, Level level) {
         super(type, level);
     }
 
     public KaijuMissileEntity(Level level, LivingEntity shooter) {
+        this(level, shooter, Payload.EXPLOSIVE);
+    }
+
+    public KaijuMissileEntity(Level level, LivingEntity shooter, Payload payload) {
         super(ModEntities.KAIJU_MISSILE.get(), shooter, level);
+        entityData.set(DATA_PAYLOAD, payload.ordinal());
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_PAYLOAD, 0);
+    }
+
+    public Payload getPayload() {
+        return Payload.values()[Math.floorMod(entityData.get(DATA_PAYLOAD), Payload.values().length)];
     }
 
     @Override
@@ -36,31 +74,74 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
     public void tick() {
         super.tick();
         if (level().isClientSide) {
+            ParticleOptions trail = switch (getPayload()) {
+                case FREEZER -> ParticleTypes.SNOWFLAKE;
+                case CADMIUM -> ParticleTypes.HAPPY_VILLAGER;
+                case PARALYZER -> ParticleTypes.ELECTRIC_SPARK;
+                default -> ParticleTypes.FLAME;
+            };
             level().addParticle(ParticleTypes.SMOKE, getX(), getY(), getZ(), 0, 0, 0);
-            level().addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
-        } else if (tickCount > 120) {
+            level().addParticle(trail, getX(), getY(), getZ(), 0, 0, 0);
+        } else if (tickCount > 140) {
             discard();
         }
     }
 
     @Override
-    protected boolean canHitEntity(net.minecraft.world.entity.Entity target) {
-        if (target instanceof net.neoforged.neoforge.entity.PartEntity<?> part && part.getParent() == getOwner()) return false;
+    protected boolean canHitEntity(Entity target) {
+        if (target instanceof PartEntity<?> part && part.getParent() == getOwner()) return false;
+        if (getOwner() != null && target.isPassengerOfSameVehicle(getOwner())) return false;
         return super.canHitEntity(target);
     }
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(damageSources().explosion(this, getOwner()), 6.0f);
+        result.getEntity().hurt(damageSources().explosion(this, getOwner()), getPayload() == Payload.EXPLOSIVE ? 6.0f : 4.0f);
     }
 
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        if (level().isClientSide) return;
-        boolean grief = getOwner() != null && KaijuDestruction.canGrief(level(), getOwner());
-        level().explode(this, getX(), getY(), getZ(), 2.0f, false, grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+        if (!(level() instanceof ServerLevel server)) return;
+        Payload payload = getPayload();
+        boolean grief = payload == Payload.EXPLOSIVE && getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
+        if (payload != Payload.FREEZER) {
+            server.explode(this, getX(), getY(), getZ(), payload == Payload.EXPLOSIVE ? 2.0f : 1.0f, false,
+                    grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+        }
+        for (LivingEntity e : server.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4.0), e -> e != getOwner())) {
+            KaijuEntity kaiju = e instanceof KaijuEntity k ? k : null;
+            switch (payload) {
+                case PARALYZER -> {
+                    e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 3));
+                    e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1));
+                    if (kaiju != null && kaiju.isAbilityActive() && kaiju.getRandom().nextInt(3) == 0) kaiju.stopAbility();
+                }
+                case CADMIUM -> {
+                    if (kaiju != null) kaiju.applyCadmium(1200);
+                }
+                case FREEZER -> {
+                    if (kaiju != null) kaiju.addFreeze(18f);
+                    else e.setTicksFrozen(Math.min(e.getTicksFrozen() + 160, 400));
+                }
+                default -> {}
+            }
+        }
+        if (payload == Payload.FREEZER) server.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY(), getZ(), 40, 1.5, 1.5, 1.5, 0.05);
+        if (payload == Payload.CADMIUM) server.sendParticles(ParticleTypes.HAPPY_VILLAGER, getX(), getY(), getZ(), 25, 1.5, 1.5, 1.5, 0.05);
         discard();
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Payload", entityData.get(DATA_PAYLOAD));
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        entityData.set(DATA_PAYLOAD, tag.getInt("Payload"));
     }
 }

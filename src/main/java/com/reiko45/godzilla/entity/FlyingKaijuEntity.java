@@ -61,6 +61,16 @@ public abstract class FlyingKaijuEntity extends KaijuEntity {
         return true;
     }
 
+    /** Aircraft (Garuda, the Super X series) never land. */
+    public boolean alwaysFlies() {
+        return false;
+    }
+
+    /** Speed multiplier when a pilot is flying it. */
+    protected double pilotFlightSpeed() {
+        return 1.0;
+    }
+
     /** 1-in-N chance per tick to land when idle in the air. */
     public int landChance() {
         return 600;
@@ -72,6 +82,19 @@ public abstract class FlyingKaijuEntity extends KaijuEntity {
 
     @Override
     public void travel(Vec3 input) {
+        if (isFlying() && isControlledByLocalInstance() && getControllingPassenger() instanceof net.minecraft.world.entity.player.Player pilot) {
+            // Fly where the pilot looks: W/S along the view, A/D strafe, no keys = hover.
+            Vec3 look = pilot.getLookAngle();
+            double yaw = getYRot() * net.minecraft.util.Mth.DEG_TO_RAD;
+            Vec3 left = new Vec3(Math.cos(yaw), 0, Math.sin(yaw));
+            double speed = getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.FLYING_SPEED)
+                    * Math.max(1.0, Math.sqrt(getScale())) * pilotFlightSpeed();
+            Vec3 want = look.scale(input.z * speed).add(left.scale(input.x * speed));
+            setDeltaMovement(getDeltaMovement().lerp(want, 0.2));
+            move(MoverType.SELF, getDeltaMovement());
+            calculateEntityAnimation(true);
+            return;
+        }
         if (isFlying() && isControlledByLocalInstance()) {
             move(MoverType.SELF, getDeltaMovement());
             setDeltaMovement(getDeltaMovement().scale(0.91));
@@ -84,6 +107,19 @@ public abstract class FlyingKaijuEntity extends KaijuEntity {
     @Override
     public void aiStep() {
         super.aiStep();
+        if (!level().isClientSide) {
+            if (alwaysFlies() && !isFlying()) setFlying(true);
+            net.minecraft.world.entity.player.Player pilot = getPilot();
+            if (pilot != null && !alwaysFlies()) {
+                // Look up and push forward to take off; look down onto the ground to land.
+                if (!isFlying() && canFlyNow() && pilot.getXRot() < -25 && pilot.zza > 0) {
+                    setFlying(true);
+                    setDeltaMovement(getDeltaMovement().add(0, 0.6, 0));
+                } else if (isFlying() && (onGround() || !canFlyNow()) && pilot.getXRot() > 20) {
+                    setFlying(false);
+                }
+            }
+        }
         if (!level().isClientSide && isFlying()) {
             if (tickCount % 30 == 0 && random.nextInt(3) == 0) playWingSound();
             if (isInWater()) setDeltaMovement(getDeltaMovement().add(0, 0.15, 0));

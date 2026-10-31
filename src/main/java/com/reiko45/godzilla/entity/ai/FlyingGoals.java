@@ -110,7 +110,7 @@ public final class FlyingGoals {
 
         @Override
         public boolean canUse() {
-            return k.isFlying() && k.getTarget() == null && !k.isVehicle() && k.getRandom().nextInt(k.landChance()) == 0;
+            return k.isFlying() && !k.alwaysFlies() && k.getTarget() == null && !k.isVehicle() && k.getRandom().nextInt(k.landChance()) == 0;
         }
 
         @Override

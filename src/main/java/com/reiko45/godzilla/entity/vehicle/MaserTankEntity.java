@@ -95,8 +95,8 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
     // ------------------------------------------------------------------ weapon
 
     @Override
-    public void fireWeapon(ServerPlayer rider) {
-        startFiring();
+    public void vehicleAction(ServerPlayer rider, int action) {
+        if (action == 0 && getControllingPassenger() == rider) startFiring();
     }
 
     private void startFiring() {

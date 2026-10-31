@@ -3,19 +3,17 @@ package com.reiko45.godzilla.entity.kaiju;
 import com.reiko45.godzilla.entity.KaijuEntity;
 import com.reiko45.godzilla.entity.KaijuFaction;
 import com.reiko45.godzilla.entity.KaijuPart;
-import com.reiko45.godzilla.entity.VehicleWeapon;
+import com.reiko45.godzilla.entity.TameableKaijuEntity;
 import com.reiko45.godzilla.entity.ability.KaijuAbility;
 import com.reiko45.godzilla.entity.ability.RoarAbility;
 import com.reiko45.godzilla.entity.ability.RollAbility;
-import com.reiko45.godzilla.entity.ai.AnguirusGoals;
 import com.reiko45.godzilla.registry.ModSounds;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,7 +21,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -35,22 +34,17 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Anguirus, Godzilla's most loyal ally. Its spiked shell hurts anyone who strikes it in melee and it rolls into
  * enemies as a spiked "Thunderball".
  * <p>
  * Tame it by feeding it meat. Once tamed: sneak + use to make it sit, use a saddle on it, then ride it. While riding,
- * press the Fire Weapon key (R) to roll in the direction you are looking.
+ * press the Fire key (R) to roll in the direction you are looking.
  */
-public class AnguirusEntity extends KaijuEntity implements OwnableEntity, VehicleWeapon {
-    private static final EntityDataAccessor<Optional<UUID>> DATA_OWNER = SynchedEntityData.defineId(AnguirusEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+public class AnguirusEntity extends TameableKaijuEntity {
     private static final EntityDataAccessor<Boolean> DATA_SADDLED = SynchedEntityData.defineId(AnguirusEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DATA_SITTING = SynchedEntityData.defineId(AnguirusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final RawAnimation SIT = RawAnimation.begin().thenLoop("sit");
     private static final int ROLL = 0;
 
@@ -66,15 +60,6 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
     @Override
     public KaijuFaction getFaction() {
         return KaijuFaction.TITAN;
-    }
-
-    @Override
-    protected void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.addGoal(0, new AnguirusGoals.Sit(this));
-        this.goalSelector.addGoal(4, new AnguirusGoals.FollowOwner(this));
-        this.targetSelector.addGoal(1, new AnguirusGoals.DefendOwner(this));
-        this.targetSelector.addGoal(2, new AnguirusGoals.AssistOwner(this));
     }
 
     @Override
@@ -104,61 +89,14 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_OWNER, Optional.empty());
         builder.define(DATA_SADDLED, false);
-        builder.define(DATA_SITTING, false);
-    }
-
-    // ------------------------------------------------------------------ taming
-
-    @Nullable
-    @Override
-    public UUID getOwnerUUID() {
-        return entityData.get(DATA_OWNER).orElse(null);
-    }
-
-    public boolean isTame() {
-        return getOwnerUUID() != null;
-    }
-
-    public boolean isOwnedBy(LivingEntity entity) {
-        return entity.getUUID().equals(getOwnerUUID());
     }
 
     public boolean isSaddled() {
         return entityData.get(DATA_SADDLED);
     }
 
-    public boolean isSitting() {
-        return entityData.get(DATA_SITTING);
-    }
-
-    public void setSitting(boolean sitting) {
-        entityData.set(DATA_SITTING, sitting);
-    }
-
-    @Override
-    public boolean canWander() {
-        return !isSitting() && !isTame();
-    }
-
-    @Override
-    public boolean isAlliedTo(Entity other) {
-        if (isTame()) {
-            LivingEntity owner = getOwner();
-            if (other == owner) return true;
-            if (owner != null && (other instanceof AnguirusEntity a && a.isTame() && owner.getUUID().equals(a.getOwnerUUID()))) return true;
-            if (owner != null) return owner.isAlliedTo(other);
-        }
-        return super.isAlliedTo(other);
-    }
-
-    @Override
-    public boolean wantsToAttack(LivingEntity other) {
-        // Tamed Anguirus only fights invaders on its own; otherwise it follows its owner's lead.
-        if (isTame() && !(other instanceof KaijuEntity)) return false;
-        return super.wantsToAttack(other);
-    }
+    // ------------------------------------------------------------------ taming & riding
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -168,12 +106,12 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
                 stack.consume(1, player);
                 if (!level().isClientSide) {
                     if (random.nextInt(5) == 0) {
-                        entityData.set(DATA_OWNER, Optional.of(player.getUUID()));
+                        setOwner(player);
                         setTarget(null);
-                        level().broadcastEntityEvent(this, (byte) 7);
+                        showTamingResult(true);
                         player.displayClientMessage(Component.translatable("message.reikogodzilla.anguirus_tamed"), true);
                     } else {
-                        level().broadcastEntityEvent(this, (byte) 6);
+                        showTamingResult(false);
                     }
                 }
                 return InteractionResult.sidedSuccess(level().isClientSide);
@@ -194,10 +132,7 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
             return InteractionResult.sidedSuccess(level().isClientSide);
         }
         if (player.isSecondaryUseActive()) {
-            setSitting(!isSitting());
-            if (!level().isClientSide) {
-                player.displayClientMessage(Component.translatable(isSitting() ? "message.reikogodzilla.anguirus_sit" : "message.reikogodzilla.anguirus_follow"), true);
-            }
+            toggleSitting(player);
             return InteractionResult.sidedSuccess(level().isClientSide);
         }
         if (isSaddled() && !isVehicle()) {
@@ -211,54 +146,14 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
     }
 
     @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 7 || id == 6) {
-            ParticleOptions particle = id == 7 ? ParticleTypes.HEART : ParticleTypes.SMOKE;
-            for (int i = 0; i < 12; i++) {
-                level().addParticle(particle, getRandomX(1.0), getRandomY() + 0.5, getRandomZ(1.0),
-                        random.nextGaussian() * 0.02, random.nextGaussian() * 0.02, random.nextGaussian() * 0.02);
-            }
-        } else {
-            super.handleEntityEvent(id);
-        }
-    }
-
-    // ------------------------------------------------------------------ spiked shell
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        boolean hurt = super.hurt(source, amount);
-        if (hurt && source.getDirectEntity() instanceof LivingEntity attacker && attacker == source.getEntity()
-                && attacker.distanceToSqr(this) < Math.pow(getBbWidth() + 4, 2)) {
-            attacker.hurt(damageSources().thorns(this), 4.0f);
-        }
-        if (hurt && isSitting() && source.getEntity() != null) setSitting(false);
-        return hurt;
-    }
-
-    // ------------------------------------------------------------------ riding
-
-    @Nullable
-    @Override
-    public LivingEntity getControllingPassenger() {
-        if (isSaddled() && getFirstPassenger() instanceof Player player) return player;
-        return super.getControllingPassenger();
-    }
-
-    @Override
-    protected void tickRidden(Player player, Vec3 input) {
-        super.tickRidden(player, input);
-        setRot(player.getYRot(), player.getXRot() * 0.5f);
-        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+    public boolean canBePilotedBy(Player player) {
+        return isSaddled() && isOwnedBy(player);
     }
 
     @Override
     protected Vec3 getRiddenInput(Player player, Vec3 input) {
         if (isRolling()) return new Vec3(0, 0, 1);
-        float strafe = player.xxa * 0.5f;
-        float forward = player.zza;
-        if (forward <= 0) forward *= 0.25f;
-        return new Vec3(strafe, 0, forward);
+        return super.getRiddenInput(player, input);
     }
 
     @Override
@@ -272,20 +167,28 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
     }
 
     @Override
-    public void fireWeapon(ServerPlayer rider) {
-        if (isAbilityActive() || !abilities.get(ROLL).isReady(this)) return;
-        RollAbility roll = (RollAbility) abilities.get(ROLL);
-        startAbility(ROLL, null);
-        roll.setDirection(rider.getLookAngle());
+    protected void onPilotAction(ServerPlayer pilot, int action) {
+        if (action != ACTION_PRIMARY) return;
+        if (tryPilotAbility(ROLL, pilot)) ((RollAbility) abilities.get(ROLL)).setDirection(pilot.getLookAngle());
+    }
+
+    // ------------------------------------------------------------------ spiked shell
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && source.getDirectEntity() instanceof LivingEntity attacker && attacker == source.getEntity()
+                && attacker.distanceToSqr(this) < Math.pow(getBbWidth() + 4, 2)) {
+            attacker.hurt(damageSources().thorns(this), 4.0f);
+        }
+        return hurt;
     }
 
     @Override
-    protected void dropCustomDeathLoot(net.minecraft.server.level.ServerLevel level, DamageSource source, boolean recentlyHit) {
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, source, recentlyHit);
         if (isSaddled()) spawnAtLocation(Items.SADDLE);
     }
-
-    // ------------------------------------------------------------------ misc
 
     @Override
     protected PlayState mainAnimation(AnimationState<KaijuEntity> state) {
@@ -296,17 +199,13 @@ public class AnguirusEntity extends KaijuEntity implements OwnableEntity, Vehicl
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        if (getOwnerUUID() != null) tag.putUUID("Owner", getOwnerUUID());
         tag.putBoolean("Saddled", isSaddled());
-        tag.putBoolean("Sitting", isSitting());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(DATA_OWNER, tag.hasUUID("Owner") ? Optional.of(tag.getUUID("Owner")) : Optional.empty());
         entityData.set(DATA_SADDLED, tag.getBoolean("Saddled"));
-        setSitting(tag.getBoolean("Sitting"));
     }
 
     @Override

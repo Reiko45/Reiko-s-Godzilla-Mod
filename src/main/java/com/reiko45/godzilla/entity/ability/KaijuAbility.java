@@ -91,6 +91,14 @@ public abstract class KaijuAbility {
         cooldown = cooldownTicks;
     }
 
+    /** Where to aim: the pilot's crosshair, else the target, else straight ahead. */
+    protected static net.minecraft.world.phys.Vec3 aimPoint(KaijuEntity kaiju, @Nullable LivingEntity target) {
+        net.minecraft.world.phys.Vec3 pilot = kaiju.getPilotAimPoint();
+        if (pilot != null) return pilot;
+        if (target != null) return target.getBoundingBox().getCenter();
+        return kaiju.getEyePosition().add(net.minecraft.world.phys.Vec3.directionFromRotation(0, kaiju.yBodyRot).scale(24));
+    }
+
     /** Helper: turn the kaiju's body toward a point, at most {@code maxDegrees} per tick. */
     protected static void faceTowards(KaijuEntity kaiju, double x, double z, float maxDegrees) {
         float target = (float) (Math.atan2(z - kaiju.getZ(), x - kaiju.getX()) * (180.0 / Math.PI)) - 90.0f;

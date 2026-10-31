@@ -1,6 +1,6 @@
 package com.reiko45.godzilla.entity.ai;
 
-import com.reiko45.godzilla.entity.kaiju.AnguirusEntity;
+import com.reiko45.godzilla.entity.TameableKaijuEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
@@ -8,14 +8,14 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 import java.util.EnumSet;
 
-/** Goals for a tamed Anguirus: sit, follow, and fight alongside its owner. */
-public final class AnguirusGoals {
-    private AnguirusGoals() {}
+/** Goals for tamed kaiju: sit, follow, and fight alongside the owner. */
+public final class OwnerGoals {
+    private OwnerGoals() {}
 
     public static class Sit extends Goal {
-        private final AnguirusEntity a;
+        private final TameableKaijuEntity a;
 
-        public Sit(AnguirusEntity a) {
+        public Sit(TameableKaijuEntity a) {
             this.a = a;
             setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP));
         }
@@ -33,10 +33,10 @@ public final class AnguirusGoals {
     }
 
     public static class FollowOwner extends Goal {
-        private final AnguirusEntity a;
+        private final TameableKaijuEntity a;
         private LivingEntity owner;
 
-        public FollowOwner(AnguirusEntity a) {
+        public FollowOwner(TameableKaijuEntity a) {
             this.a = a;
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
@@ -64,11 +64,11 @@ public final class AnguirusGoals {
 
     /** Attack whatever hurt the owner. */
     public static class DefendOwner extends TargetGoal {
-        private final AnguirusEntity a;
+        private final TameableKaijuEntity a;
         private LivingEntity attacker;
         private int timestamp;
 
-        public DefendOwner(AnguirusEntity a) {
+        public DefendOwner(TameableKaijuEntity a) {
             super(a, false);
             this.a = a;
         }
@@ -94,11 +94,11 @@ public final class AnguirusGoals {
 
     /** Attack whatever the owner attacks. */
     public static class AssistOwner extends TargetGoal {
-        private final AnguirusEntity a;
+        private final TameableKaijuEntity a;
         private LivingEntity victim;
         private int timestamp;
 
-        public AssistOwner(AnguirusEntity a) {
+        public AssistOwner(TameableKaijuEntity a) {
             super(a, false);
             this.a = a;
         }
