@@ -126,8 +126,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
     @Nullable
     private LivingEntity findAutoTarget() {
         return level().getEntitiesOfClass(KaijuEntity.class, getBoundingBox().inflate(RANGE * 0.66),
-                        k -> k.isAlive() && (k.getFaction() == KaijuFaction.INVADER || k.getTarget() instanceof Player || k.getTarget() instanceof MaserTankEntity)
-                                && hasLineOfSight(k))
+                        k -> k.isAlive() && isAutoTarget(k) && hasLineOfSight(k))
                 .stream().min(Comparator.comparingDouble(this::distanceToSqr)).orElse(null);
     }
 
@@ -155,11 +154,32 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
         Vec3 end = hit.getType() == HitResult.Type.MISS ? far : hit.getLocation();
         entityData.set(DATA_BEAM_END, new Vector3f((float) end.x, (float) end.y, (float) end.z));
         if (tick % 3 == 0) {
-            float damage = (float) GodzillaConfig.get(GodzillaConfig.MASER_DAMAGE, 8.0);
-            KaijuDestruction.damageAlongSegment(this, origin, end, 0.6, ModDamageTypes.source(server, ModDamageTypes.MASER, rider != null ? rider : this),
-                    damage, e -> e != rider && !hasPassenger(e) && !(e instanceof Player p && (p.isCreative() || p.isSpectator())), e -> {});
+            KaijuDestruction.damageAlongSegment(this, origin, end, 0.6, ModDamageTypes.source(server, damageType(), rider != null ? rider : this),
+                    pulseDamage(), e -> e != rider && !hasPassenger(e) && !(e instanceof Player), this::onPulseHit);
             server.sendParticles(ParticleTypes.ELECTRIC_SPARK, end.x, end.y, end.z, 12, 0.4, 0.4, 0.4, 0.2);
         }
+    }
+
+    /** Which kaiju an unmanned tank shoots at. */
+    protected boolean isAutoTarget(KaijuEntity k) {
+        return k.getFaction() == KaijuFaction.INVADER || k.getTarget() instanceof Player || k.getTarget() instanceof KaijuAligned a && a.getFaction() == KaijuFaction.HUMAN;
+    }
+
+    /** Damage per pulse (every 3 ticks). */
+    protected float pulseDamage() {
+        return (float) GodzillaConfig.get(GodzillaConfig.MASER_DAMAGE, 8.0);
+    }
+
+    protected net.minecraft.resources.ResourceKey<net.minecraft.world.damagesource.DamageType> damageType() {
+        return ModDamageTypes.MASER;
+    }
+
+    /** Extra effect on each thing the beam hits. */
+    protected void onPulseHit(LivingEntity target) {}
+
+    /** The item this vehicle packs back into. */
+    protected net.minecraft.world.item.Item packedItem() {
+        return ModItems.MASER_TANK.get();
     }
 
     // ------------------------------------------------------------------ BeamEmitter
@@ -210,7 +230,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
         }
         if (player.isSecondaryUseActive() && !isVehicle()) {
             if (!level().isClientSide) {
-                if (!player.getAbilities().instabuild) player.getInventory().placeItemBackInInventory(new ItemStack(ModItems.MASER_TANK.get()));
+                if (!player.getAbilities().instabuild) player.getInventory().placeItemBackInInventory(new ItemStack(packedItem()));
                 discard();
             }
             return InteractionResult.sidedSuccess(level().isClientSide);

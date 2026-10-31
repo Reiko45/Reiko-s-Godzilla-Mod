@@ -23,6 +23,9 @@ import java.util.List;
  * trailing a sonic boom, and blasts enemies with the wind from its wings.
  */
 public class RodanEntity extends FlyingKaijuEntity {
+    public static final int SHOWA = 0;
+    public static final int FIRE = 1;
+
     public RodanEntity(EntityType<? extends RodanEntity> type, Level level) {
         super(type, level);
         this.xpReward = 350;
@@ -42,6 +45,11 @@ public class RodanEntity extends FlyingKaijuEntity {
     @Override
     protected void registerAbilities(List<KaijuAbility> list) {
         list.add(new DiveAbility(2.2f));
+        list.add(new com.reiko45.godzilla.entity.ability.BeamAbility("uranium_heat_beam", com.reiko45.godzilla.entity.BeamStyle.URANIUM, 1, 0.5f,
+                com.reiko45.godzilla.registry.ModDamageTypes.URANIUM_HEAT_BEAM, 15, 40, 180)
+                .damage(9f, 4).blocks(1.2f, true).nuclear().sounds(ModSounds.RODAN_SCREECH, ModSounds.ATOMIC_BREATH_FIRE)
+                .chargeParticle(net.minecraft.core.particles.ParticleTypes.FLAME)
+                .range(4, 44).when(k -> k.getVariant() == FIRE));
         list.add(new WindGustAbility(2.0f));
         list.add(new RoarAbility(ModSounds.RODAN_SCREECH));
     }
@@ -63,6 +71,35 @@ public class RodanEntity extends FlyingKaijuEntity {
     @Override
     public int landChance() {
         return 900;
+    }
+
+    @javax.annotation.Nullable
+    @Override
+    public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
+                                                                  net.minecraft.world.entity.MobSpawnType type, @javax.annotation.Nullable net.minecraft.world.entity.SpawnGroupData data) {
+        setVariant(random.nextInt(2));
+        return super.finalizeSpawn(level, difficulty, type, data);
+    }
+
+    @Override
+    public net.minecraft.network.chat.Component getTypeName() {
+        return getVariant() == FIRE ? net.minecraft.network.chat.Component.translatable("entity.reikogodzilla.fire_rodan") : super.getTypeName();
+    }
+
+    /**
+     * Godzilla vs. Mechagodzilla II: a dying Fire Rodan gives its life energy to Godzilla, who gains the Red Spiral Ray.
+     */
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        if (getVariant() == FIRE && level() instanceof net.minecraft.server.level.ServerLevel server) {
+            server.getEntitiesOfClass(GodzillaEntity.class, getBoundingBox().inflate(64)).stream()
+                    .min(java.util.Comparator.comparingDouble(this::distanceToSqr))
+                    .ifPresent(g -> {
+                        server.sendParticles(net.minecraft.core.particles.ParticleTypes.FLAME, getX(), getY(0.5), getZ(), 80, 2, 2, 2, 0.3);
+                        g.absorbRodanEnergy(6000);
+                    });
+        }
     }
 
     @Override

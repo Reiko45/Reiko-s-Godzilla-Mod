@@ -51,6 +51,8 @@ public class BeamAbility extends KaijuAbility {
     @Nullable
     private java.util.function.BiConsumer<KaijuEntity, LivingEntity> onHit;
     private String beamAnim = "beam";
+    @Nullable
+    private java.util.function.ToDoubleFunction<KaijuEntity> damageScaling;
 
     private final Vec3[] aim = new Vec3[3];
     private final LivingEntity[] targets = new LivingEntity[3];
@@ -116,6 +118,12 @@ public class BeamAbility extends KaijuAbility {
 
     public boolean isNuclear() {
         return nuclear;
+    }
+
+    /** Multiplies damage per hit (Plasma Grenade grows with absorbed energy). */
+    public BeamAbility damageScaling(java.util.function.ToDoubleFunction<KaijuEntity> scaling) {
+        this.damageScaling = scaling;
+        return this;
     }
 
     /** Extra effect on every entity hit (freeze, slow, cadmium...). */
@@ -227,7 +235,8 @@ public class BeamAbility extends KaijuAbility {
                 java.util.Set<LivingEntity> hitOnce = new java.util.HashSet<>();
                 for (int seg = 1; seg <= segments; seg++) {
                     Vec3 next = style.pointAt(origin, end, (double) seg / segments);
-                    KaijuDestruction.damageAlongSegment(kaiju, prev, next, radius, source, damage,
+                    float dealt = damageScaling == null ? damage : (float) (damage * damageScaling.applyAsDouble(kaiju));
+                    KaijuDestruction.damageAlongSegment(kaiju, prev, next, radius, source, dealt,
                             e -> !hitOnce.contains(e) && shouldHit(kaiju, e, t),
                             e -> {
                                 hitOnce.add(e);

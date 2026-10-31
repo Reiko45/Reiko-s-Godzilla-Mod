@@ -2,12 +2,11 @@ package com.reiko45.godzilla.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.reiko45.godzilla.ReikoGodzilla;
-import com.reiko45.godzilla.client.model.GodzillaModel;
-import com.reiko45.godzilla.client.model.KaijuModel;
-import com.reiko45.godzilla.client.model.MechagodzillaModel;
-import com.reiko45.godzilla.client.model.MothraLarvaModel;
+import com.reiko45.godzilla.client.model.NamedGeoModel;
+import com.reiko45.godzilla.client.renderer.GeoBeamRenderer;
 import com.reiko45.godzilla.client.renderer.KaijuRenderer;
-import com.reiko45.godzilla.client.renderer.MaserTankRenderer;
+import com.reiko45.godzilla.entity.kaiju.*;
+import com.reiko45.godzilla.entity.mecha.GForceMechagodzillaEntity;
 import com.reiko45.godzilla.entity.VehicleWeapon;
 import com.reiko45.godzilla.network.FireWeaponPayload;
 import com.reiko45.godzilla.registry.ModEntities;
@@ -36,18 +35,53 @@ public final class ClientSetup {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx, new GodzillaModel(), 3.0f));
-        event.registerEntityRenderer(ModEntities.KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx, new KaijuModel<>("king_ghidorah"), 4.0f));
-        event.registerEntityRenderer(ModEntities.MOTHRA_LARVA.get(), ctx -> new KaijuRenderer<>(ctx, new MothraLarvaModel(), 2.0f));
-        event.registerEntityRenderer(ModEntities.MOTHRA.get(), ctx -> new KaijuRenderer<>(ctx, new KaijuModel<>("mothra"), 3.0f));
-        event.registerEntityRenderer(ModEntities.RODAN.get(), ctx -> new KaijuRenderer<>(ctx, new KaijuModel<>("rodan"), 3.0f));
-        event.registerEntityRenderer(ModEntities.ANGUIRUS.get(), ctx -> new KaijuRenderer<>(ctx, new KaijuModel<>("anguirus"), 3.0f));
-        event.registerEntityRenderer(ModEntities.MECHAGODZILLA.get(), ctx -> new KaijuRenderer<>(ctx, new MechagodzillaModel(), 3.0f));
-        event.registerEntityRenderer(ModEntities.MASER_TANK.get(), MaserTankRenderer::new);
+        // Phase 1
+        event.registerEntityRenderer(ModEntities.GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<GodzillaEntity>(g -> g.getVariant() == GodzillaEntity.HEISEI ? "godzilla_heisei" : "godzilla_showa"), 3.0f));
+        event.registerEntityRenderer(ModEntities.KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("king_ghidorah"), 4.0f));
+        event.registerEntityRenderer(ModEntities.MOTHRA_LARVA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<MothraLarvaEntity>(l -> l.isCocoon() ? "mothra_cocoon" : "mothra_larva"), 2.0f));
+        event.registerEntityRenderer(ModEntities.MOTHRA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("mothra"), 3.0f));
+        event.registerEntityRenderer(ModEntities.RODAN.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<RodanEntity>(r -> "rodan", r -> r.getVariant() == RodanEntity.FIRE ? "rodan_fire" : "rodan"), 3.0f));
+        event.registerEntityRenderer(ModEntities.ANGUIRUS.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("anguirus"), 3.0f));
+        // While disguised, Mechagodzilla wears the Showa Godzilla model.
+        event.registerEntityRenderer(ModEntities.MECHAGODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<MechagodzillaEntity>(m -> m.isDisguised() ? "godzilla_showa" : "mechagodzilla"), 3.0f));
+        event.registerEntityRenderer(ModEntities.MASER_TANK.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("maser_tank"), 1.4f));
 
+        // Phase 2: Heisei
+        event.registerEntityRenderer(ModEntities.GODZILLA_JUNIOR.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("godzilla_junior"), 1.0f));
+        event.registerEntityRenderer(ModEntities.BIOLLANTE.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<BiollanteEntity>(b -> b.getVariant() == BiollanteEntity.PLANT_BEAST ? "biollante_plant" : "biollante_flower"), 4.0f));
+        event.registerEntityRenderer(ModEntities.BATTRA_LARVA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<BattraLarvaEntity>(l -> l.isCocoon() ? "mothra_cocoon" : "battra_larva", l -> l.isCocoon() ? "battra_cocoon" : "battra_larva"), 2.5f));
+        event.registerEntityRenderer(ModEntities.BATTRA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("battra"), 3.0f));
+        event.registerEntityRenderer(ModEntities.SPACE_GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("space_godzilla"), 4.0f));
+        event.registerEntityRenderer(ModEntities.SPACE_CRYSTAL.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("space_crystal"), 1.5f));
+        event.registerEntityRenderer(ModEntities.DESTOROYAH.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<DestoroyahEntity>(d -> switch (d.getVariant()) {
+                    case DestoroyahEntity.AGGREGATE -> "destoroyah_aggregate";
+                    case DestoroyahEntity.FLYING -> "destoroyah_flying";
+                    default -> "destoroyah_perfect";
+                }), 4.0f));
+        event.registerEntityRenderer(ModEntities.DESTOROYAH_JUVENILE.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("destoroyah_juvenile"), 0.8f));
+        event.registerEntityRenderer(ModEntities.GFORCE_MECHAGODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<GForceMechagodzillaEntity>(m -> m.isSuper() ? "super_mechagodzilla" : "mechagodzilla_heisei"), 3.0f));
+        event.registerEntityRenderer(ModEntities.GARUDA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("garuda"), 2.0f));
+        event.registerEntityRenderer(ModEntities.MOGUERA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("moguera"), 3.0f));
+        event.registerEntityRenderer(ModEntities.STAR_FALCON.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("star_falcon"), 2.0f));
+        event.registerEntityRenderer(ModEntities.LAND_MOGUERA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("land_moguera"), 2.5f));
+        event.registerEntityRenderer(ModEntities.SUPER_X.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("super_x"), 2.5f));
+        event.registerEntityRenderer(ModEntities.SUPER_X2.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("super_x2"), 2.5f));
+        event.registerEntityRenderer(ModEntities.SUPER_X3.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("super_x3"), 3.0f));
+        event.registerEntityRenderer(ModEntities.FREEZER_TANK.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("freezer_tank"), 1.4f));
+
+        // Projectiles
         event.registerEntityRenderer(ModEntities.SILK_SHOT.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.KAIJU_MISSILE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.OXYGEN_DESTROYER.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.ACID_SAP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.GHIDORAH_METEOR.get(), ctx -> new ThrownItemRenderer<>(ctx, 6.0f, true));
     }
 

@@ -17,9 +17,16 @@ import javax.annotation.Nullable;
 /** Anguirus's "Thunderball": curls into a spiked ball and rolls through everything in its way. */
 public class RollAbility extends KaijuAbility {
     private Vec3 direction = Vec3.ZERO;
+    private final double speedMultiplier;
 
     public RollAbility() {
-        super("thunderball", 15, 30, 160, "curl", "roll");
+        this("thunderball", "curl", "roll", 1.1);
+    }
+
+    /** Any straight-line charge: Anguirus's roll, Battra's horn ram, MOGUERA's drill charge. */
+    public RollAbility(String name, String chargeAnim, String activeAnim, double speedMultiplier) {
+        super(name, 15, 30, 160, chargeAnim, activeAnim);
+        this.speedMultiplier = speedMultiplier;
         this.minRange = 6;
         this.maxRange = 40;
         this.useChance = 0.04f;
@@ -32,7 +39,8 @@ public class RollAbility extends KaijuAbility {
 
     @Override
     public void activate(KaijuEntity kaiju, @Nullable LivingEntity target) {
-        Vec3 aim = target != null ? target.position() : kaiju.position().add(Vec3.directionFromRotation(0, kaiju.getYRot()).scale(20));
+        Vec3 aim = kaiju.getPilot() != null ? kaiju.position().add(kaiju.getPilot().getLookAngle().scale(20))
+                : target != null ? target.position() : kaiju.position().add(Vec3.directionFromRotation(0, kaiju.getYRot()).scale(20));
         direction = aim.subtract(kaiju.position()).multiply(1, 0, 1).normalize();
         if (direction.lengthSqr() < 1.0E-4) direction = Vec3.directionFromRotation(0, kaiju.getYRot());
         kaiju.level().playSound(null, kaiju.getX(), kaiju.getY(), kaiju.getZ(), SoundEvents.RAVAGER_ROAR, SoundSource.HOSTILE, 4f, 0.7f);
@@ -45,7 +53,7 @@ public class RollAbility extends KaijuAbility {
 
     @Override
     public void tickActive(KaijuEntity kaiju, @Nullable LivingEntity target, int tick) {
-        double speed = 1.1 * Math.max(1.0, Math.sqrt(kaiju.getScale()));
+        double speed = speedMultiplier * Math.max(1.0, Math.sqrt(kaiju.getScale()));
         kaiju.setDeltaMovement(direction.x * speed, kaiju.getDeltaMovement().y, direction.z * speed);
         if (!(kaiju.level() instanceof ServerLevel level) || tick % 2 != 0) return;
         AABB box = kaiju.getBoundingBox().inflate(1.0);

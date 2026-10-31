@@ -77,7 +77,13 @@ public class OxygenDestroyerEntity extends ThrowableItemProjectile {
         server.sendParticles(ParticleTypes.BUBBLE_COLUMN_UP, getX(), getY(), getZ(), 30, 2, 1, 2, 0.2);
         server.sendParticles(ParticleTypes.BUBBLE_POP, getX(), getY(), getZ(), 20, RADIUS * 0.4, 2, RADIUS * 0.4, 0.05);
         if (activeTicks % 10 == 0) pulse(server);
-        if (activeTicks >= PULSES * 10) discard();
+        if (activeTicks >= PULSES * 10) {
+            // Its legacy: Precambrian life mutated by the Oxygen Destroyer (Godzilla vs. Destoroyah).
+            if (random.nextDouble() < GodzillaConfig.get(GodzillaConfig.DESTOROYAH_CHANCE, 0.35)) {
+                com.reiko45.godzilla.world.KaijuEvents.scheduleDestoroyah(server, blockPosition(), 2400 + random.nextInt(2400));
+            }
+            discard();
+        }
     }
 
     private void pulse(ServerLevel server) {

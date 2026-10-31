@@ -164,7 +164,10 @@ public class KaijuIslandPiece extends StructurePiece {
         }
 
         decorate(level, generator, random, box);
-        if (kind == IslandKind.MONSTER) placeMonsterLairs(level, box);
+        if (kind == IslandKind.MONSTER) {
+            placeMonsterLairs(level, box);
+            placeEggNest(level, box);
+        }
         else buildShrine(level, box);
     }
 
@@ -193,6 +196,8 @@ public class KaijuIslandPiece extends StructurePiece {
             if (!boundingBox.isInside(x, center.getY(), z)) continue;
             if (shapeDistance(x, z) > 0.85 || volcanoDistance(x, z) < 1.05) continue;
             if (kind == IslandKind.INFANT && Math.abs(x - center.getX()) < 9 && Math.abs(z - center.getZ()) < 9) continue;
+            if (kind == IslandKind.MONSTER && Math.abs(x - (center.getX() - (int) (kind.radius * 0.3))) < 7
+                    && Math.abs(z - (center.getZ() + (int) (kind.radius * 0.25))) < 7) continue;
             int top = topSolid(level, x, z);
             BlockPos ground = new BlockPos(x, top, z);
             if (!level.getBlockState(ground).is(Blocks.GRASS_BLOCK)) continue;
@@ -257,6 +262,27 @@ public class KaijuIslandPiece extends StructurePiece {
             pos.move(0, -1, 0);
         }
         return center.getY() - 20;
+    }
+
+    /** A nest of hay holding a Godzilla Egg (Godzilla vs. Mechagodzilla II's Adonoa Island egg). */
+    private void placeEggNest(WorldGenLevel level, BoundingBox box) {
+        int nx = center.getX() - (int) (kind.radius * 0.3);
+        int nz = center.getZ() + (int) (kind.radius * 0.25);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        for (int dx = -2; dx <= 2; dx++) {
+            for (int dz = -2; dz <= 2; dz++) {
+                int x = nx + dx, z = nz + dz;
+                if (!box.isInside(x, center.getY(), z)) continue;
+                int top = topSolid(level, x, z);
+                for (int y = top + 1; y <= top + 6; y++) level.setBlock(pos.set(x, y, z), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 2);
+                boolean rim = Math.abs(dx) == 2 || Math.abs(dz) == 2;
+                level.setBlock(pos.set(x, top, z), net.minecraft.world.level.block.Blocks.COARSE_DIRT.defaultBlockState(), 2);
+                if (rim && (dx + dz) % 2 == 0) level.setBlock(pos.set(x, top + 1, z), net.minecraft.world.level.block.Blocks.HAY_BLOCK.defaultBlockState(), 2);
+                if (dx == 0 && dz == 0) {
+                    level.setBlock(pos.set(x, top + 1, z), ModBlocks.GODZILLA_EGG.get().defaultBlockState(), 2);
+                }
+            }
+        }
     }
 
     private void placeLair(WorldGenLevel level, BlockPos pos, EntityType<?> type, int variant) {

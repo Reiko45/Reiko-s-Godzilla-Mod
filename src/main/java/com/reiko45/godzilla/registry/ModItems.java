@@ -2,7 +2,7 @@ package com.reiko45.godzilla.registry;
 
 import com.reiko45.godzilla.ReikoGodzilla;
 import com.reiko45.godzilla.item.LoreItem;
-import com.reiko45.godzilla.item.MaserTankItem;
+import com.reiko45.godzilla.item.VehicleItem;
 import com.reiko45.godzilla.item.OxygenDestroyerItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -17,8 +17,23 @@ public final class ModItems {
     // Weapons & tech
     public static final DeferredItem<OxygenDestroyerItem> OXYGEN_DESTROYER = ITEMS.register("oxygen_destroyer",
             () -> new OxygenDestroyerItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
-    public static final DeferredItem<MaserTankItem> MASER_TANK = ITEMS.register("maser_tank",
-            () -> new MaserTankItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<VehicleItem> MASER_TANK = ITEMS.register("maser_tank",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), ModEntities.MASER_TANK, "maser_tank"));
+    // Phase 2: G-Force tech
+    public static final DeferredItem<VehicleItem> FREEZER_TANK = ITEMS.register("freezer_tank",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), ModEntities.FREEZER_TANK, "freezer_tank"));
+    public static final DeferredItem<VehicleItem> SUPER_X = ITEMS.register("super_x",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), ModEntities.SUPER_X, "super_x"));
+    public static final DeferredItem<VehicleItem> SUPER_X2 = ITEMS.register("super_x2",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), ModEntities.SUPER_X2, "super_x2"));
+    public static final DeferredItem<VehicleItem> SUPER_X3 = ITEMS.register("super_x3",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), ModEntities.SUPER_X3, "super_x3"));
+    public static final DeferredItem<VehicleItem> GARUDA = ITEMS.register("garuda",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), ModEntities.GARUDA, "garuda"));
+    public static final DeferredItem<VehicleItem> GFORCE_MECHAGODZILLA = ITEMS.register("gforce_mechagodzilla",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), ModEntities.GFORCE_MECHAGODZILLA, "gforce_mechagodzilla"));
+    public static final DeferredItem<VehicleItem> MOGUERA = ITEMS.register("moguera",
+            () -> new VehicleItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), ModEntities.MOGUERA, "moguera"));
 
     // Kaiju drops (materials for later phases' tech)
     public static final DeferredItem<LoreItem> G_CELL = ITEMS.register("g_cell",
@@ -34,6 +49,8 @@ public final class ModItems {
 
     // Blocks
     public static final DeferredItem<BlockItem> MOTHRA_EGG = ITEMS.registerSimpleBlockItem(ModBlocks.MOTHRA_EGG, new Item.Properties().rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> GODZILLA_EGG = ITEMS.registerSimpleBlockItem(ModBlocks.GODZILLA_EGG, new Item.Properties().rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> G_CELL_ROSE = ITEMS.registerSimpleBlockItem(ModBlocks.G_CELL_ROSE, new Item.Properties().rarity(Rarity.EPIC));
 
     // Spawn eggs
     public static final DeferredItem<DeferredSpawnEggItem> GODZILLA_SPAWN_EGG = ITEMS.register("godzilla_spawn_egg",
@@ -50,6 +67,21 @@ public final class ModItems {
             () -> new DeferredSpawnEggItem(ModEntities.ANGUIRUS, 0x8C7A4F, 0x3A3022, new Item.Properties()));
     public static final DeferredItem<DeferredSpawnEggItem> MECHAGODZILLA_SPAWN_EGG = ITEMS.register("mechagodzilla_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.MECHAGODZILLA, 0x9EA7B0, 0xE03030, new Item.Properties()));
+
+    public static final DeferredItem<DeferredSpawnEggItem> GODZILLA_JUNIOR_SPAWN_EGG = ITEMS.register("godzilla_junior_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.GODZILLA_JUNIOR, 0x3F5A3A, 0xFFB0A0, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> BIOLLANTE_SPAWN_EGG = ITEMS.register("biollante_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.BIOLLANTE, 0x2E5E22, 0xC8202A, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> BATTRA_LARVA_SPAWN_EGG = ITEMS.register("battra_larva_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.BATTRA_LARVA, 0x2A1E1A, 0xB0202A, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> BATTRA_SPAWN_EGG = ITEMS.register("battra_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.BATTRA, 0x3A1E2A, 0xE0A020, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> SPACE_GODZILLA_SPAWN_EGG = ITEMS.register("space_godzilla_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.SPACE_GODZILLA, 0x2A3A6A, 0xD080FF, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> DESTOROYAH_SPAWN_EGG = ITEMS.register("destoroyah_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.DESTOROYAH, 0x7A1A2A, 0x3A2A4A, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> DESTOROYAH_JUVENILE_SPAWN_EGG = ITEMS.register("destoroyah_juvenile_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.DESTOROYAH_JUVENILE, 0x5A1A2A, 0xC06070, new Item.Properties()));
 
     private ModItems() {}
 }

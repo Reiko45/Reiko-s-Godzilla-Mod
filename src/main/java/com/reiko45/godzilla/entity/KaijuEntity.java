@@ -404,6 +404,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         this.destination = destination;
     }
 
+    /** Whether walking into blocks smashes them (tamed kaiju leave your base alone). */
+    public boolean canCrushBlocks() {
+        return true;
+    }
+
     /** False while sitting, cocooned and so on. */
     public boolean canWander() {
         return true;
@@ -433,7 +438,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         if (!level().isClientSide && isAlive()) {
             Vec3 motion = getDeltaMovement();
             boolean moving = motion.horizontalDistanceSqr() > 0.0016;
-            if (horizontalCollision && tickCount % 2 == 0 && KaijuDestruction.canGrief(level(), this)) {
+            if (horizontalCollision && tickCount % 2 == 0 && canCrushBlocks() && KaijuDestruction.canGrief(level(), this)) {
                 crushBlocksAhead(motion);
             }
             if (moving && tickCount % 10 == 0) stompSmallEntities();
@@ -483,6 +488,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     }
 
     // ---------------------------------------------------------------- boss bar
+
+    /** Re-colours the boss bar after a change of sides. */
+    protected void refreshBossColor() {
+        if (bossEvent.getColor() != getFaction().barColor) bossEvent.setColor(getFaction().barColor);
+    }
 
     private void updateBossBarViewers() {
         if (!(level() instanceof ServerLevel server)) return;

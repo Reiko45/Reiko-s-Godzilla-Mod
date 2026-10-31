@@ -28,6 +28,10 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPACE_BEAM_CHARGE = register("space_beam_charge");
     public static final DeferredHolder<SoundEvent, SoundEvent> SPACE_BEAM_FIRE = register("space_beam_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> MASER_FIRE = register("maser_fire");
+    // Phase 2
+    public static final DeferredHolder<SoundEvent, SoundEvent> BATTRA_CRY = register("battra_cry");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPACEGODZILLA_ROAR = register("spacegodzilla_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DESTOROYAH_ROAR = register("destoroyah_roar");
 
     private ModSounds() {}
 

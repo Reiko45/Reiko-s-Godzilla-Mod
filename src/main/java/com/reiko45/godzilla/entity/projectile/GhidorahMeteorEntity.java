@@ -16,8 +16,33 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.HitResult;
 
-/** The burning meteor King Ghidorah arrives in (Ghidorah, the Three-Headed Monster, 1964). */
+/**
+ * A meteor carrying a space kaiju: King Ghidorah's burning meteor (1964), or SpaceGodzilla's crystal (1994).
+ * The kaiju it carries climbs out of the crater.
+ */
 public class GhidorahMeteorEntity extends ThrowableItemProjectile {
+    private net.minecraft.resources.ResourceLocation payload = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("reikogodzilla", "king_ghidorah");
+
+    /** Which kaiju hatches from the crater. */
+    public void setPayload(net.minecraft.world.entity.EntityType<?> type) {
+        this.payload = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type);
+    }
+
+    @Override
+    public void addAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putString("Payload", payload.toString());
+    }
+
+    @Override
+    public void readAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("Payload")) {
+            var id = net.minecraft.resources.ResourceLocation.tryParse(tag.getString("Payload"));
+            if (id != null) payload = id;
+        }
+    }
+
     public GhidorahMeteorEntity(EntityType<? extends GhidorahMeteorEntity> type, Level level) {
         super(type, level);
     }
@@ -68,13 +93,14 @@ public class GhidorahMeteorEntity extends ThrowableItemProjectile {
         if (!(level() instanceof ServerLevel server) || isRemoved()) return;
         boolean grief = KaijuDestruction.canGrief(server, this);
         server.explode(this, getX(), getY(), getZ(), 6.0f, grief, grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
-        KingGhidorahEntity ghidorah = ModEntities.KING_GHIDORAH.get().create(server);
-        if (ghidorah != null) {
+        var entity = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.get(payload).create(server);
+        if (entity instanceof net.minecraft.world.entity.Mob kaiju) {
             int y = server.getHeight(Heightmap.Types.MOTION_BLOCKING, getBlockX(), getBlockZ());
-            ghidorah.moveTo(getX(), y + 1, getZ(), random.nextFloat() * 360f, 0);
-            ghidorah.finalizeSpawn(server, server.getCurrentDifficultyAt(ghidorah.blockPosition()), MobSpawnType.EVENT, null);
-            server.addFreshEntity(ghidorah);
-            server.playSound(null, getX(), getY(), getZ(), ModSounds.GHIDORAH_CALL.get(), SoundSource.HOSTILE, 16f, 1f);
+            kaiju.moveTo(getX(), y + 1, getZ(), random.nextFloat() * 360f, 0);
+            kaiju.finalizeSpawn(server, server.getCurrentDifficultyAt(kaiju.blockPosition()), MobSpawnType.EVENT, null);
+            server.addFreshEntity(kaiju);
+            var sound = kaiju instanceof KingGhidorahEntity ? ModSounds.GHIDORAH_CALL.get() : ModSounds.SPACEGODZILLA_ROAR.get();
+            server.playSound(null, getX(), getY(), getZ(), sound, SoundSource.HOSTILE, 16f, 1f);
         }
         discard();
     }

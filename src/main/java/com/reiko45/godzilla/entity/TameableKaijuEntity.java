@@ -91,6 +91,11 @@ public abstract class TameableKaijuEntity extends KaijuEntity implements Ownable
     }
 
     @Override
+    public boolean canCrushBlocks() {
+        return !isTame();
+    }
+
+    @Override
     public boolean isAlliedTo(Entity other) {
         if (isTame()) {
             LivingEntity owner = getOwner();
