@@ -16,6 +16,9 @@ like Maser tanks and the Oxygen Destroyer.
 Unofficial fan mod. Godzilla and related characters are trademarks of Toho Co., Ltd.
 '''
 
+[[mixins]]
+config="${mod_id}.mixins.json"
+
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"

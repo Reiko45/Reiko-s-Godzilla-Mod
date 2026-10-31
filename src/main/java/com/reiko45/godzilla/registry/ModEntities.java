@@ -113,7 +113,7 @@ public final class ModEntities {
     // G-Force mecha and vehicles
     public static final DeferredHolder<EntityType<?>, EntityType<GForceMechagodzillaEntity>> GFORCE_MECHAGODZILLA = ENTITY_TYPES.register("gforce_mechagodzilla",
             () -> EntityType.Builder.of(GForceMechagodzillaEntity::new, MobCategory.MISC).sized(4.0f, 9.5f).eyeHeight(8.8f)
-                    .passengerAttachments(new Vec3(0, 8.4, 1.4)).fireImmune().clientTrackingRange(16).build("gforce_mechagodzilla"));
+                    .passengerAttachments(new Vec3(0, 10.2, 0.6)).fireImmune().clientTrackingRange(16).build("gforce_mechagodzilla"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<GarudaEntity>> GARUDA = ENTITY_TYPES.register("garuda",
             () -> EntityType.Builder.of(GarudaEntity::new, MobCategory.MISC).sized(4.0f, 1.8f).eyeHeight(1.2f)
@@ -121,7 +121,7 @@ public final class ModEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MogueraEntity>> MOGUERA = ENTITY_TYPES.register("moguera",
             () -> EntityType.Builder.of(MogueraEntity::new, MobCategory.MISC).sized(4.0f, 9.5f).eyeHeight(8.8f)
-                    .passengerAttachments(new Vec3(0, 8.4, 1.2)).fireImmune().clientTrackingRange(16).build("moguera"));
+                    .passengerAttachments(new Vec3(0, 10.2, 0.4)).fireImmune().clientTrackingRange(16).build("moguera"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<StarFalconEntity>> STAR_FALCON = ENTITY_TYPES.register("star_falcon",
             () -> EntityType.Builder.of(StarFalconEntity::new, MobCategory.MISC).sized(5.0f, 2.2f).eyeHeight(1.4f)

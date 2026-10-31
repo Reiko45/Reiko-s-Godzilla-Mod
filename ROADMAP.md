@@ -40,19 +40,31 @@ The best-known monsters, plus the systems every later monster reuses.
 
 ---
 
-## Phase 2: Heisei
+## Phase 2: Heisei ✅ (v0.2.0)
 
-- Biollante (Flower Beast and Plant Beast)
-- Battra (larva and imago)
-- Heisei Mechagodzilla + Garuda → Super Mechagodzilla
-- Fire Rodan (Uranium Heat Beam, energy transfer → Godzilla's Red Spiral Ray)
-- SpaceGodzilla (Corona Beam, crystal fields)
-- MOGUERA (splits into Star Falcon and Land Moguera)
-- Destoroyah (full evolution line, Micro → Perfect Form)
-- Baby → Little → Junior Godzilla
-- Burning Godzilla meltdown state
-- Super X, Super X2 (Fire Mirror), Super X3, cadmium missiles, freezer tanks
-- **New system:** heat and freeze meter (weakness system)
+**Monsters**
+- [x] Biollante (Flower Beast and Plant Beast)
+- [x] Battra (larva and imago; joins Mothra's side)
+- [x] Fire Rodan (Uranium Heat Beam, energy transfer → Godzilla's Red Spiral Ray)
+- [x] SpaceGodzilla (Corona Beam, crystal fields, Gravity Tornado, reflecting shield)
+- [x] Destoroyah (juveniles → aggregate → flying → Perfect Form, swarm split)
+- [x] Baby → Little → Godzilla Junior (hatches from an egg, imprints on a player)
+- [x] Burning Godzilla meltdown state (Infinite Heat Ray, Junior absorbs the meltdown)
+
+**Tech**
+- [x] Mechagodzilla (G-Force) + Garuda → Super Mechagodzilla
+- [x] MOGUERA (splits into Star Falcon and Land Moguera)
+- [x] Super X (cadmium missiles), Super X2 (Fire Mirror), Super X3 (freezer weapons)
+- [x] DAG-MB96 Freezer Tank
+- [x] Piloting: R / V / G weapon keys, piloted flight, over-the-shoulder aiming camera
+
+**New systems**
+- [x] Freeze meter and cadmium (weakness system)
+- [x] Beam reflection and absorption
+- [x] Tameable kaiju base (Anguirus, Junior)
+- [x] New events: SpaceGodzilla, Battra, Destoroyah
+
+**Still to do for Phase 2:** final Blockbench models and textures (stand-ins ship for now), custom sounds.
 
 ## Phase 3: MonsterVerse
 

@@ -85,6 +85,24 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.GHIDORAH_METEOR.get(), ctx -> new ThrownItemRenderer<>(ctx, 6.0f, true));
     }
 
+    /** Vanilla hides the crosshair in third person; pilots need it to aim their weapons. */
+    @SubscribeEvent
+    public static void registerGuiLayers(net.neoforged.neoforge.client.event.RegisterGuiLayersEvent event) {
+        event.registerAbove(net.neoforged.neoforge.client.gui.VanillaGuiLayers.CROSSHAIR, ReikoGodzilla.id("pilot_reticle"), (graphics, delta) -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.options.hideGui || mc.options.getCameraType().isFirstPerson()) return;
+            if (!(mc.player != null && mc.player.getVehicle() instanceof VehicleWeapon)) return;
+            com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+            com.mojang.blaze3d.systems.RenderSystem.blendFuncSeparate(com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
+                    com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE,
+                    com.mojang.blaze3d.platform.GlStateManager.DestFactor.ZERO);
+            graphics.blitSprite(net.minecraft.resources.ResourceLocation.withDefaultNamespace("hud/crosshair"),
+                    (graphics.guiWidth() - 15) / 2, (graphics.guiHeight() - 15) / 2, 15, 15);
+            com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
+            com.mojang.blaze3d.systems.RenderSystem.disableBlend();
+        });
+    }
+
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(FIRE_WEAPON);
