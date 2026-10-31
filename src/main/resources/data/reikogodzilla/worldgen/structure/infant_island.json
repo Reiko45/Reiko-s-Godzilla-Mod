@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:kaiju_island",
+  "island": "infant",
+  "biomes": "#reikogodzilla:has_structure/infant_island",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

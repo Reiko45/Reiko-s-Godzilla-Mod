@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:kaiju_island",
+  "island": "monster",
+  "biomes": "#reikogodzilla:has_structure/monster_island",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

@@ -1,0 +1,329 @@
+{
+  "godzilla_roar": {
+    "subtitle": "subtitles.reikogodzilla.godzilla_roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/ravager/roar1",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ravager/roar2",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ravager/roar3",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/enderdragon/growl1",
+        "pitch": 0.55,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/enderdragon/growl2",
+        "pitch": 0.55,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "godzilla_death": {
+    "subtitle": "subtitles.reikogodzilla.godzilla_death",
+    "sounds": [
+      {
+        "name": "minecraft:mob/enderdragon/growl3",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/enderdragon/growl4",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "kaiju_hurt": {
+    "subtitle": "subtitles.reikogodzilla.kaiju_hurt",
+    "sounds": [
+      {
+        "name": "minecraft:mob/enderdragon/hit1",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      },
+      {
+        "name": "minecraft:mob/enderdragon/hit2",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      },
+      {
+        "name": "minecraft:mob/enderdragon/hit3",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      },
+      {
+        "name": "minecraft:mob/enderdragon/hit4",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "atomic_breath_charge": {
+    "subtitle": "subtitles.reikogodzilla.atomic_breath_charge",
+    "sounds": [
+      {
+        "name": "minecraft:mob/warden/sonic_charge1",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/warden/sonic_charge2",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/warden/sonic_charge3",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "atomic_breath_fire": {
+    "subtitle": "subtitles.reikogodzilla.atomic_breath_fire",
+    "sounds": [
+      {
+        "name": "minecraft:mob/warden/sonic_boom1",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/warden/sonic_boom2",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/warden/sonic_boom3",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "ghidorah_call": {
+    "subtitle": "subtitles.reikogodzilla.ghidorah_call",
+    "sounds": [
+      {
+        "name": "minecraft:mob/ghast/scream1",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ghast/scream2",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ghast/scream3",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/ghast/scream4",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "gravity_beam_charge": {
+    "subtitle": "subtitles.reikogodzilla.gravity_beam_charge",
+    "sounds": [
+      {
+        "name": "minecraft:mob/warden/sonic_charge1",
+        "pitch": 1.3,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/warden/sonic_charge4",
+        "pitch": 1.3,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "gravity_beam_fire": {
+    "subtitle": "subtitles.reikogodzilla.gravity_beam_fire",
+    "sounds": [
+      {
+        "name": "minecraft:mob/wither/shoot",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "mothra_cry": {
+    "subtitle": "subtitles.reikogodzilla.mothra_cry",
+    "sounds": [
+      {
+        "name": "minecraft:mob/phantom/idle1",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/phantom/idle2",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/phantom/idle3",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "rodan_screech": {
+    "subtitle": "subtitles.reikogodzilla.rodan_screech",
+    "sounds": [
+      {
+        "name": "minecraft:mob/phantom/swoop1",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/phantom/swoop2",
+        "pitch": 0.6,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/zoglin/angry1",
+        "pitch": 0.8,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/zoglin/angry2",
+        "pitch": 0.8,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "anguirus_roar": {
+    "subtitle": "subtitles.reikogodzilla.anguirus_roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/hoglin/angry1",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/hoglin/angry2",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:mob/hoglin/angry3",
+        "pitch": 0.5,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "mechagodzilla_roar": {
+    "subtitle": "subtitles.reikogodzilla.mechagodzilla_roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/warden/roar_1",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/warden/roar_2",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      },
+      {
+        "name": "minecraft:mob/warden/roar_3",
+        "pitch": 0.7,
+        "volume": 1.0,
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "space_beam_charge": {
+    "subtitle": "subtitles.reikogodzilla.space_beam_charge",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/activate",
+        "pitch": 1.5,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "space_beam_fire": {
+    "subtitle": "subtitles.reikogodzilla.space_beam_fire",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/power1",
+        "pitch": 2.0,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      },
+      {
+        "name": "minecraft:block/beacon/power2",
+        "pitch": 2.0,
+        "volume": 1.0,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "maser_fire": {
+    "subtitle": "subtitles.reikogodzilla.maser_fire",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/power2",
+        "pitch": 1.8,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      },
+      {
+        "name": "minecraft:block/beacon/power3",
+        "pitch": 1.8,
+        "volume": 1.0,
+        "attenuation_distance": 64
+      }
+    ]
+  }
+}

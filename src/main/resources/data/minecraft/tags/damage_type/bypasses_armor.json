@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "reikogodzilla:atomic_breath",
+    "reikogodzilla:gravity_beam",
+    "reikogodzilla:space_beam",
+    "reikogodzilla:maser",
+    "reikogodzilla:oxygen_destroyer",
+    "reikogodzilla:nuclear_pulse"
+  ]
+}

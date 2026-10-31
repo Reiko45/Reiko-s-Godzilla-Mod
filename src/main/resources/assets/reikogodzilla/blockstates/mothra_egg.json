@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "hatch=0": {
+      "model": "reikogodzilla:block/mothra_egg_0"
+    },
+    "hatch=1": {
+      "model": "reikogodzilla:block/mothra_egg_1"
+    },
+    "hatch=2": {
+      "model": "reikogodzilla:block/mothra_egg_2"
+    }
+  }
+}
