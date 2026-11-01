@@ -165,6 +165,41 @@
      }
     }
    }
+  },
+  "leap": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "throw": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "slam": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "emp": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "ink": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "dormant": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "swim": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
   }
  }
 }

@@ -19,5 +19,10 @@ public final class ModStructures {
     public static final DeferredHolder<StructurePieceType, StructurePieceType> KAIJU_ISLAND_PIECE =
             PIECE_TYPES.register("kaiju_island", () -> (StructurePieceType.ContextlessType) KaijuIslandPiece::new);
 
+    public static final DeferredHolder<StructureType<?>, StructureType<com.reiko45.godzilla.world.MonsterverseSiteStructure>> MONSTERVERSE_SITE =
+            STRUCTURE_TYPES.register("monsterverse_site", () -> () -> com.reiko45.godzilla.world.MonsterverseSiteStructure.CODEC);
+    public static final DeferredHolder<StructurePieceType, StructurePieceType> MONSTERVERSE_SITE_PIECE =
+            PIECE_TYPES.register("monsterverse_site", () -> (StructurePieceType.ContextlessType) com.reiko45.godzilla.world.MonsterverseSitePiece::new);
+
     private ModStructures() {}
 }

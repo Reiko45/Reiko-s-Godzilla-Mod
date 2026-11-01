@@ -104,6 +104,26 @@ public class KaijuIslandPiece extends StructurePiece {
         return Math.sqrt(dx * dx + dz * dz) / volcanoRadius() * (1.0 - noise().getValue(x * 0.08, z * 0.08) * 0.08);
     }
 
+    // Skull Island's mountain
+    private int mountainX() {
+        return center.getX() - (int) (kind.radius * 0.15);
+    }
+
+    private int mountainZ() {
+        return center.getZ() - (int) (kind.radius * 0.3);
+    }
+
+    private double mountainRadius() {
+        return kind.radius * 0.42;
+    }
+
+    /** 0 at the peak of Skull Mountain, 1 at its foot (Skull Island only). */
+    private double mountainDistance(int x, int z) {
+        if (kind != IslandKind.SKULL) return 2.0;
+        double dx = x - mountainX(), dz = z - mountainZ();
+        return Math.sqrt(dx * dx + dz * dz) / mountainRadius() * (1.0 - noise().getValue(x * 0.07 + 50, z * 0.07) * 0.1);
+    }
+
     private static final double CRATER = 0.24;
     private static final int VOLCANO_HEIGHT = 34;
 
@@ -125,12 +145,14 @@ public class KaijuIslandPiece extends StructurePiece {
         double d = shapeDistance(x, z);
         double land = NONE;
         if (d < 1.0) {
-            double plateau = kind == IslandKind.MONSTER ? 6 : 9;
+            double plateau = kind == IslandKind.MONSTER ? 6 : kind == IslandKind.SKULL ? 8 : 9;
             land = sea + 1 + (1 - d * d) * plateau + noise().getValue(x * 0.06 + 100, z * 0.06) * 2.5;
         } else if (d < 1.4) {
             double t = (d - 1.0) / 0.4;
             land = Mth.lerp(t * t, sea - 1, seaFloor);
         }
+        double dm = mountainDistance(x, z);
+        if (dm < 1.0) land = Math.max(land, sea + 2 + 36 * Math.pow(1 - dm, 1.15) + noise().getValue(x * 0.15, z * 0.15) * 2);
         double dv = volcanoDistance(x, z);
         if (dv < 1.0) {
             double cone = dv < CRATER ? craterFloor() : sea + 2 + VOLCANO_HEIGHT * Math.pow(1 - dv, 1.4);
@@ -154,8 +176,10 @@ public class KaijuIslandPiece extends StructurePiece {
                 int top = surfaceHeight(x, z, floor);
                 if (top == NONE || top <= floor) continue;
                 boolean volcanic = volcanoDistance(x, z) < 0.9;
+                boolean rocky = mountainDistance(x, z) < 0.8;
                 for (int y = floor + 1; y <= top; y++) {
-                    level.setBlock(pos.set(x, y, z), pickBlock(top - y, top, sea, volcanic, columnRandom), 2);
+                    BlockState state = rocky ? rockBlock(top - y, columnRandom) : pickBlock(top - y, top, sea, volcanic, columnRandom);
+                    level.setBlock(pos.set(x, y, z), state, 2);
                 }
                 if (inCrater(x, z)) {
                     for (int y = top + 1; y <= lavaLevel(); y++) level.setBlock(pos.set(x, y, z), Blocks.LAVA.defaultBlockState(), 2);
@@ -164,11 +188,22 @@ public class KaijuIslandPiece extends StructurePiece {
         }
 
         decorate(level, generator, random, box);
-        if (kind == IslandKind.MONSTER) {
+        if (kind == IslandKind.SKULL) {
+            buildSkullIsland(level, box);
+        } else if (kind == IslandKind.MONSTER) {
             placeMonsterLairs(level, box);
             placeEggNest(level, box);
         }
         else buildShrine(level, box);
+    }
+
+    private static BlockState rockBlock(int depth, RandomSource random) {
+        if (depth == 0) {
+            int r = random.nextInt(10);
+            return r < 3 ? Blocks.MOSSY_COBBLESTONE.defaultBlockState() : r < 5 ? Blocks.ANDESITE.defaultBlockState()
+                    : r < 6 ? Blocks.MOSS_BLOCK.defaultBlockState() : Blocks.STONE.defaultBlockState();
+        }
+        return random.nextInt(12) == 0 ? Blocks.TUFF.defaultBlockState() : Blocks.STONE.defaultBlockState();
     }
 
     private BlockState pickBlock(int depth, int top, int sea, boolean volcanic, RandomSource random) {
@@ -189,12 +224,12 @@ public class KaijuIslandPiece extends StructurePiece {
     }
 
     private void decorate(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BoundingBox box) {
-        int attempts = kind == IslandKind.INFANT ? 16 : 5;
+        int attempts = kind == IslandKind.INFANT ? 16 : kind == IslandKind.SKULL ? 26 : 5;
         for (int i = 0; i < attempts; i++) {
             int x = box.minX() + 2 + random.nextInt(Math.max(1, box.getXSpan() - 4));
             int z = box.minZ() + 2 + random.nextInt(Math.max(1, box.getZSpan() - 4));
             if (!boundingBox.isInside(x, center.getY(), z)) continue;
-            if (shapeDistance(x, z) > 0.85 || volcanoDistance(x, z) < 1.05) continue;
+            if (shapeDistance(x, z) > 0.85 || volcanoDistance(x, z) < 1.05 || mountainDistance(x, z) < 0.9) continue;
             if (kind == IslandKind.INFANT && Math.abs(x - center.getX()) < 9 && Math.abs(z - center.getZ()) < 9) continue;
             if (kind == IslandKind.MONSTER && Math.abs(x - (center.getX() - (int) (kind.radius * 0.3))) < 7
                     && Math.abs(z - (center.getZ() + (int) (kind.radius * 0.25))) < 7) continue;
@@ -202,7 +237,7 @@ public class KaijuIslandPiece extends StructurePiece {
             BlockPos ground = new BlockPos(x, top, z);
             if (!level.getBlockState(ground).is(Blocks.GRASS_BLOCK)) continue;
             ResourceKey<ConfiguredFeature<?, ?>> tree;
-            if (kind == IslandKind.INFANT) {
+            if (kind == IslandKind.INFANT || kind == IslandKind.SKULL) {
                 int r = random.nextInt(8);
                 tree = r == 0 ? TreeFeatures.MEGA_JUNGLE_TREE : r < 5 ? TreeFeatures.JUNGLE_TREE_NO_VINE : TreeFeatures.JUNGLE_BUSH;
             } else {
@@ -215,7 +250,7 @@ public class KaijuIslandPiece extends StructurePiece {
                     .ifPresent(feature -> feature.place(level, generator, random, ground.above()));
         }
         // Ground cover.
-        int cover = kind == IslandKind.INFANT ? 40 : 18;
+        int cover = kind == IslandKind.MONSTER ? 18 : 40;
         for (int i = 0; i < cover; i++) {
             int x = box.minX() + random.nextInt(box.getXSpan());
             int z = box.minZ() + random.nextInt(box.getZSpan());
@@ -289,6 +324,92 @@ public class KaijuIslandPiece extends StructurePiece {
         level.setBlock(pos, ModBlocks.KAIJU_LAIR.get().defaultBlockState(), 2);
         if (level.getBlockEntity(pos) instanceof KaijuLairBlockEntity lair) {
             lair.setKaiju(BuiltInRegistries.ENTITY_TYPE.getKey(type), variant);
+        }
+    }
+
+    // ------------------------------------------------------------------ Skull Island
+
+    /** Direction from Skull Mountain toward the island's centre (the mountain's "face"). */
+    private double faceAngle() {
+        return Math.atan2(center.getZ() - mountainZ(), center.getX() - mountainX());
+    }
+
+    private void buildSkullIsland(WorldGenLevel level, BoundingBox box) {
+        int sea = center.getY();
+        double face = faceAngle();
+        RandomSource r = RandomSource.create(seed ^ 0x5C011L);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        // The skull's eye sockets: two caves in the mountain's face. Skullcrawlers lair in them.
+        for (int side = -1; side <= 1; side += 2) {
+            double ex = mountainX() + Math.cos(face) * mountainRadius() * 0.5 + Math.cos(face + Math.PI / 2) * side * 6.5;
+            double ez = mountainZ() + Math.sin(face) * mountainRadius() * 0.5 + Math.sin(face + Math.PI / 2) * side * 6.5;
+            int ey = sea + 15;
+            for (int x = (int) ex - 6; x <= (int) ex + 6; x++) {
+                for (int z = (int) ez - 6; z <= (int) ez + 6; z++) {
+                    for (int y = ey - 5; y <= ey + 5; y++) {
+                        double d = Math.pow((x - ex) / 5.5, 2) + Math.pow((y - ey) / 4.5, 2) + Math.pow((z - ez) / 5.5, 2);
+                        if (d <= 1.0 && box.isInside(x, y, z)) level.setBlock(pos.set(x, y, z), y <= ey - 4 ? Blocks.MOSSY_COBBLESTONE.defaultBlockState() : Blocks.AIR.defaultBlockState(), 2);
+                    }
+                }
+            }
+            BlockPos floor = new BlockPos((int) ex, ey - 3, (int) ez);
+            if (box.isInside(floor)) {
+                if (side < 0) placeLair(level, floor, ModEntities.SKULL_DEVIL.get(), -1);
+                else {
+                    placeLair(level, floor, ModEntities.SKULLCRAWLER.get(), -1);
+                    placeLair(level, floor.offset(2, 0, 1), ModEntities.SKULLCRAWLER.get(), -1);
+                }
+            }
+        }
+        // Young Kong, protector of the island, at the foot of the mountain.
+        int kx = mountainX() + (int) (Math.cos(face) * mountainRadius() * 1.25);
+        int kz = mountainZ() + (int) (Math.sin(face) * mountainRadius() * 1.25);
+        if (box.isInside(kx, sea, kz)) placeLair(level, new BlockPos(kx, topSolid(level, kx, kz) + 1, kz), ModEntities.KONG.get(), 0);
+        // The Iwi wall: a great arc of stone guarding the far side of the island, with a gate.
+        double wallRadius = kind.radius * 0.62;
+        for (double a = -1.0; a <= 1.0; a += 0.5 / wallRadius) {
+            double angle = face + a;
+            boolean gate = Math.abs(a) < 3.0 / wallRadius;
+            for (double t = 0; t <= 1.5; t += 0.5) {
+                int x = center.getX() + (int) Math.round(Math.cos(angle) * (wallRadius + t));
+                int z = center.getZ() + (int) Math.round(Math.sin(angle) * (wallRadius + t));
+                if (!box.isInside(x, sea, z)) continue;
+                int top = topSolid(level, x, z);
+                for (int y = top + 1; y <= top + 7; y++) {
+                    BlockState stone = gate && y <= top + 6 ? Blocks.AIR.defaultBlockState()
+                            : y == top + 7 ? (((int) (a * wallRadius)) % 2 == 0 ? Blocks.MOSSY_STONE_BRICK_WALL.defaultBlockState() : Blocks.AIR.defaultBlockState())
+                            : r.nextInt(3) == 0 ? Blocks.MOSSY_STONE_BRICKS.defaultBlockState() : r.nextInt(4) == 0 ? Blocks.CRACKED_STONE_BRICKS.defaultBlockState()
+                            : Blocks.STONE_BRICKS.defaultBlockState();
+                    level.setBlock(pos.set(x, y, z), stone, 2);
+                }
+            }
+        }
+        // A shaft down to a vortex into the Hollow Earth.
+        int vx = center.getX() + (int) (Math.cos(face + Math.PI / 2) * kind.radius * 0.3);
+        int vz = center.getZ() + (int) (Math.sin(face + Math.PI / 2) * kind.radius * 0.3);
+        int bottom = sea - 16;
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
+                int x = vx + dx, z = vz + dz;
+                if (!box.isInside(x, sea, z)) continue;
+                boolean rim = Math.abs(dx) == 3 || Math.abs(dz) == 3;
+                int top = topSolid(level, x, z);
+                for (int y = bottom - 1; y <= top + 2; y++) {
+                    BlockState s;
+                    if (y == bottom - 1) s = Blocks.CRYING_OBSIDIAN.defaultBlockState();
+                    else if (rim) s = y > top ? Blocks.AIR.defaultBlockState() : r.nextBoolean() ? Blocks.MOSSY_STONE_BRICKS.defaultBlockState() : Blocks.MOSSY_COBBLESTONE.defaultBlockState();
+                    else if (y == bottom && Math.abs(dx) <= 1 && Math.abs(dz) <= 1) s = ModBlocks.HOLLOW_EARTH_VORTEX.get().defaultBlockState();
+                    else if (y == bottom) s = Blocks.CRYING_OBSIDIAN.defaultBlockState();
+                    else s = Blocks.AIR.defaultBlockState();
+                    level.setBlock(pos.set(x, y, z), s, 2);
+                }
+            }
+        }
+        // The storm wall's heart, buried under the island's centre.
+        BlockPos heart = new BlockPos(center.getX(), sea - 8, center.getZ());
+        if (box.isInside(heart)) {
+            level.setBlock(heart, ModBlocks.STORM_WALL.get().defaultBlockState(), 2);
+            if (level.getBlockEntity(heart) instanceof com.reiko45.godzilla.block.StormWallBlockEntity wall) wall.setRadius((int) (kind.radius * 1.45));
         }
     }
 

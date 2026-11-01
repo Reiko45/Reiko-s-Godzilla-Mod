@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:monsterverse_site",
+  "site": "throne_room",
+  "biomes": "#reikogodzilla:has_structure/kong_throne_room",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

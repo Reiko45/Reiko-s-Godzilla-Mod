@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:monsterverse_site",
+  "site": "methuselah",
+  "biomes": "#reikogodzilla:has_structure/methuselah",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

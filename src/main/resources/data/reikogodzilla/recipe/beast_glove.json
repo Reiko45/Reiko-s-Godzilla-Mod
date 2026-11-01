@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "TLT",
+    "TNT",
+    "RCR"
+  ],
+  "key": {
+    "T": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "L": {
+      "item": "minecraft:lightning_rod"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:beast_glove",
+    "count": 1
+  }
+}

@@ -264,4 +264,12 @@ public class ShimoEntity extends KaijuEntity {
     protected SoundEvent getDeathSound() {
         return ModSounds.SHIMO_ROAR.get();
     }
+
+    private static final software.bernie.geckolib.animation.RawAnimation DORMANT = software.bernie.geckolib.animation.RawAnimation.begin().thenLoop("dormant");
+
+    @Override
+    protected software.bernie.geckolib.animation.PlayState mainAnimation(software.bernie.geckolib.animation.AnimationState<KaijuEntity> state) {
+        if (isChained()) return state.setAndContinue(DORMANT);
+        return super.mainAnimation(state);
+    }
 }

@@ -171,4 +171,11 @@ public class TiamatEntity extends KaijuEntity {
     protected SoundEvent getDeathSound() {
         return ModSounds.TIAMAT_HISS.get();
     }
+
+    private static final software.bernie.geckolib.animation.RawAnimation SWIM = software.bernie.geckolib.animation.RawAnimation.begin().thenLoop("swim");
+
+    @Override
+    protected software.bernie.geckolib.animation.RawAnimation movementAnimation(software.bernie.geckolib.animation.AnimationState<KaijuEntity> state) {
+        return isInWater() ? SWIM : super.movementAnimation(state);
+    }
 }

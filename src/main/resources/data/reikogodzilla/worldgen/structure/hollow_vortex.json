@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:monsterverse_site",
+  "site": "hollow_vortex",
+  "biomes": "#reikogodzilla:has_structure/hollow_vortex",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

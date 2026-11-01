@@ -77,6 +77,36 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.SUPER_X3.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("super_x3"), 3.0f));
         event.registerEntityRenderer(ModEntities.FREEZER_TANK.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("freezer_tank"), 1.4f));
 
+        // Phase 3: MonsterVerse
+        event.registerEntityRenderer(ModEntities.MONSTERVERSE_GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.monsterverse.MonsterverseGodzillaEntity>(g -> g.isEvolved() ? "godzilla_evolved" : "godzilla_mv"), 4.0f));
+        event.registerEntityRenderer(ModEntities.KONG.get(), ctx -> new KaijuRenderer<>(ctx,
+                new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.monsterverse.KongEntity>(k -> "kong", k -> "kong",
+                        java.util.List.of("axe", "glove"), (k, bone) -> bone.equals("axe") ? k.hasAxe() : k.hasGlove()), 3.0f));
+        event.registerEntityRenderer(ModEntities.SUKO.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("suko"), 1.6f));
+        event.registerEntityRenderer(ModEntities.GREAT_APE.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("great_ape"), 0.9f));
+        event.registerEntityRenderer(ModEntities.SKAR_KING.get(), ctx -> new KaijuRenderer<>(ctx,
+                new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.monsterverse.SkarKingEntity>(k -> "skar_king", k -> "skar_king",
+                        java.util.List.of("crystal"), (k, bone) -> k.hasCrystal()), 3.0f));
+        event.registerEntityRenderer(ModEntities.SHIMO.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("shimo"), 5.0f));
+        event.registerEntityRenderer(ModEntities.MUTO.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.monsterverse.MutoEntity>(m -> m.getVariant() == com.reiko45.godzilla.entity.monsterverse.MutoEntity.FEMALE ? "muto_female" : "muto_male"), 3.0f));
+        event.registerEntityRenderer(ModEntities.SKULLCRAWLER.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("skullcrawler"), 0.8f));
+        event.registerEntityRenderer(ModEntities.SKULL_DEVIL.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("skull_devil"), 2.0f));
+        event.registerEntityRenderer(ModEntities.WARBAT.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("warbat"), 2.0f));
+        event.registerEntityRenderer(ModEntities.MONSTERVERSE_KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx,
+                new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.monsterverse.MonsterverseGhidorahEntity>(g -> "king_ghidorah_mv", g -> "king_ghidorah_mv",
+                        java.util.List.of("head_0", "head_1", "head_2"), (g, bone) -> !g.isHeadSevered(bone.charAt(5) - '0')), 5.0f));
+        event.registerEntityRenderer(ModEntities.MONSTERVERSE_RODAN.get(), ctx -> new KaijuRenderer<>(ctx, new NamedGeoModel<>(r -> "rodan", r -> "rodan_mv"), 3.0f));
+        event.registerEntityRenderer(ModEntities.MONSTERVERSE_MOTHRA.get(), ctx -> new KaijuRenderer<>(ctx, new NamedGeoModel<>(m -> "mothra", m -> "mothra_mv"), 3.0f));
+        event.registerEntityRenderer(ModEntities.SCYLLA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("scylla"), 4.0f));
+        event.registerEntityRenderer(ModEntities.BEHEMOTH.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("behemoth"), 5.0f));
+        event.registerEntityRenderer(ModEntities.METHUSELAH.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("methuselah"), 6.0f));
+        event.registerEntityRenderer(ModEntities.TIAMAT.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("tiamat"), 3.0f));
+        event.registerEntityRenderer(ModEntities.APEX_MECHAGODZILLA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("apex_mechagodzilla"), 4.0f));
+        event.registerEntityRenderer(ModEntities.HEAV.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("heav"), 2.0f));
+        event.registerEntityRenderer(ModEntities.HEAVY_PROJECTILE.get(), ctx -> new ThrownItemRenderer<>(ctx, 3.0f, true));
+
         // Projectiles
         event.registerEntityRenderer(ModEntities.SILK_SHOT.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.KAIJU_MISSILE.get(), ThrownItemRenderer::new);

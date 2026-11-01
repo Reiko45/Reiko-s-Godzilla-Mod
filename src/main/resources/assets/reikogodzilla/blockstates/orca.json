@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "active=false,mode=calm,powered=false": {
+      "model": "reikogodzilla:block/orca_calm"
+    },
+    "active=false,mode=calm,powered=true": {
+      "model": "reikogodzilla:block/orca_calm_on"
+    },
+    "active=true,mode=calm,powered=false": {
+      "model": "reikogodzilla:block/orca_calm_on"
+    },
+    "active=true,mode=calm,powered=true": {
+      "model": "reikogodzilla:block/orca_calm_on"
+    },
+    "active=false,mode=lure,powered=false": {
+      "model": "reikogodzilla:block/orca_lure"
+    },
+    "active=false,mode=lure,powered=true": {
+      "model": "reikogodzilla:block/orca_lure_on"
+    },
+    "active=true,mode=lure,powered=false": {
+      "model": "reikogodzilla:block/orca_lure_on"
+    },
+    "active=true,mode=lure,powered=true": {
+      "model": "reikogodzilla:block/orca_lure_on"
+    },
+    "active=false,mode=alpha,powered=false": {
+      "model": "reikogodzilla:block/orca_alpha"
+    },
+    "active=false,mode=alpha,powered=true": {
+      "model": "reikogodzilla:block/orca_alpha_on"
+    },
+    "active=true,mode=alpha,powered=false": {
+      "model": "reikogodzilla:block/orca_alpha_on"
+    },
+    "active=true,mode=alpha,powered=true": {
+      "model": "reikogodzilla:block/orca_alpha_on"
+    }
+  }
+}

@@ -72,7 +72,7 @@ public class MonsterverseGodzillaEntity extends KaijuEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return createKaijuAttributes(1100, 22, 12, 30, 0.24);
+        return createKaijuAttributes(1300, 22, 12, 30, 0.24);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class MonsterverseGodzillaEntity extends KaijuEntity {
     @Override
     protected void registerAbilities(List<KaijuAbility> list) {
         list.add(new BeamAbility("atomic_breath", BeamStyle.ATOMIC, 1, 1.1f, ModDamageTypes.ATOMIC_BREATH, 50, 60, 220)
-                .damage(15f, 4).blocks(2.2f, true).sounds(ModSounds.ATOMIC_BREATH_CHARGE, ModSounds.ATOMIC_BREATH_FIRE)
+                .damage(18f, 4).blocks(2.2f, true).sounds(ModSounds.ATOMIC_BREATH_CHARGE, ModSounds.ATOMIC_BREATH_FIRE)
                 .chargeParticle(ParticleTypes.SOUL_FIRE_FLAME).nuclear()
                 .styleBy(k -> ((MonsterverseGodzillaEntity) k).breathStyle())
                 .damageScaling(k -> ((MonsterverseGodzillaEntity) k).breathPower())
@@ -164,7 +164,7 @@ public class MonsterverseGodzillaEntity extends KaijuEntity {
     @Override
     protected void applyVariantAttributes() {
         var health = getAttribute(Attributes.MAX_HEALTH);
-        if (health != null) health.setBaseValue(getVariant() == EVOLVED ? 1500 : 1100);
+        if (health != null) health.setBaseValue(getVariant() == EVOLVED ? 1700 : 1300);
         var attack = getAttribute(Attributes.ATTACK_DAMAGE);
         if (attack != null) attack.setBaseValue(getVariant() == EVOLVED ? 36 : 30);
     }

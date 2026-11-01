@@ -1,0 +1,72 @@
+{
+  "has_precipitation": false,
+  "temperature": 1.0,
+  "downfall": 0.8,
+  "effects": {
+    "fog_color": 6957594,
+    "sky_color": 6957594,
+    "water_color": 3824250,
+    "water_fog_color": 3824250,
+    "grass_color": 8022602,
+    "foliage_color": 6969914,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "music": {
+      "sound": "minecraft:music.nether.basalt_deltas",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:ash"
+      },
+      "probability": 0.004
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "reikogodzilla:skullcrawler",
+        "weight": 40,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:glowstone_extra",
+      "minecraft:glowstone",
+      "minecraft:patch_fire"
+    ],
+    [
+      "minecraft:spring_lava"
+    ],
+    [
+      "minecraft:delta",
+      "minecraft:small_basalt_columns"
+    ],
+    []
+  ]
+}

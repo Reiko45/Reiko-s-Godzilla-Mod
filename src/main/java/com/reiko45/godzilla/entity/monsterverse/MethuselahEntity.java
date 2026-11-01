@@ -160,4 +160,12 @@ public class MethuselahEntity extends KaijuEntity {
     protected SoundEvent getDeathSound() {
         return ModSounds.METHUSELAH_RUMBLE.get();
     }
+
+    private static final software.bernie.geckolib.animation.RawAnimation DORMANT = software.bernie.geckolib.animation.RawAnimation.begin().thenLoop("dormant");
+
+    @Override
+    protected software.bernie.geckolib.animation.PlayState mainAnimation(software.bernie.geckolib.animation.AnimationState<KaijuEntity> state) {
+        if (isDormant()) return state.setAndContinue(DORMANT);
+        return super.mainAnimation(state);
+    }
 }

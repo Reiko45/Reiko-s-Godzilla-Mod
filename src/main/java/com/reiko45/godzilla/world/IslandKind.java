@@ -4,7 +4,9 @@ import net.minecraft.util.StringRepresentable;
 
 public enum IslandKind implements StringRepresentable {
     MONSTER("monster", 52),
-    INFANT("infant", 40);
+    INFANT("infant", 40),
+    /** Kong: Skull Island - jungle, a skull-faced mountain, the Iwi wall, Skullcrawler caves and a Hollow Earth vortex. */
+    SKULL("skull", 58);
 
     public final int radius;
     private final String name;

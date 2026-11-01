@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:monsterverse_site",
+  "site": "skar_kingdom",
+  "biomes": "#reikogodzilla:has_structure/skar_kingdom",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

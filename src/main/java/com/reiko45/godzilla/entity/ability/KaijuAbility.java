@@ -48,6 +48,12 @@ public abstract class KaijuAbility {
         return this;
     }
 
+    /** Ticks before the first use after spawning (default: a third of the cooldown). */
+    public KaijuAbility initialCooldown(int ticks) {
+        this.cooldown = ticks;
+        return this;
+    }
+
     public KaijuAbility when(Predicate<KaijuEntity> condition) {
         this.condition = condition;
         return this;

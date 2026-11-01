@@ -1,0 +1,86 @@
+{
+  "has_precipitation": false,
+  "temperature": 1.0,
+  "downfall": 0.8,
+  "effects": {
+    "fog_color": 10258632,
+    "sky_color": 10258632,
+    "water_color": 6990056,
+    "water_fog_color": 6990056,
+    "grass_color": 8376480,
+    "foliage_color": 7323792,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "music": {
+      "sound": "minecraft:music.overworld.lush_caves",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:end_rod"
+      },
+      "probability": 0.004
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "reikogodzilla:skullcrawler",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "reikogodzilla:warbat",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "creature": [
+      {
+        "type": "reikogodzilla:great_ape",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:amethyst_geode"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:glowstone_extra",
+      "minecraft:glowstone"
+    ],
+    [],
+    [
+      "reikogodzilla:hollow_jungle_grass",
+      "reikogodzilla:hollow_crystals",
+      "reikogodzilla:hollow_amethyst_buds",
+      "minecraft:glow_lichen"
+    ],
+    []
+  ]
+}

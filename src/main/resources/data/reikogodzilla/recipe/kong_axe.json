@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DDN",
+    "DS ",
+    " S "
+  ],
+  "key": {
+    "D": {
+      "item": "reikogodzilla:dorsal_plate"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:kong_axe",
+    "count": 1
+  }
+}

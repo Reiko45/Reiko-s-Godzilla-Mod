@@ -42,7 +42,10 @@ import java.util.List;
  */
 @EventBusSubscriber(modid = ReikoGodzilla.MODID)
 public final class KaijuEvents {
-    public static final List<String> EVENTS = List.of("godzilla", "ghidorah", "mechagodzilla", "spacegodzilla", "battra", "destoroyah");
+    public static final List<String> EVENTS = List.of("godzilla", "ghidorah", "mechagodzilla", "spacegodzilla", "battra", "destoroyah",
+            "monsterverse_godzilla", "muto", "scylla", "behemoth", "alpha_call", "skullcrawlers");
+    /** Relative odds of each random event (same order as {@link #EVENTS}). */
+    private static final int[] WEIGHTS = {14, 10, 8, 8, 7, 5, 12, 10, 7, 5, 6, 8};
 
     /** Delayed spawns (Destoroyah juveniles after an Oxygen Destroyer). Not saved across restarts. */
     private record Pending(net.minecraft.resources.ResourceKey<Level> dimension, BlockPos pos, long time) {}
@@ -78,8 +81,17 @@ public final class KaijuEvents {
         int nearby = level.getEntitiesOfClass(KaijuEntity.class, player.getBoundingBox().inflate(256)).size();
         if (nearby >= GodzillaConfig.get(GodzillaConfig.MAX_KAIJU_NEAR_PLAYER, 2)) return;
 
-        int roll = random.nextInt(100);
-        String event1 = roll < 30 ? "godzilla" : roll < 50 ? "ghidorah" : roll < 65 ? "mechagodzilla" : roll < 80 ? "spacegodzilla" : roll < 92 ? "battra" : "destoroyah";
+        int total = 0;
+        for (int w : WEIGHTS) total += w;
+        int roll = random.nextInt(total);
+        String event1 = EVENTS.get(EVENTS.size() - 1);
+        for (int i = 0; i < WEIGHTS.length; i++) {
+            if (roll < WEIGHTS[i]) {
+                event1 = EVENTS.get(i);
+                break;
+            }
+            roll -= WEIGHTS[i];
+        }
         if (!trigger(level, player, event1) && !event1.equals("ghidorah")) trigger(level, player, "ghidorah");
     }
 
@@ -92,6 +104,12 @@ public final class KaijuEvents {
             case "spacegodzilla" -> spaceGodzillaArrives(level, player);
             case "battra" -> battraRises(level, player);
             case "destoroyah" -> spawnJuveniles(level, player.blockPosition(), player);
+            case "monsterverse_godzilla" -> MonsterverseEvents.godzilla(level, player);
+            case "muto" -> MonsterverseEvents.mutos(level, player);
+            case "scylla" -> MonsterverseEvents.scylla(level, player);
+            case "behemoth" -> MonsterverseEvents.behemoth(level, player);
+            case "alpha_call" -> MonsterverseEvents.alphaCall(level, player);
+            case "skullcrawlers" -> MonsterverseEvents.skullcrawlers(level, player);
             default -> false;
         };
     }

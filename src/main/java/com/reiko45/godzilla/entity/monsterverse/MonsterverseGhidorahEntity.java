@@ -64,11 +64,11 @@ public class MonsterverseGhidorahEntity extends KingGhidorahEntity {
     @Override
     protected void registerAbilities(List<KaijuAbility> list) {
         list.add(new BeamAbility("gravity_beams", BeamStyle.GRAVITY, 3, 0.6f, ModDamageTypes.GRAVITY_BEAM, 20, 80, 180)
-                .damage(12f, 4).blocks(2.0f, false).tracking(0.12f, 3.0f).lift(0.4f).multiTarget()
+                .damage(8f, 4).blocks(2.0f, false).tracking(0.12f, 3.0f).lift(0.4f).multiTarget()
                 .sounds(ModSounds.GRAVITY_BEAM_CHARGE, ModSounds.GRAVITY_BEAM_FIRE)
                 .chargeParticle(ParticleTypes.ELECTRIC_SPARK)
                 .range(4, 60));
-        list.add(new AlphaCallAbility().when(k -> com.reiko45.godzilla.GodzillaConfig.get(com.reiko45.godzilla.GodzillaConfig.ALPHA_CALL, true)));
+        list.add(new AlphaCallAbility().initialCooldown(40).when(k -> com.reiko45.godzilla.GodzillaConfig.get(com.reiko45.godzilla.GodzillaConfig.ALPHA_CALL, true)));
         list.add(new WindGustAbility(3.0f));
         list.add(new LightningStrikeAbility("wingtip_lightning", 4, 12f, 260).when(k -> ((MonsterverseGhidorahEntity) k).stormCharge > 0));
     }

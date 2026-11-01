@@ -1,0 +1,785 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "idle": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "walk": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {}
+  },
+  "fly": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       6
+      ],
+      "1.00": [
+       0,
+       0,
+       -6
+      ],
+      "2.00": [
+       0,
+       0,
+       6
+      ]
+     }
+    }
+   }
+  },
+  "attack": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "roar": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "charge": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "beam": {
+   "loop": true,
+   "animation_length": 0.2,
+   "bones": {
+    "body": {
+     "position": {
+      "0.00": [
+       0,
+       0,
+       0
+      ],
+      "0.10": [
+       0,
+       0,
+       -0.5
+      ],
+      "0.20": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "tail": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "pulse": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "gust": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "scales": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "spray": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "dive": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "curl": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "roll": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "missiles": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "shield": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "sit": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "cocoon": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "lash": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "grab": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "spores": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "tornado": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "ram": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "drill": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "leap": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "throw": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "slam": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "emp": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "ink": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "dormant": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  },
+  "swim": {
+   "loop": true,
+   "animation_length": 2,
+   "bones": {
+    "body": {
+     "rotation": {
+      "0.00": [
+       0,
+       0,
+       3
+      ],
+      "1.00": [
+       0,
+       0,
+       -3
+      ],
+      "2.00": [
+       0,
+       0,
+       3
+      ]
+     }
+    }
+   }
+  }
+ }
+}

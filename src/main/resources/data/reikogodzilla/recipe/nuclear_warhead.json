@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IGI",
+    "TCT",
+    "IGI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "C": {
+      "item": "reikogodzilla:g_cell"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:nuclear_warhead",
+    "count": 1
+  }
+}

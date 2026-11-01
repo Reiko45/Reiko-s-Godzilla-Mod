@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TKT",
+    "NSN",
+    "M M"
+  ],
+  "key": {
+    "T": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "K": {
+      "item": "reikogodzilla:ghidorah_skull"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "M": {
+      "item": "reikogodzilla:maser_tank"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:apex_mechagodzilla",
+    "count": 1
+  }
+}

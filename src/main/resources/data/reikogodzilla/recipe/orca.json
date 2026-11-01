@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NAN",
+    "RJR",
+    "IGI"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:note_block"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "J": {
+      "item": "minecraft:jukebox"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "reikogodzilla:g_cell"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:orca",
+    "count": 1
+  }
+}

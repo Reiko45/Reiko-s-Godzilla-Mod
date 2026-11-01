@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "reikogodzilla:block/orca_side_on",
+    "top": "reikogodzilla:block/orca_top_lure_on",
+    "bottom": "reikogodzilla:block/orca_side"
+  }
+}

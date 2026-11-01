@@ -64,6 +64,15 @@ public class GreatApeEntity extends PathfinderMob implements GeoEntity, KaijuAli
                 e -> enslaved && (e instanceof KongEntity || e instanceof SukoEntity)));
     }
 
+    @javax.annotation.Nullable
+    @Override
+    public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
+                                                                  net.minecraft.world.entity.MobSpawnType type, @javax.annotation.Nullable net.minecraft.world.entity.SpawnGroupData data) {
+        // Apes found in the Skar King's realm still serve him.
+        if (type == net.minecraft.world.entity.MobSpawnType.STRUCTURE) enslaved = true;
+        return super.finalizeSpawn(level, difficulty, type, data);
+    }
+
     public boolean isEnslaved() {
         return enslaved;
     }
