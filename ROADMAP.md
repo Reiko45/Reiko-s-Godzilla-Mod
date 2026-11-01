@@ -66,16 +66,25 @@ The best-known monsters, plus the systems every later monster reuses.
 
 **Still to do for Phase 2:** final Blockbench models and textures (stand-ins ship for now), custom sounds.
 
-## Phase 3: MonsterVerse
+## Phase 3: MonsterVerse ✅ (v0.3.0)
 
-- MonsterVerse Godzilla (blue → red thermonuclear → evolved pink)
-- Kong (Battle Axe, B.E.A.S.T. Glove)
-- MUTOs (EMP), Skullcrawlers, Warbats
-- MonsterVerse King Ghidorah (Alpha Call event)
-- Scylla, Behemoth, Methuselah, Tiamat
-- MonsterVerse Mechagodzilla (Proton Scream)
-- Skar King, Shimo, Suko
-- Orca device, HEAV, Hollow Earth dimension
+**Titans**
+- [x] MonsterVerse Godzilla: Energized (blue), thermonuclear (red) and Evolved (pink) forms, radiation feeding, gill weak point
+- [x] Kong (young and adult; Battle Axe, B.E.A.S.T. Glove, climbing, grab and throw)
+- [x] MUTOs (male and female, EMP, nests), Skullcrawlers and the Skull Devil, Warbats
+- [x] MonsterVerse King Ghidorah (Alpha Call, regrowing heads, storms) plus MonsterVerse Rodan and Mothra
+- [x] Scylla, Behemoth, Methuselah, Tiamat
+- [x] Apex Mechagodzilla (Proton Scream, Ghidorah takeover)
+- [x] Skar King (control crystal), Shimo, Suko, Great Apes
+
+**Tech and world**
+- [x] ORCA, HEAV, Nuclear Warhead
+- [x] Hollow Earth dimension (three biomes, vortex travel, Kong's throne room, the Skar King's realm)
+- [x] Skull Island (storm wall, Skullcrawler caves, Iwi wall, vortex), Tiamat's lair, Antarctic vortex
+- [x] New systems: Alpha hierarchy, EMP, frostbite, radiation sources
+- [x] New events: MonsterVerse Godzilla, MUTOs, Scylla, Behemoth, Alpha Call, Skullcrawlers
+
+**Still to do for Phase 3:** final Blockbench models and textures (stand-ins ship for now), custom sounds.
 
 ## Phase 4: Showa and Millennium deep cuts
 

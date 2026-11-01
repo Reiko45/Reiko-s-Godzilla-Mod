@@ -63,10 +63,15 @@ public final class VortexTravel {
         Entity moved = root.changeDimension(new DimensionTransition(to, at, Vec3.ZERO, root.getYRot(), root.getXRot(), DimensionTransition.PLACE_PORTAL_TICKET));
         if (moved == null) return;
         moved.setPortalCooldown(300);
-        moved.getIndirectPassengers().forEach(e -> e.setPortalCooldown(300));
+        moved.resetFallDistance();
+        moved.getIndirectPassengers().forEach(e -> {
+            e.setPortalCooldown(300);
+            e.resetFallDistance();
+        });
         if (toHollow) ensureReturnVortex(to, dest);
         for (ServerPlayer p : players) {
             p.setPortalCooldown(300);
+            p.resetFallDistance();
             to.playSound(null, at.x, at.y, at.z, ModSounds.VORTEX_WHOOSH.get(), SoundSource.PLAYERS, 2f, 1.0f);
             if (shielded) {
                 p.displayClientMessage(Component.translatable(toHollow ? "message.reikogodzilla.vortex_heav_in" : "message.reikogodzilla.vortex_heav_out")
@@ -84,7 +89,7 @@ public final class VortexTravel {
 
     private static BlockPos findSurface(ServerLevel level, BlockPos near) {
         level.getChunk(near.getX() >> 4, near.getZ() >> 4);
-        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, near.getX(), near.getZ());
+        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, near.getX(), near.getZ());
         return new BlockPos(near.getX(), Math.max(y, level.getMinBuildHeight() + 1), near.getZ());
     }
 

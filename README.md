@@ -112,9 +112,79 @@ Unmanned mechs and tanks defend you: they attack hostile kaiju and anything targ
 - **Godzilla Egg:** in a nest on Monster Island. It hatches when you're close.
 - **New events:** SpaceGodzilla falls from space inside a crystal meteor, the ground splits open and a Battra larva bursts out, or a swarm of Destoroyah juveniles crawls out of the water. Using an Oxygen Destroyer can also awaken Destoroyah juveniles a few minutes later.
 
+## What's new in Phase 3: MonsterVerse
+
+### Titans
+
+| Titan | Side | What it does |
+|---|---|---|
+| **Godzilla** (MonsterVerse) | Titan | Atomic breath, nuclear pulse, tail swipe. Feeds on radiation (see below). Explosives to his **gills** do double damage. His roar makes Titans freed from an Alpha Call bow to him |
+| **Kong** (young or adult) | Titan | Climbs anything, leaps on enemies, grabs and throws them, beats his chest. Feed him fruit to win his trust. A young Kong from Skull Island grows up in time |
+| **Suko** | Titan | Young Great Ape: boulder throws and leaps. Goes straight for the Skar King's crystal. Tame him with fruit |
+| **Skar King** | Invader | Whipslash (long reach, drags you in), freezing blasts from his crystal, pounce, throws. Calls his Great Ape army when hurt |
+| **Shimo** | Titan / Invader | Frost Bite Blast leaves ice where it lands; water and lava freeze as she walks. Can't be frozen; fire and atomic breath hurt her more |
+| **MUTOs** (male and female) | Invader | The male flies and fires **EMP** pulses; the female walks and carries a permanent EMP field. Both hunt radiation, and a fed female lays a nest |
+| **King Ghidorah** (MonsterVerse) | Invader | Gravity beams from each head, wingtip lightning, a storm wherever he goes, and the **Alpha Call** |
+| **Rodan** (MonsterVerse) | Titan | Rains lava, and a supersonic low pass shatters glass and strips trees. Follows the Alpha |
+| **Mothra** (MonsterVerse) | Guardian | God rays, silk webbing, stingers, scale shield. Breaks up fights between Godzilla and Kong |
+| **Scylla** | Invader | Spider-like climber: impaling legs, tendril grab, scuttle charge. Hunts radiation, follows the Alpha |
+| **Behemoth** | Titan | Tusk slam that stuns everything nearby; regrows the forest around him. Follows the Alpha |
+| **Methuselah** | Titan | Sleeps disguised as a mountain until the Alpha Call, the ORCA or a player wakes him. Mountain charge, quake stomp |
+| **Tiamat** | Invader | Sea serpent: fast in water, weak on land. Electric coils, blinding ink, razor scales that cut attackers |
+| **Mechagodzilla** (Apex) | Human / Invader | Pilotable (see below). Proton Scream, missiles, rocket fist, drill tail, thrusters |
+| **Skullcrawlers** and the **Skull Devil** | Invader | Pack hunters from under Skull Island. The Skull Devil's mouth takes double damage while its tongue is out |
+| **Warbats** | Invader | Hollow Earth flyers that snatch prey, carry it up and drop it. They tear aircraft apart |
+| **Great Apes** | Invader / Titan | The Skar King's tribe. They're free (and only defend themselves) once he dies |
+
+### MonsterVerse systems
+
+- **Godzilla's forms.** Godzilla absorbs **Nuclear Warheads** (and other radiation sources) within reach, and goes looking for them when he's hungry. A full charge makes him **Energized**: bright blue breath, faster healing and a spiral breath for 5 minutes. Feeding him more while Energized pushes him **thermonuclear**: a red-orange glow, a scorching aura and repeated pulses for a minute. So does Mothra dying near him. When he absorbs Tiamat's **Solar Crystals**, or Tiamat dies near him, he becomes **Evolved** for good: magenta breath and more health.
+- **Alpha Call.** MonsterVerse King Ghidorah's call wakes every Titan that follows the Alpha (Rodan, Behemoth, Methuselah, Scylla) within 512 blocks. They turn on everyone and fight alongside him. When he dies they bow. Godzilla's roar also frees any of them whose Alpha is far away.
+- **EMP.** MUTO pulses knock out mechs, Maser Tanks and the HEAV for several seconds: no weapons, no movement, and aircraft fall. Players gliding with elytra drop out of the air.
+- **Kong's Battle Axe** (use it on Kong) soaks up beams aimed at him from the front, then unloads the energy in one explosive blow, twice as strong against Mechagodzilla. **Frostbite** from Shimo freezes it useless. The **B.E.A.S.T. Glove** (use it on Kong) cures frostbite, protects him from cold and electrifies his punches.
+- **The Skar King's crystal** controls any Shimo nearby. Hit the crystal on his whip (Suko is especially good at it) to shatter it, and Shimo turns on him.
+- **Apex Mechagodzilla** runs at about 40% power on its own. Use a **Hollow Earth Energy Core** on it for full power. At full power there's a chance in every fight that King Ghidorah's mind takes over: the pilot is thrown out and it becomes a rogue boss. A **Ghidorah Skull** (torn from MonsterVerse Ghidorah's head) is needed to build it.
+- **Frostbite** (status effect): slower movement, weaker blows and slower mining. Stand in fire or lava to cure it.
+
+### Tech
+
+| Item | Use |
+|---|---|
+| **HEAV** | Flying vehicle. The only safe way through a vortex. R: sonar scan (marks every Titan within 192 blocks). V: decoy flares |
+| **ORCA** | Use: on/off (or power it with redstone). Sneak + use: change signal. **Calm** makes Titans drop their fights, **Lure** draws them to it, **Alpha** wakes sleeping Titans and enrages the ones nearby |
+| **Nuclear Warhead** | Inert. Godzilla, MUTOs and Scylla smell it from far away |
+| **Mechagodzilla (Apex)** | R: Proton Scream (missiles while it recharges). V: rocket fist. G: thruster leap |
+
+| Recipe | Pattern |
+|---|---|
+| HEAV | `PEP` / `SCS` / `IRI`: phantom membranes, elytra, shulker shells, recovery compass, iron blocks, redstone block |
+| Mechagodzilla (Apex) | `TKT` / `NSN` / `M M`: Space Titanium, Ghidorah Skull, netherite blocks, nether star, Maser Tanks |
+| Kong's Battle Axe | `DDN` / `DS ` / ` S `: Godzilla Dorsal Plates, netherite ingot, sticks |
+| B.E.A.S.T. Glove | `TLT` / `TNT` / `RCR`: Space Titanium, lightning rod, netherite ingot, redstone blocks, copper block |
+| ORCA | `NAN` / `RJR` / `IGI`: note blocks, amethyst shard, redstone, jukebox, iron ingots, G-Cell |
+| Nuclear Warhead | `IGI` / `TCT` / `IGI`: iron blocks, glowstone, TNT, G-Cell |
+
+Both Godzillas drop **Dorsal Plates**. Kong's throne room always has an axe and an energy core.
+
+### The Hollow Earth
+
+A new dimension: a vast cavern world lit by glowstone, with three biomes. The **Hollow Earth Jungle** has jungle trees, vines and Great Apes. The **Crystal Plains** are full of amethyst. The **Subterranean Depths** are lava, basalt and blackstone.
+
+- **Getting in.** Step or fly into a **vortex**: the Antarctic vortices in snowy biomes, or the shaft on Skull Island. You arrive at the same coordinates, and a return vortex opens beside you. Without a HEAV the gravity flip hurts and leaves you dizzy and blind for a moment.
+- **Kong's Throne Room**: a temple in the jungle with a giant throne, Kong himself, and a chest holding the **Battle Axe** and a **Hollow Earth Energy Core**.
+- **The Skar King's Realm**: a lava-lit cavern in the Subterranean Depths where Shimo is chained and the Skar King rules with his apes.
+- **Return vortices** are scattered through the Hollow Earth.
+
+### Overworld
+
+- **Skull Island** (warm oceans): jungle, a skull-faced mountain with Skullcrawler caves in its eye sockets (the Skull Devil lurks in one), the Iwi wall, a young Kong, a shaft down to a Hollow Earth vortex, and a **storm wall** of lightning that batters aircraft trying to cross it.
+- **Tiamat's Lair** (frozen oceans): an ice dome on the sea floor with Tiamat and a cluster of Solar Crystals.
+- **Antarctic vortices** (snowy biomes), **Methuselah** asleep in the hills, and **Behemoth** in the jungle.
+- **New events**: Godzilla on the move, a MUTO pair (a female bursts from the ground and her mate flies in), Scylla, Behemoth, the Alpha Call (Ghidorah and a storm arrive, and a Rodan answers), and Skullcrawler swarms.
+
 ## Commands
 
-`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah>` starts an event near you (needs operator permissions).
+`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah|monsterverse_godzilla|muto|scylla|behemoth|alpha_call|skullcrawlers>` starts an event near you (needs operator permissions).
 
 ## Config
 
@@ -126,6 +196,7 @@ Unmanned mechs and tanks defend you: they attack hostile kaiju and anything targ
 - `events.enabled`, `firstDay`, `intervalTicks`, `chance`, `maxKaijuNearPlayer`
 - `weapons.maserAutoFire`, `maserDamage`, `oxygenDestroyerKaijuDamage`
 - `heisei.burningGodzilla`, `meltdownTicks`, `meltdownExplosion`, `frozenTicks`, `juniorGrowthTicks`, `destoroyahChance`, `biollanteGrowthStages`
+- `monsterverse.alphaCall`, `kongGrowthTicks`, `apexTakeoverChance`, `iceAge`, `orcaRange`, `vortexDamage`
 
 ## Custom models (Blockbench)
 
@@ -142,9 +213,11 @@ Names:
 - Phase 1: `godzilla_showa`, `godzilla_heisei`, `king_ghidorah`, `mothra_larva`, `mothra_cocoon`, `mothra`, `rodan`, `anguirus`, `mechagodzilla`, `maser_tank`
 - Phase 2: `godzilla_junior`, `biollante_flower`, `biollante_plant`, `battra_larva`, `battra`, `space_godzilla`, `space_crystal`, `destoroyah_juvenile`, `destoroyah_aggregate`, `destoroyah_flying`, `destoroyah_perfect`, `mechagodzilla_heisei`, `super_mechagodzilla`, `garuda`, `moguera`, `star_falcon`, `land_moguera`, `super_x`, `super_x2`, `super_x3`, `freezer_tank`
 
-Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. Burning Godzilla tints `godzilla_heisei` orange.
+- Phase 3: `godzilla_mv`, `godzilla_evolved`, `kong`, `suko`, `great_ape`, `skar_king`, `shimo`, `muto_male`, `muto_female`, `skullcrawler`, `skull_devil`, `warbat`, `king_ghidorah_mv`, `scylla`, `behemoth`, `methuselah`, `tiamat`, `apex_mechagodzilla`, `heav`
 
-**Bones:** a bone named `head` turns to follow where the kaiju is looking. Everything else is up to you.
+Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Burning Godzilla tints `godzilla_heisei` orange.
+
+**Bones:** a bone named `head` turns to follow where the kaiju is looking. A few bones are shown or hidden by the game: `axe` and `glove` on Kong (when he has them), `crystal` on the Skar King (until it shatters), and `head_0`, `head_1`, `head_2` on MonsterVerse Ghidorah (while a head is severed). Everything else is up to you.
 
 **Animations** the code plays. Use these exact names; if one is missing, that move simply won't animate:
 
@@ -169,6 +242,11 @@ Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. Burnin
 | `ram` | Battra larva's horn ram |
 | `tornado` | SpaceGodzilla's Gravity Tornado |
 | `drill` | MOGUERA's and Land Moguera's drill charge |
+| `leap`, `throw` | Leaping attacks (Kong, the Skar King, Suko, Apex Mechagodzilla's thrusters) and grab-and-throw |
+| `slam` | Ground-pound attacks (Behemoth, Methuselah, Shimo, the female MUTO) |
+| `emp`, `ink` | The male MUTO's EMP pulse, Tiamat's ink cloud |
+| `dormant` | Methuselah asleep as a mountain, Shimo in chains |
+| `swim` | Tiamat in water |
 
 Beam start points (mouths, Ghidorah's three heads, Mechagodzilla's eyes, weapon mounts on the mechs) and extra hitboxes are set in each kaiju's class (`beamLocalOffset` and `createParts`), measured in blocks at scale 1 with +z forward. Adjust them if your model's proportions differ.
 

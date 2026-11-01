@@ -440,13 +440,13 @@
         "attenuation_distance": 128
       },
       {
-        "name": "minecraft:mob/polar_bear/warning1",
+        "name": "minecraft:mob/polarbear/warning1",
         "pitch": 0.5,
         "volume": 1.0,
         "attenuation_distance": 96
       },
       {
-        "name": "minecraft:mob/polar_bear/warning2",
+        "name": "minecraft:mob/polarbear/warning2",
         "pitch": 0.5,
         "volume": 1.0,
         "attenuation_distance": 96
@@ -457,13 +457,13 @@
     "subtitle": "subtitles.reikogodzilla.muto_call",
     "sounds": [
       {
-        "name": "minecraft:mob/warden/listening_angry1",
+        "name": "minecraft:mob/warden/listening_angry_1",
         "pitch": 0.6,
         "volume": 1.0,
         "attenuation_distance": 128
       },
       {
-        "name": "minecraft:mob/warden/listening_angry2",
+        "name": "minecraft:mob/warden/listening_angry_2",
         "pitch": 0.6,
         "volume": 1.0,
         "attenuation_distance": 128
@@ -584,7 +584,7 @@
         "attenuation_distance": 128
       },
       {
-        "name": "minecraft:mob/drowned/water/ambient1",
+        "name": "minecraft:mob/drowned/water/idle1",
         "pitch": 0.4,
         "volume": 1.0,
         "attenuation_distance": 96
@@ -630,7 +630,7 @@
         "attenuation_distance": 160
       },
       {
-        "name": "minecraft:mob/warden/heartbeat1",
+        "name": "minecraft:mob/warden/heartbeat_1",
         "pitch": 0.5,
         "volume": 1.0,
         "attenuation_distance": 128
@@ -687,7 +687,7 @@
     "subtitle": "subtitles.reikogodzilla.orca_signal",
     "sounds": [
       {
-        "name": "minecraft:block/note_block/chime",
+        "name": "minecraft:note/icechime",
         "pitch": 0.8,
         "volume": 1.0,
         "attenuation_distance": 64
@@ -704,13 +704,13 @@
     "subtitle": "subtitles.reikogodzilla.vortex_whoosh",
     "sounds": [
       {
-        "name": "minecraft:block/portal/travel",
+        "name": "minecraft:portal/travel",
         "pitch": 0.7,
         "volume": 1.0,
         "attenuation_distance": 32
       },
       {
-        "name": "minecraft:block/portal/trigger",
+        "name": "minecraft:portal/trigger",
         "pitch": 0.7,
         "volume": 1.0,
         "attenuation_distance": 32
