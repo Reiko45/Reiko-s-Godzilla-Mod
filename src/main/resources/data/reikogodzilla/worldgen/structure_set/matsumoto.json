@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "reikogodzilla:matsumoto",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20261103,
+    "spacing": 48,
+    "separation": 20
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:classic_site",
+  "site": "mechagodzilla_city",
+  "biomes": "#reikogodzilla:has_structure/mechagodzilla_city",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

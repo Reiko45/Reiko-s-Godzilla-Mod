@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ISI",
+    "SBS",
+    "ISI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:snowball"
+    },
+    "B": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:freon_tank",
+    "count": 2
+  }
+}

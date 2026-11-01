@@ -74,7 +74,22 @@ public enum BeamStyle {
     /** Monster X's "Destroyed Thunder" gravity beams. */
     XILIEN_GRAVITY(0.85f, 0.2f, 0.75f, 1.0f, 0.75f, 1.0f, Shape.JAGGED),
     /** Keizer Ghidorah's anti-gravity beams. */
-    KEIZER(1.0f, 0.4f, 0.1f, 1.0f, 0.8f, 0.4f, Shape.JAGGED);
+    KEIZER(1.0f, 0.4f, 0.1f, 1.0f, 0.8f, 0.4f, Shape.JAGGED),
+    // ---- Phase 5 (Reiwa and modern)
+    /** Shin Godzilla's focused purple beam. */
+    SHIN(0.6f, 0.15f, 1.0f, 0.95f, 0.8f, 1.0f),
+    /** Shin Godzilla's thin dorsal and tail beams. */
+    DORSAL(0.7f, 0.3f, 1.0f, 1.0f, 0.9f, 1.0f),
+    /** Minus One Godzilla's heat ray: blinding blue-white. */
+    HEAT_RAY(0.4f, 0.7f, 1.0f, 1.0f, 1.0f, 1.0f),
+    /** Godzilla Earth's charged-particle breath. */
+    CHARGED_PARTICLE(0.55f, 0.8f, 1.0f, 0.95f, 1.0f, 1.0f, Shape.JAGGED),
+    /** Godzilla Ultima's thin, cutting breath (Singular Point). */
+    ULTIMA(1.0f, 0.35f, 0.15f, 1.0f, 0.8f, 0.6f),
+    /** The Ion Dragon's ionizing breath. */
+    ION(0.3f, 1.0f, 0.85f, 0.85f, 1.0f, 1.0f, Shape.JAGGED),
+    /** Nanometal rail cannons and harpoons (Vultures, Mechagodzilla City). */
+    NANOMETAL(0.6f, 0.75f, 0.85f, 0.95f, 1.0f, 1.0f);
 
     public enum Shape { STRAIGHT, JAGGED, RAINBOW, SPIRAL, CURVED, RINGS }
 

@@ -35,7 +35,7 @@ final class ClassicEvents {
     private ClassicEvents() {}
 
     @Nullable
-    private static BlockPos findLand(ServerLevel level, ServerPlayer player, int min, int max) {
+    static BlockPos findLand(ServerLevel level, ServerPlayer player, int min, int max) {
         RandomSource random = level.getRandom();
         for (int attempt = 0; attempt < 40; attempt++) {
             double angle = random.nextDouble() * Math.PI * 2;
@@ -50,7 +50,7 @@ final class ClassicEvents {
     }
 
     @Nullable
-    private static BlockPos findSea(ServerLevel level, ServerPlayer player, int min, int max, int depth) {
+    static BlockPos findSea(ServerLevel level, ServerPlayer player, int min, int max, int depth) {
         RandomSource random = level.getRandom();
         for (int attempt = 0; attempt < 32; attempt++) {
             double angle = random.nextDouble() * Math.PI * 2;
@@ -66,7 +66,7 @@ final class ClassicEvents {
     }
 
     @Nullable
-    private static <T extends Mob> T spawn(ServerLevel level, EntityType<T> type, double x, double y, double z, ServerPlayer facing, int variant) {
+    static <T extends Mob> T spawn(ServerLevel level, EntityType<T> type, double x, double y, double z, ServerPlayer facing, int variant) {
         T mob = type.create(level);
         if (mob == null) return null;
         mob.moveTo(x + 0.5, y, z + 0.5, (float) Math.toDegrees(Math.atan2(facing.getZ() - z, facing.getX() - x)) - 90f, 0);
@@ -79,13 +79,13 @@ final class ClassicEvents {
         return mob;
     }
 
-    private static void announce(ServerLevel level, ServerPlayer near, String key, ChatFormatting color) {
+    static void announce(ServerLevel level, ServerPlayer near, String key, ChatFormatting color) {
         for (ServerPlayer p : level.players()) {
             if (p.distanceToSqr(near) < 512 * 512) p.sendSystemMessage(Component.translatable(key).withStyle(color, ChatFormatting.ITALIC));
         }
     }
 
-    private static void eruption(ServerLevel level, BlockPos pos) {
+    static void eruption(ServerLevel level, BlockPos pos) {
         level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.DIRT.defaultBlockState()), pos.getX(), pos.getY() + 1, pos.getZ(), 200, 4, 2, 4, 0.3);
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, pos.getX(), pos.getY() + 2, pos.getZ(), 1, 0, 0, 0, 0);
     }

@@ -106,11 +106,28 @@ The best-known monsters, plus the systems every later monster reuses.
 
 **Still to do for Phase 4:** final Blockbench models and textures (stand-ins ship for now), custom sounds; the Satsuma submarine and the AC-3 White Heron as vehicles.
 
-## Phase 5: Reiwa and Modern
+## Phase 5: Reiwa and modern ✅ (v0.5.0)
 
-- Shin Godzilla (four forms + Yashiori event)
-- Godzilla Earth (raid boss) + Nanometal
-- Minus One / Minus Zero Godzilla
-- Minus Zero King Ghidorah (two-stage)
-- MonsterVerse SpaceGodzilla (after *Godzilla x Kong: Supernova*, March 26, 2027)
-- Titan X (Monarch: Legacy of Monsters), Singular Point content
+**Shin Godzilla and the Minus films**
+- [x] Shin Godzilla 2nd/3rd/4th forms: evolution, reactor energy and dormancy, dorsal and tail beams, adaptation
+- [x] Operation Yashiori: coagulant pump and canisters, train bombs, drones, demolition charges, MOP II designator, permanent freeze
+- [x] Minus One Godzilla (Odo Island form, mutation), regeneration and scars, the heat ray with pressure wave and black rain
+- [x] Operation Wada Tsumi (Freon tanks, balloon rig), the Shinden, the radiation buoy
+- [x] Minus Zero Godzilla and Ghidorah → King Ghidorah (gravity lift, storm riding, storm beacon)
+
+**Anime trilogy and Singular Point**
+- [x] Godzilla Filius → Godzilla Earth (EM shield and its recycle window, EMP probes, anti-air snipe, heat venting), Servum
+- [x] Mechagodzilla City core, spreading nanometal, liquid nanometal, Vultures and assimilation, Houtua scales
+- [x] Ghidorah the Planet Eater and the Garbetrium totem
+- [x] Singular Point Godzilla's four forms, Red Dust, the Orthogonal Diagonalizer, Jet Jaguar (prototype → β → PP), Rodan swarms, Salunga
+
+**MonsterVerse, Skull Island, Godzilla Fest**
+- [x] Titan X (implants, egg), Scarabs, Frost Vark, Ion Dragon, the Kraken
+- [x] Gigan Rex and Gigan Miles, Burning Millennium Godzilla
+- [x] MonsterVerse SpaceGodzilla placeholder for *Godzilla x Kong: Supernova* (config-gated until the design is revealed)
+
+**World**
+- [x] Tokyo Ruins, Odo Island, Wada Tsumi dock, Matsumoto, Mechagodzilla City, Houtua village, Exif observatory, Otaki Factory, SHIVA, Apex lab, Santa Soledad, Outpost 88
+- [x] Eleven new events
+
+**Still to do:** final Blockbench models and custom sounds; update Minus Zero values once official stats are out and MonsterVerse SpaceGodzilla after *Supernova* (March 2027). Left out for now: Shin Godzilla's 5th-form humanoids, the international strike countdown, destroyer ships as vehicles, Houtua and Exif NPCs, Monarch and Skull Island small fauna, G Breaker.

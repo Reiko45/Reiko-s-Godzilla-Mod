@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TTT",
+    "MRM"
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "M": {
+      "item": "minecraft:minecart"
+    },
+    "R": {
+      "item": "minecraft:powered_rail"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:train_bomb",
+    "count": 1
+  }
+}

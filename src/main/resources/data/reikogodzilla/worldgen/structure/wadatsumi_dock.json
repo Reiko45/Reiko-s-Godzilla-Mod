@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:classic_site",
+  "site": "wadatsumi_dock",
+  "biomes": "#reikogodzilla:has_structure/wadatsumi_dock",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

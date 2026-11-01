@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:classic_site",
+  "site": "matsumoto",
+  "biomes": "#reikogodzilla:has_structure/matsumoto",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

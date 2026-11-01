@@ -35,11 +35,17 @@ import java.util.List;
  *     <li>Final Wars (2004): twice the size. Bloody Trigger scythes on grappling cables reel prey into the buzzsaw and
  *     the Gigarium Cluster beam bursts into explosive bolts. Beaten down to half health he is rebuilt on the spot as
  *     Modified Gigan, with chainsaw arms and homing Bladed Slicer discs. A Xilien weapon (M-Base).</li>
+ *     <li>Gigan Rex and Gigan Miles (Godzilla Fest shorts, 2022): a crimson elite Gigan with the Final Wars kit,
+ *     leading smaller Showa-style Gigan soldiers.</li>
  * </ul>
  */
 public class GiganEntity extends FlyingKaijuEntity {
     public static final int SHOWA = 0;
     public static final int FINAL_WARS = 1;
+    /** Gigan Rex (Godzilla vs. Gigan Rex, Godzilla Fest 2022): the crimson leader of a Gigan army. */
+    public static final int REX = 2;
+    /** Gigan Miles: the rank-and-file Gigan soldiers that follow Gigan Rex. */
+    public static final int MILES = 3;
     private static final EntityDataAccessor<Boolean> DATA_MODIFIED = SynchedEntityData.defineId(GiganEntity.class, EntityDataSerializers.BOOLEAN);
 
     public GiganEntity(EntityType<? extends GiganEntity> type, Level level) {
@@ -75,7 +81,7 @@ public class GiganEntity extends FlyingKaijuEntity {
                 }));
         list.add(new BeamAbility("visor_beam", BeamStyle.VISOR, 1, 0.25f, ModDamageTypes.GIGARIUM_CLUSTER, 15, 30, 160)
                 .damage(7f, 4).blocks(1.0f, true).tracking(0.2f, 0f).chargeParticle(ParticleTypes.FLAME)
-                .range(4, 40).when(k -> k.getVariant() == SHOWA));
+                .range(4, 40).when(k -> !isFinalWarsLike(k)));
         list.add(new BeamAbility("gigarium_cluster", BeamStyle.CLUSTER, 1, 0.45f, ModDamageTypes.GIGARIUM_CLUSTER, 20, 40, 200)
                 .damage(9f, 4).blocks(1.0f, false).tracking(0.15f, 0f).chargeParticle(ParticleTypes.CRIMSON_SPORE)
                 .terrain((level, k, hit, radius) -> {
@@ -87,13 +93,17 @@ public class GiganEntity extends FlyingKaijuEntity {
                         level.explode(k, p.x, p.y, p.z, 1.5f, false, grief ? ExplosionInteraction.MOB : ExplosionInteraction.NONE);
                     }
                 })
-                .range(4, 48).when(k -> k.getVariant() == FINAL_WARS));
-        list.add(new VineGrabAbility("bloody_trigger").when(k -> k.getVariant() == FINAL_WARS));
+                .range(4, 48).when(GiganEntity::isFinalWarsLike));
+        list.add(new VineGrabAbility("bloody_trigger").when(GiganEntity::isFinalWarsLike));
         list.add(new SprayAbility("bladed_slicer", k -> new SlicerDiscEntity(k.level(), k), ModSounds.GIGAN_SCREECH, 1.1f, 3f, 30, 260)
-                .interval(12).when(k -> ((GiganEntity) k).isModified()));
+                .interval(12).when(k -> ((GiganEntity) k).isModified() || k.getVariant() == REX));
         list.add(new DiveAbility(2.2f));
-        list.add(new TailSwipeAbility().when(k -> k.getVariant() == FINAL_WARS));
+        list.add(new TailSwipeAbility().when(GiganEntity::isFinalWarsLike));
         list.add(new RoarAbility(ModSounds.GIGAN_SCREECH));
+    }
+
+    private static boolean isFinalWarsLike(com.reiko45.godzilla.entity.KaijuEntity k) {
+        return k.getVariant() == FINAL_WARS || k.getVariant() == REX;
     }
 
     @Override
@@ -111,15 +121,25 @@ public class GiganEntity extends FlyingKaijuEntity {
 
     @Override
     protected double variantScale() {
-        return getVariant() == FINAL_WARS ? 2.5 : 1.35;
+        return switch (getVariant()) {
+            case FINAL_WARS -> 2.5;
+            case REX -> 2.2;
+            case MILES -> 1.5;
+            default -> 1.35;
+        };
     }
 
     @Override
     protected void applyVariantAttributes() {
         var health = getAttribute(Attributes.MAX_HEALTH);
-        if (health != null) health.setBaseValue(getVariant() == FINAL_WARS ? 1300 : 800);
+        if (health != null) health.setBaseValue(switch (getVariant()) {
+            case FINAL_WARS -> 1300;
+            case REX -> 1200;
+            case MILES -> 420;
+            default -> 800;
+        });
         var attack = getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attack != null) attack.setBaseValue((getVariant() == FINAL_WARS ? 32 : 26) * (isModified() ? 1.4 : 1.0));
+        if (attack != null) attack.setBaseValue((isFinalWarsLike(this) ? 32 : getVariant() == MILES ? 18 : 26) * (isModified() ? 1.4 : 1.0));
     }
 
     @Override
@@ -135,7 +155,12 @@ public class GiganEntity extends FlyingKaijuEntity {
     @Override
     public Component getTypeName() {
         if (isModified()) return Component.translatable("entity.reikogodzilla.gigan_modified");
-        return Component.translatable(getVariant() == FINAL_WARS ? "entity.reikogodzilla.gigan_final_wars" : "entity.reikogodzilla.gigan");
+        return Component.translatable(switch (getVariant()) {
+            case FINAL_WARS -> "entity.reikogodzilla.gigan_final_wars";
+            case REX -> "entity.reikogodzilla.gigan_rex";
+            case MILES -> "entity.reikogodzilla.gigan_miles";
+            default -> "entity.reikogodzilla.gigan";
+        });
     }
 
     @Override

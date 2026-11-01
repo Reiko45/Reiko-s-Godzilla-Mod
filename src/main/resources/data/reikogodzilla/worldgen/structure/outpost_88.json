@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:classic_site",
+  "site": "outpost_88",
+  "biomes": "#reikogodzilla:has_structure/outpost_88",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "reikogodzilla:tokyo_ruins",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20160729,
+    "spacing": 48,
+    "separation": 20
+  }
+}

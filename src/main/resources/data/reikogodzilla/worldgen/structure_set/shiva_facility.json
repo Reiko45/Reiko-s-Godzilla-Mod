@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "reikogodzilla:shiva_facility",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20210326,
+    "spacing": 64,
+    "separation": 28
+  }
+}

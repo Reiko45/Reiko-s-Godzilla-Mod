@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:classic_site",
+  "site": "exif_observatory",
+  "biomes": "#reikogodzilla:has_structure/exif_observatory",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

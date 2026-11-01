@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:writable_book"
+    },
+    {
+      "item": "reikogodzilla:archetype_crystal"
+    },
+    {
+      "item": "reikogodzilla:archetype_crystal"
+    },
+    {
+      "item": "reikogodzilla:archetype_crystal"
+    },
+    {
+      "item": "reikogodzilla:archetype_crystal"
+    },
+    {
+      "item": "minecraft:nether_star"
+    }
+  ],
+  "result": {
+    "id": "reikogodzilla:diagonalizer_code",
+    "count": 1
+  }
+}

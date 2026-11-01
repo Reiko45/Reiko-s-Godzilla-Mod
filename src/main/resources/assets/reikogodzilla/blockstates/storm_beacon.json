@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "reikogodzilla:block/storm_beacon"
+    },
+    "powered=true": {
+      "model": "reikogodzilla:block/storm_beacon_on"
+    }
+  }
+}

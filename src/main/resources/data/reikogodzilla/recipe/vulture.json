@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NEN",
+    "NRN",
+    "N N"
+  ],
+  "key": {
+    "N": {
+      "item": "reikogodzilla:nanometal_ingot"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:vulture",
+    "count": 1
+  }
+}

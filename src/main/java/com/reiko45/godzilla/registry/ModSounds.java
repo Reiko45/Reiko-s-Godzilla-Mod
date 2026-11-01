@@ -79,6 +79,25 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLACK_HOLE = register("black_hole");
     public static final DeferredHolder<SoundEvent, SoundEvent> ALIEN_SIGNAL = register("alien_signal");
 
+    // Phase 5
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHIN_ROAR = register("shin_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MINUS_ONE_ROAR = register("minus_one_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HEAT_RAY_FIRE = register("heat_ray_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MINUS_ZERO_GHIDORAH_ROAR = register("minus_zero_ghidorah_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GODZILLA_EARTH_ROAR = register("godzilla_earth_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SERVUM_SHRIEK = register("servum_shriek");
+    public static final DeferredHolder<SoundEvent, SoundEvent> NANOMETAL_HUM = register("nanometal_hum");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLANET_EATER_HUM = register("planet_eater_hum");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SP_GODZILLA_ROAR = register("sp_godzilla_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> RODAN_SP_CRY = register("rodan_sp_cry");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SALUNGA_ROAR = register("salunga_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITAN_X_CALL = register("titan_x_call");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCARAB_SCREECH = register("scarab_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FROST_VARK_ROAR = register("frost_vark_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ION_DRAGON_SCREECH = register("ion_dragon_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KRAKEN_GROWL = register("kraken_growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHINDEN_ENGINE = register("shinden_engine");
+
     private ModSounds() {}
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {

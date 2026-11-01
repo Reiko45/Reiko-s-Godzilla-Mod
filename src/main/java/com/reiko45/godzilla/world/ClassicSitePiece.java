@@ -77,7 +77,7 @@ public class ClassicSitePiece extends StructurePiece {
     }
 
     /** Block placement relative to the site centre, clipped to the chunk being generated. Thread-safe: one per call. */
-    private record B(WorldGenLevel level, BoundingBox box, int cx, int cy, int cz) {
+    record B(WorldGenLevel level, BoundingBox box, int cx, int cy, int cz) {
         void set(int dx, int dy, int dz, BlockState state) {
             int x = cx + dx, y = cy + dy, z = cz + dz;
             if (!box.isInside(x, y, z)) return;
@@ -136,7 +136,7 @@ public class ClassicSitePiece extends StructurePiece {
         }
     }
 
-    private void lair(B b, int dx, int dy, int dz, EntityType<?> type, int variant) {
+    static void lair(B b, int dx, int dy, int dz, EntityType<?> type, int variant) {
         int x = b.cx + dx, y = b.cy + dy, z = b.cz + dz;
         if (!b.box.isInside(x, y, z)) return;
         BlockPos pos = new BlockPos(x, y, z);
@@ -144,7 +144,7 @@ public class ClassicSitePiece extends StructurePiece {
         if (b.level.getBlockEntity(pos) instanceof KaijuLairBlockEntity lair) lair.setKaiju(BuiltInRegistries.ENTITY_TYPE.getKey(type), variant);
     }
 
-    private void chest(B b, int dx, int dy, int dz, Direction facing, String table, RandomSource r) {
+    static void chest(B b, int dx, int dy, int dz, Direction facing, String table, RandomSource r) {
         int x = b.cx + dx, y = b.cy + dy, z = b.cz + dz;
         if (!b.box.isInside(x, y, z)) return;
         BlockPos pos = new BlockPos(x, y, z);
@@ -160,7 +160,7 @@ public class ClassicSitePiece extends StructurePiece {
         return ModBlocks.GUARDIAN_SHRINE.get().defaultBlockState().setValue(GuardianShrineBlock.GUARDIAN, guardian);
     }
 
-    private static BlockState ladder(Direction facing) {
+    static BlockState ladder(Direction facing) {
         return Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, facing);
     }
 
@@ -180,6 +180,18 @@ public class ClassicSitePiece extends StructurePiece {
             case MEGANULON_NEST -> meganulonNest(b, r);
             case KIRYU_HANGAR -> kiryuHangar(b, r);
             case XILIEN_MOTHERSHIP -> xilienMothership(b, r);
+            case TOKYO_RUINS -> ModernSites.tokyoRuins(b, r);
+            case ODO_ISLAND -> ModernSites.odoIsland(b, r);
+            case WADATSUMI_DOCK -> ModernSites.wadatsumiDock(b, r);
+            case MATSUMOTO -> ModernSites.matsumoto(b, r);
+            case MECHAGODZILLA_CITY -> ModernSites.mechagodzillaCity(b, r);
+            case HOUTUA_VILLAGE -> ModernSites.houtuaVillage(b, r);
+            case EXIF_OBSERVATORY -> ModernSites.exifObservatory(b, r);
+            case OTAKI_FACTORY -> ModernSites.otakiFactory(b, r);
+            case SHIVA_FACILITY -> ModernSites.shivaFacility(b, r, surface - center.getY());
+            case APEX_LAB -> ModernSites.apexLab(b, r);
+            case SANTA_SOLEDAD -> ModernSites.santaSoledad(b, r);
+            case OUTPOST_88 -> ModernSites.outpost88(b, r);
         }
     }
 

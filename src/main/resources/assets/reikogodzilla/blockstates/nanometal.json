@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "reikogodzilla:block/nanometal"
+    },
+    "active=true": {
+      "model": "reikogodzilla:block/nanometal_active"
+    }
+  }
+}

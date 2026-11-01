@@ -53,6 +53,9 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
     private static final double[] ARMOR = {20, 30, 20, 22};
     private static final DustParticleOptions WOUND = new DustParticleOptions(new Vector3f(0.8f, 0.1f, 0.05f), 1.6f);
     private static final EntityDataAccessor<Boolean> DATA_WOUND = SynchedEntityData.defineId(MillenniumGodzillaEntity.class, EntityDataSerializers.BOOLEAN);
+    /** Burning Millennium Godzilla (Fest Godzilla II, 2025-2026): ticks left in the meltdown. */
+    private static final EntityDataAccessor<Integer> DATA_BURNING = SynchedEntityData.defineId(MillenniumGodzillaEntity.class, EntityDataSerializers.INT);
+    private boolean burnUsed;
 
     public MillenniumGodzillaEntity(EntityType<? extends MillenniumGodzillaEntity> type, Level level) {
         super(type, level);
@@ -77,6 +80,8 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
     protected void registerAbilities(List<KaijuAbility> list) {
         list.add(new BeamAbility("atomic_breath", BeamStyle.MILLENNIUM, 1, 1.0f, ModDamageTypes.ATOMIC_BREATH, 40, 50, 240)
                 .damage(14f, 4).blocks(2.2f, true).sounds(ModSounds.ATOMIC_BREATH_CHARGE, ModSounds.ATOMIC_BREATH_FIRE)
+                .styleBy(k -> ((MillenniumGodzillaEntity) k).isBurning() ? BeamStyle.INFINITE_HEAT : BeamStyle.MILLENNIUM)
+                .damageScaling(k -> ((MillenniumGodzillaEntity) k).isBurning() ? 1.3 : 1.0)
                 .chargeParticle(ParticleTypes.FLAME).nuclear().range(4, 48).when(k -> k.getVariant() == MILLENNIUM));
         list.add(new BeamAbility("atomic_breath", BeamStyle.ATOMIC, 1, 1.1f, ModDamageTypes.ATOMIC_BREATH, 50, 40, 240)
                 .damage(18f, 4).blocks(3.2f, true).sounds(ModSounds.ATOMIC_BREATH_CHARGE, ModSounds.ATOMIC_BREATH_FIRE)
@@ -129,7 +134,7 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
         var health = getAttribute(Attributes.MAX_HEALTH);
         if (health != null) health.setBaseValue(HEALTH[v]);
         var attack = getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attack != null) attack.setBaseValue(ATTACK[v]);
+        if (attack != null) attack.setBaseValue(ATTACK[v] * (isBurning() ? 1.3 : 1.0));
         var armor = getAttribute(Attributes.ARMOR);
         if (armor != null) armor.setBaseValue(ARMOR[v]);
         var speed = getAttribute(Attributes.MOVEMENT_SPEED);
@@ -167,6 +172,18 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_WOUND, false);
+        builder.define(DATA_BURNING, 0);
+    }
+
+    public boolean isBurning() {
+        return entityData.get(DATA_BURNING) > 0;
+    }
+
+    @Nullable
+    @Override
+    public float[] getTint() {
+        if (isBurning()) return new float[]{1.0f, 0.55f, 0.35f};
+        return super.getTint();
     }
 
     public boolean hasOpenWound() {
@@ -194,12 +211,39 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
     public boolean hurt(DamageSource source, float amount) {
         boolean hurt = super.hurt(source, amount);
         if (hurt && getVariant() == GMK && getHealth() < getMaxHealth() * 0.5f) openWound();
+        if (hurt && !level().isClientSide && getVariant() == MILLENNIUM && !burnUsed && isAlive() && getHealth() < getMaxHealth() * 0.25f) {
+            // Burning Millennium Godzilla: a last-ditch meltdown that burns through him.
+            burnUsed = true;
+            entityData.set(DATA_BURNING, 1200);
+            applyVariantAttributes();
+            triggerAnim("action", "roar");
+            playSound(ModSounds.MILLENNIUM_GODZILLA_ROAR.get(), 12f, 0.7f);
+            if (level() instanceof ServerLevel server) for (var p : server.players()) {
+                if (p.distanceToSqr(this) < 200 * 200) p.sendSystemMessage(Component.translatable("message.reikogodzilla.burning_millennium")
+                        .withStyle(net.minecraft.ChatFormatting.RED, net.minecraft.ChatFormatting.ITALIC));
+            }
+        }
         return hurt;
     }
 
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
+        int burning = entityData.get(DATA_BURNING);
+        if (burning > 0 && level() instanceof ServerLevel server) {
+            entityData.set(DATA_BURNING, burning - 1);
+            if (burning == 1) applyVariantAttributes();
+            if (burning % 10 == 0) {
+                double r = 5 * getScale();
+                server.sendParticles(ParticleTypes.FLAME, getX(), getY(0.5), getZ(), 30, getBbWidth() * 0.6, getBbHeight() * 0.4, getBbWidth() * 0.6, 0.05);
+                for (var e : server.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class, getBoundingBox().inflate(r), e -> e != this && !isAlliedTo(e))) {
+                    if (e instanceof net.minecraft.world.entity.player.Player p && (p.isCreative() || p.isSpectator())) continue;
+                    e.igniteForSeconds(4);
+                    com.reiko45.godzilla.util.KaijuDestruction.hurtIgnoringCooldown(e, server.damageSources().inFire(), e instanceof com.reiko45.godzilla.entity.KaijuEntity ? 8f : 3f);
+                }
+            }
+            if (burning % 20 == 0) hurt(server.damageSources().onFire(), fractionOfDesignHealth(0.01f));
+        }
         if (hasOpenWound() && tickCount % 10 == 0 && level() instanceof ServerLevel server) {
             Vec3 shoulder = position().add(new Vec3(-1.6, 6.8, 0.2).scale(getScale()).yRot(-yBodyRot * net.minecraft.util.Mth.DEG_TO_RAD));
             server.sendParticles(WOUND, shoulder.x, shoulder.y, shoulder.z, 6, 0.4, 0.4, 0.4, 0.05);
@@ -210,12 +254,16 @@ public class MillenniumGodzillaEntity extends KaijuEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("Wound", hasOpenWound());
+        tag.putInt("Burning", entityData.get(DATA_BURNING));
+        tag.putBoolean("BurnUsed", burnUsed);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(DATA_WOUND, tag.getBoolean("Wound"));
+        entityData.set(DATA_BURNING, tag.getInt("Burning"));
+        burnUsed = tag.getBoolean("BurnUsed");
     }
 
     @Override

@@ -356,6 +356,87 @@ public final class ModEntities {
             () -> EntityType.Builder.<com.reiko45.godzilla.entity.projectile.MicroBlackHoleEntity>of(com.reiko45.godzilla.entity.projectile.MicroBlackHoleEntity::new, MobCategory.MISC)
                     .sized(1.0f, 1.0f).fireImmune().clientTrackingRange(16).updateInterval(2).build("micro_black_hole"));
 
+    // Phase 5: Reiwa and modern
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.ShinGodzillaEntity>> SHIN_GODZILLA = ENTITY_TYPES.register("shin_godzilla",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ShinGodzillaEntity::new, MobCategory.MONSTER).sized(3.6f, 11.0f).eyeHeight(10.0f).fireImmune()
+                    .clientTrackingRange(16).build("shin_godzilla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.MinusOneGodzillaEntity>> MINUS_ONE_GODZILLA = ENTITY_TYPES.register("minus_one_godzilla",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.MinusOneGodzillaEntity::new, MobCategory.MONSTER).sized(3.6f, 10.0f).eyeHeight(9.0f).fireImmune()
+                    .clientTrackingRange(16).build("minus_one_godzilla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.MinusZeroGhidorahEntity>> MINUS_ZERO_GHIDORAH = ENTITY_TYPES.register("minus_zero_ghidorah",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.MinusZeroGhidorahEntity::new, MobCategory.MONSTER).sized(4.0f, 9.0f).eyeHeight(8.6f).fireImmune()
+                    .clientTrackingRange(16).build("minus_zero_ghidorah"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.GodzillaEarthEntity>> GODZILLA_EARTH = ENTITY_TYPES.register("godzilla_earth",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.GodzillaEarthEntity::new, MobCategory.MONSTER).sized(3.6f, 10.0f).eyeHeight(9.0f).fireImmune()
+                    .clientTrackingRange(16).build("godzilla_earth"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.ServumEntity>> SERVUM = ENTITY_TYPES.register("servum",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ServumEntity::new, MobCategory.MONSTER).sized(1.6f, 1.4f).eyeHeight(1.0f)
+                    .clientTrackingRange(16).build("servum"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.VultureEntity>> VULTURE = ENTITY_TYPES.register("vulture",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.VultureEntity::new, MobCategory.MISC).sized(1.4f, 2.6f).eyeHeight(2.2f).fireImmune()
+                    .clientTrackingRange(16).build("vulture"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.MechagodzillaCityEntity>> MECHAGODZILLA_CITY = ENTITY_TYPES.register("mechagodzilla_city",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.MechagodzillaCityEntity::new, MobCategory.MONSTER).sized(6.0f, 8.0f).eyeHeight(6.0f).fireImmune()
+                    .clientTrackingRange(16).build("mechagodzilla_city"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.PlanetEaterGhidorahEntity>> PLANET_EATER_GHIDORAH = ENTITY_TYPES.register("planet_eater_ghidorah",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.PlanetEaterGhidorahEntity::new, MobCategory.MONSTER).sized(2.0f, 2.0f).eyeHeight(1.5f).fireImmune()
+                    .clientTrackingRange(16).build("planet_eater_ghidorah"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.SingularGodzillaEntity>> SINGULAR_GODZILLA = ENTITY_TYPES.register("singular_godzilla",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.SingularGodzillaEntity::new, MobCategory.MONSTER).sized(3.6f, 11.0f).eyeHeight(10.0f).fireImmune()
+                    .clientTrackingRange(16).build("singular_godzilla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.JetJaguarPPEntity>> JET_JAGUAR_PP = ENTITY_TYPES.register("jet_jaguar_pp",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.JetJaguarPPEntity::new, MobCategory.MISC).sized(3.0f, 10.0f).eyeHeight(9.0f).fireImmune()
+                    .clientTrackingRange(16).build("jet_jaguar_pp"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.SingularRodanEntity>> SINGULAR_RODAN = ENTITY_TYPES.register("singular_rodan",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.SingularRodanEntity::new, MobCategory.MONSTER).sized(1.4f, 1.0f).eyeHeight(0.8f)
+                    .clientTrackingRange(16).build("singular_rodan"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.SalungaEntity>> SALUNGA = ENTITY_TYPES.register("salunga",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.SalungaEntity::new, MobCategory.MONSTER).sized(3.0f, 8.0f).eyeHeight(7.0f)
+                    .clientTrackingRange(16).build("salunga"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.TitanXEntity>> TITAN_X = ENTITY_TYPES.register("titan_x",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.TitanXEntity::new, MobCategory.MONSTER).sized(5.0f, 5.0f).eyeHeight(4.2f)
+                    .clientTrackingRange(16).build("titan_x"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.ScarabEntity>> SCARAB = ENTITY_TYPES.register("scarab",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ScarabEntity::new, MobCategory.CREATURE).sized(0.7f, 0.4f).eyeHeight(0.3f)
+                    .clientTrackingRange(10).build("scarab"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.FrostVarkEntity>> FROST_VARK = ENTITY_TYPES.register("frost_vark",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.FrostVarkEntity::new, MobCategory.MONSTER).sized(3.0f, 3.0f).eyeHeight(2.5f)
+                    .clientTrackingRange(16).build("frost_vark"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.IonDragonEntity>> ION_DRAGON = ENTITY_TYPES.register("ion_dragon",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.IonDragonEntity::new, MobCategory.MONSTER).sized(2.4f, 1.6f).eyeHeight(1.2f)
+                    .clientTrackingRange(16).build("ion_dragon"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.KrakenEntity>> KRAKEN = ENTITY_TYPES.register("kraken",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.KrakenEntity::new, MobCategory.MONSTER).sized(4.0f, 3.0f).eyeHeight(2.5f)
+                    .clientTrackingRange(16).build("kraken"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.ShindenEntity>> SHINDEN = ENTITY_TYPES.register("shinden",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ShindenEntity::new, MobCategory.MISC).sized(2.0f, 1.0f).eyeHeight(0.8f)
+                    .clientTrackingRange(16).build("shinden"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.projectile.TrainBombEntity>> TRAIN_BOMB = ENTITY_TYPES.register("train_bomb",
+            () -> EntityType.Builder.<com.reiko45.godzilla.entity.projectile.TrainBombEntity>of(com.reiko45.godzilla.entity.projectile.TrainBombEntity::new, MobCategory.MISC)
+                    .sized(1.4f, 1.0f).clientTrackingRange(10).updateInterval(2).build("train_bomb"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.projectile.DroneEntity>> DRONE = ENTITY_TYPES.register("drone",
+            () -> EntityType.Builder.<com.reiko45.godzilla.entity.projectile.DroneEntity>of(com.reiko45.godzilla.entity.projectile.DroneEntity::new, MobCategory.MISC)
+                    .sized(0.6f, 0.4f).clientTrackingRange(10).updateInterval(2).build("drone"));
+
     private ModEntities() {}
 
     public static void registerAttributes(EntityAttributeCreationEvent event) {
@@ -433,6 +514,24 @@ public final class ModEntities {
         event.put(ZILLA.get(), com.reiko45.godzilla.entity.millennium.ZillaEntity.createAttributes().build());
         event.put(GOTENGO.get(), com.reiko45.godzilla.entity.millennium.GotengoEntity.createAttributes().build());
         event.put(XILIEN_SAUCER.get(), com.reiko45.godzilla.entity.millennium.XilienSaucerEntity.createAttributes().build());
+        event.put(SHIN_GODZILLA.get(), com.reiko45.godzilla.entity.reiwa.ShinGodzillaEntity.createAttributes().build());
+        event.put(MINUS_ONE_GODZILLA.get(), com.reiko45.godzilla.entity.reiwa.MinusOneGodzillaEntity.createAttributes().build());
+        event.put(MINUS_ZERO_GHIDORAH.get(), com.reiko45.godzilla.entity.reiwa.MinusZeroGhidorahEntity.createAttributes().build());
+        event.put(GODZILLA_EARTH.get(), com.reiko45.godzilla.entity.reiwa.GodzillaEarthEntity.createAttributes().build());
+        event.put(SERVUM.get(), com.reiko45.godzilla.entity.reiwa.ServumEntity.createAttributes().build());
+        event.put(VULTURE.get(), com.reiko45.godzilla.entity.reiwa.VultureEntity.createAttributes().build());
+        event.put(MECHAGODZILLA_CITY.get(), com.reiko45.godzilla.entity.reiwa.MechagodzillaCityEntity.createAttributes().build());
+        event.put(PLANET_EATER_GHIDORAH.get(), com.reiko45.godzilla.entity.reiwa.PlanetEaterGhidorahEntity.createAttributes().build());
+        event.put(SINGULAR_GODZILLA.get(), com.reiko45.godzilla.entity.reiwa.SingularGodzillaEntity.createAttributes().build());
+        event.put(JET_JAGUAR_PP.get(), com.reiko45.godzilla.entity.reiwa.JetJaguarPPEntity.createAttributes().build());
+        event.put(SINGULAR_RODAN.get(), com.reiko45.godzilla.entity.reiwa.SingularRodanEntity.createAttributes().build());
+        event.put(SALUNGA.get(), com.reiko45.godzilla.entity.reiwa.SalungaEntity.createAttributes().build());
+        event.put(TITAN_X.get(), com.reiko45.godzilla.entity.reiwa.TitanXEntity.createAttributes().build());
+        event.put(SCARAB.get(), com.reiko45.godzilla.entity.reiwa.ScarabEntity.createAttributes().build());
+        event.put(FROST_VARK.get(), com.reiko45.godzilla.entity.reiwa.FrostVarkEntity.createAttributes().build());
+        event.put(ION_DRAGON.get(), com.reiko45.godzilla.entity.reiwa.IonDragonEntity.createAttributes().build());
+        event.put(KRAKEN.get(), com.reiko45.godzilla.entity.reiwa.KrakenEntity.createAttributes().build());
+        event.put(SHINDEN.get(), com.reiko45.godzilla.entity.reiwa.ShindenEntity.createAttributes().build());
     }
 
     /** Where mobs that spawn naturally (Skullcrawlers, Great Apes, Warbats in the Hollow Earth) may appear. */

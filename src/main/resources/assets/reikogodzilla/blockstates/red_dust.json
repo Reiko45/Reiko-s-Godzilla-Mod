@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "gen=0": {
+      "model": "reikogodzilla:block/red_dust"
+    },
+    "gen=1": {
+      "model": "reikogodzilla:block/red_dust"
+    },
+    "gen=2": {
+      "model": "reikogodzilla:block/red_dust"
+    },
+    "gen=3": {
+      "model": "reikogodzilla:block/red_dust"
+    },
+    "gen=4": {
+      "model": "reikogodzilla:block/red_dust"
+    }
+  }
+}

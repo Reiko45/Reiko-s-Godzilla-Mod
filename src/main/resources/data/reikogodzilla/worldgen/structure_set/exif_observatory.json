@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "reikogodzilla:exif_observatory",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20181110,
+    "spacing": 56,
+    "separation": 24
+  }
+}

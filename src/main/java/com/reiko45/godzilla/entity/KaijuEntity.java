@@ -903,6 +903,18 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         return 1.0f;
     }
 
+    /**
+     * A special shell hit this kaiju (or one of its parts, by name): a MOP bunker buster, a coagulant shell, an EMP
+     * probe. Phase 5 kaiju react to these.
+     */
+    public void onSpecialPayload(com.reiko45.godzilla.entity.projectile.KaijuMissileEntity.Payload payload, @Nullable String part,
+                                 @Nullable net.minecraft.world.entity.Entity owner) {}
+
+    /** Damage that takes away {@code fraction} of this kaiju's designed health, whatever the 1024 health cap does. */
+    public float fractionOfDesignHealth(float fraction) {
+        return fraction * (float) Math.max(getAttributeBaseValue(Attributes.MAX_HEALTH), getMaxHealth());
+    }
+
     /** Called when a beam is reflected. Return the damage multiplier sent back. */
     protected float onBeamReflected(DamageSource source, float amount) {
         return 1.0f;

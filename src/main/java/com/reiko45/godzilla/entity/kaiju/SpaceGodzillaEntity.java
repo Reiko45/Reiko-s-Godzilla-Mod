@@ -74,9 +74,18 @@ public class SpaceGodzillaEntity extends FlyingKaijuEntity {
         return new Vec3(0, 9.0, 2.9);
     }
 
+    /** Variant 1: a placeholder for the MonsterVerse SpaceGodzilla of Godzilla x Kong: Supernova (2027), design unrevealed. */
+    public static final int MONSTERVERSE = 1;
+
     @Override
     protected double variantScale() {
-        return 2.4;
+        return getVariant() == MONSTERVERSE ? 2.8 : 2.4;
+    }
+
+    @Override
+    public net.minecraft.network.chat.Component getTypeName() {
+        if (getVariant() == MONSTERVERSE) return net.minecraft.network.chat.Component.translatable("entity.reikogodzilla.space_godzilla_mv");
+        return super.getTypeName();
     }
 
     @Override

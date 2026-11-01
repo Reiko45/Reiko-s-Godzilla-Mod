@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "reikogodzilla:houtua_village",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20181109,
+    "spacing": 48,
+    "separation": 20
+  }
+}

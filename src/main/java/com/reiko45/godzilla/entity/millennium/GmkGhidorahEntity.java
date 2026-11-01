@@ -105,7 +105,7 @@ public class GmkGhidorahEntity extends FlyingKaijuEntity implements ShrineGuardi
 
     @Override
     public Component getTypeName() {
-        return Component.translatable(getVariant() == DRAGON_KING ? "entity.reikogodzilla.king_ghidorah_dragon_king" : "entity.reikogodzilla.king_ghidorah_gmk");
+        return Component.translatable(getVariant() == DRAGON_KING ? "entity.reikogodzilla.king_ghidorah_dragon_king" : "entity.reikogodzilla.gmk_king_ghidorah");
     }
 
     /** Mothra's life energy: the Thousand-Year-Old Dragon King awakens. */

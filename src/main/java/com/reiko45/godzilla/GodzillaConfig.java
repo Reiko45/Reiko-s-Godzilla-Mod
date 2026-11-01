@@ -51,6 +51,16 @@ public final class GodzillaConfig {
     public static final ModConfigSpec.DoubleValue KIRYU_RAMPAGE_CHANCE;
     public static final ModConfigSpec.DoubleValue DIMENSION_TIDE_RADIUS;
     public static final ModConfigSpec.IntValue DIMENSION_TIDE_COOLDOWN;
+    public static final ModConfigSpec.IntValue SHIN_DORMANCY_TICKS;
+    public static final ModConfigSpec.DoubleValue SHIN_EVOLUTION_RATE;
+    public static final ModConfigSpec.DoubleValue MINUS_ZERO_SCALE;
+    public static final ModConfigSpec.DoubleValue GODZILLA_EARTH_SCALE;
+    public static final ModConfigSpec.IntValue FILIUS_GROWTH_TICKS;
+    public static final ModConfigSpec.IntValue NANOMETAL_RADIUS;
+    public static final ModConfigSpec.BooleanValue RED_DUST_SPREADS;
+    public static final ModConfigSpec.DoubleValue ULTIMA_MAX_GROWTH;
+    public static final ModConfigSpec.IntValue MOP_COOLDOWN;
+    public static final ModConfigSpec.BooleanValue SUPERNOVA_PLACEHOLDER;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -142,6 +152,29 @@ public final class GodzillaConfig {
                 .defineInRange("dimensionTideRadius", 8.0, 1.0, 32.0);
         DIMENSION_TIDE_COOLDOWN = b.comment("Ticks before the Dimension Tide can fire again (the film's satellite needed an hour).")
                 .defineInRange("dimensionTideCooldown", 12000, 0, 1_000_000);
+        b.pop();
+
+        b.push("reiwa");
+        SHIN_DORMANCY_TICKS = b.comment("How long Shin Godzilla stays dormant after running out of energy (the film: days; default 5 minutes).")
+                .defineInRange("shinDormancyTicks", 6000, 200, 2_000_000);
+        SHIN_EVOLUTION_RATE = b.comment("How quickly Shin Godzilla evolves into its next form (0 stops it evolving).")
+                .defineInRange("shinEvolutionRate", 1.0, 0.0, 100.0);
+        MINUS_ZERO_SCALE = b.comment("Size of the Minus Zero Godzilla relative to the Minus One Godzilla (no official height yet).")
+                .defineInRange("minusZeroScale", 1.2, 0.5, 4.0);
+        GODZILLA_EARTH_SCALE = b.comment("Size of the full-grown Godzilla Earth relative to Filius (6.0 is the true 300 m at the mod's 1/5 scale).")
+                .defineInRange("godzillaEarthScale", 4.8, 1.0, 6.0);
+        FILIUS_GROWTH_TICKS = b.comment("Ticks for Godzilla Filius to grow into Godzilla Earth.")
+                .defineInRange("filiusGrowthTicks", 480000, 200, 100_000_000);
+        NANOMETAL_RADIUS = b.comment("How far from a Mechagodzilla City core its nanometal stays active and keeps spreading.")
+                .defineInRange("nanometalRadius", 48, 4, 256);
+        RED_DUST_SPREADS = b.comment("Whether Red Dust creeps outward on its own (it only spreads a few generations from where it fell).")
+                .define("redDustSpreads", true);
+        ULTIMA_MAX_GROWTH = b.comment("How much Godzilla Ultima can grow surrounded by Red Dust (5.0 for the full Catastrophe).")
+                .defineInRange("ultimaMaxGrowth", 2.0, 1.0, 5.0);
+        MOP_COOLDOWN = b.comment("Ticks before the MOP II designator can call in another strike.")
+                .defineInRange("mopCooldown", 12000, 0, 1_000_000);
+        SUPERNOVA_PLACEHOLDER = b.comment("Lets the placeholder MonsterVerse SpaceGodzilla (Godzilla x Kong: Supernova, 2027; design unrevealed) appear in events.")
+                .define("supernovaPlaceholder", false);
         b.pop();
 
         SPEC = b.build();

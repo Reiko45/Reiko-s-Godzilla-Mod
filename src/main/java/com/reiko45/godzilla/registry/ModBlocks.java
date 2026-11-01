@@ -79,5 +79,36 @@ public final class ModBlocks {
             () -> new TowerLaserBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0f, 12.0f).sound(SoundType.METAL)
                     .lightLevel(s -> 10).noLootTable()));
 
+    // Phase 5
+    public static final DeferredBlock<com.reiko45.godzilla.block.FalloutAshBlock> FALLOUT_ASH = BLOCKS.register("fallout_ash",
+            () -> new com.reiko45.godzilla.block.FalloutAshBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(0.1f).sound(SoundType.SAND)
+                    .noOcclusion().replaceable().pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
+    public static final DeferredBlock<com.reiko45.godzilla.block.RedDustBlock> RED_DUST = BLOCKS.register("red_dust",
+            () -> new com.reiko45.godzilla.block.RedDustBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.1f).sound(SoundType.SAND)
+                    .noOcclusion().replaceable().pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
+    public static final DeferredBlock<com.reiko45.godzilla.block.NanometalBlock> NANOMETAL = BLOCKS.register("nanometal",
+            () -> new com.reiko45.godzilla.block.NanometalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0f, 9.0f).sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<com.reiko45.godzilla.block.LiquidNanometalBlock> LIQUID_NANOMETAL = BLOCKS.register("liquid_nanometal",
+            () -> new com.reiko45.godzilla.block.LiquidNanometalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(1.0f).sound(SoundType.HONEY_BLOCK)
+                    .noOcclusion().noCollission()));
+    public static final DeferredBlock<com.reiko45.godzilla.block.GarbetriumTotemBlock> GARBETRIUM_TOTEM = BLOCKS.register("garbetrium_totem",
+            () -> new com.reiko45.godzilla.block.GarbetriumTotemBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(30.0f, 1200.0f).sound(SoundType.AMETHYST)
+                    .lightLevel(s -> 9).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<com.reiko45.godzilla.block.StormBeaconBlock> STORM_BEACON = BLOCKS.register("storm_beacon",
+            () -> new com.reiko45.godzilla.block.StormBeaconBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(4.0f, 8.0f).sound(SoundType.COPPER)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<com.reiko45.godzilla.block.DemolitionChargeBlock> DEMOLITION_CHARGE = BLOCKS.register("demolition_charge",
+            () -> new com.reiko45.godzilla.block.DemolitionChargeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.5f).sound(SoundType.GRASS)));
+    public static final DeferredBlock<com.reiko45.godzilla.block.TitanXEggBlock> TITAN_X_EGG = BLOCKS.register("titan_x_egg",
+            () -> new com.reiko45.godzilla.block.TitanXEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(2.0f, 6.0f).sound(SoundType.SLIME_BLOCK)
+                    .noOcclusion().lightLevel(s -> 7)));
+    public static final DeferredBlock<com.reiko45.godzilla.block.MetallicFrondBlock> METALLIC_FROND = BLOCKS.register("metallic_frond",
+            () -> new com.reiko45.godzilla.block.MetallicFrondBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.6f).sound(SoundType.CHAIN)
+                    .noOcclusion().noCollission().offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final DeferredBlock<net.minecraft.world.level.block.Block> ARCHETYPE_CRYSTAL = BLOCKS.register("archetype_crystal_cluster",
+            () -> new net.minecraft.world.level.block.Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(1.5f, 3.0f)
+                    .sound(SoundType.AMETHYST).lightLevel(s -> 10).requiresCorrectToolForDrops()));
+
     private ModBlocks() {}
 }

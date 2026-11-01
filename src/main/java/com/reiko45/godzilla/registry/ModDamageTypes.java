@@ -57,6 +57,26 @@ public final class ModDamageTypes {
     public static final ResourceKey<DamageType> ENERGY_DRAIN = key("energy_drain");
     public static final ResourceKey<DamageType> CONSTRICTION = key("constriction");
     public static final ResourceKey<DamageType> TOWER_LASER = key("tower_laser");
+    // Phase 5
+    public static final ResourceKey<DamageType> SHIN_BREATH = key("shin_breath");
+    public static final ResourceKey<DamageType> DORSAL_BEAM = key("dorsal_beam");
+    public static final ResourceKey<DamageType> HEAT_RAY = key("heat_ray");
+    public static final ResourceKey<DamageType> PRESSURE_WAVE = key("pressure_wave");
+    public static final ResourceKey<DamageType> FALLOUT = key("fallout");
+    public static final ResourceKey<DamageType> DECOMPRESSION = key("decompression");
+    public static final ResourceKey<DamageType> GRAVITY_LIFT = key("gravity_lift");
+    public static final ResourceKey<DamageType> CHARGED_PARTICLE = key("charged_particle");
+    public static final ResourceKey<DamageType> PLASMA_CUTTER = key("plasma_cutter");
+    public static final ResourceKey<DamageType> EM_SHIELD = key("em_shield");
+    public static final ResourceKey<DamageType> NANOMETAL = key("nanometal");
+    public static final ResourceKey<DamageType> ARCHETYPE = key("archetype");
+    public static final ResourceKey<DamageType> ULTIMA_BREATH = key("ultima_breath");
+    public static final ResourceKey<DamageType> FROST_INHALE = key("frost_inhale");
+    public static final ResourceKey<DamageType> ION_TRAIL = key("ion_trail");
+    public static final ResourceKey<DamageType> OVERLOAD = key("overload");
+    public static final ResourceKey<DamageType> LIFE_DRAIN = key("life_drain");
+    public static final ResourceKey<DamageType> BIOLUMINESCENCE = key("bioluminescence");
+    public static final ResourceKey<DamageType> SHOCK_PUNCH = key("shock_punch");
     /** Every beam-type attack: these can be reflected (Super X2's Fire Mirror, shields) or absorbed. */
     public static final net.minecraft.tags.TagKey<DamageType> KAIJU_BEAM =
             net.minecraft.tags.TagKey.create(Registries.DAMAGE_TYPE, ReikoGodzilla.id("kaiju_beam"));

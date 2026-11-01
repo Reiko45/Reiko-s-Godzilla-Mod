@@ -33,10 +33,13 @@ import net.neoforged.neoforge.entity.PartEntity;
  *     <li>D03: the Satsuma's D-03 drill missile. Devastating fired into an open wound (GMK Godzilla).</li>
  *     <li>RAILGUN: Kiryu's Type-0 railgun rounds: no explosion, just a heavy hit.</li>
  *     <li>LASER: a burning laser bolt (the Godzilla Tower, Xilien saucers).</li>
+ *     <li>MOP: a bunker-busting bomb (Shin Godzilla): pierces armour and can break dorsal plates.</li>
+ *     <li>COAGULANT: a blood-coagulant shell: no blast, but it feeds a blood-cooled kaiju's freeze.</li>
+ *     <li>EMP_PROBE: an EMP probe that sticks into Godzilla Earth's dorsal fins.</li>
  * </ul>
  */
 public class KaijuMissileEntity extends ThrowableItemProjectile {
-    public enum Payload { EXPLOSIVE, PARALYZER, CADMIUM, FREEZER, D03, RAILGUN, LASER }
+    public enum Payload { EXPLOSIVE, PARALYZER, CADMIUM, FREEZER, D03, RAILGUN, LASER, MOP, COAGULANT, EMP_PROBE }
 
     private static final EntityDataAccessor<Integer> DATA_PAYLOAD = SynchedEntityData.defineId(KaijuMissileEntity.class, EntityDataSerializers.INT);
 
@@ -88,6 +91,8 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
                 case CADMIUM -> ParticleTypes.HAPPY_VILLAGER;
                 case PARALYZER, RAILGUN -> ParticleTypes.ELECTRIC_SPARK;
                 case LASER -> ParticleTypes.CRIMSON_SPORE;
+                case COAGULANT -> ParticleTypes.FALLING_DRIPSTONE_LAVA;
+                case EMP_PROBE -> ParticleTypes.ELECTRIC_SPARK;
                 default -> ParticleTypes.FLAME;
             };
             level().addParticle(ParticleTypes.SMOKE, getX(), getY(), getZ(), 0, 0, 0);
@@ -113,6 +118,8 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
             case D03 -> 14.0f;
             case RAILGUN -> 10.0f;
             case LASER -> 5.0f;
+            case MOP -> 40.0f;
+            case COAGULANT, EMP_PROBE -> 1.0f;
             default -> 4.0f;
         };
         net.minecraft.world.entity.Entity hit = result.getEntity();
@@ -120,6 +127,7 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
         KaijuEntity kaiju = hit instanceof KaijuEntity k ? k : hit instanceof com.reiko45.godzilla.entity.KaijuPart p ? p.getParent() : null;
         if (kaiju != null) damage *= kaiju.missileDamageMultiplier(payload, part);
         if (payload == Payload.LASER) hit.igniteForSeconds(4);
+        if (kaiju != null) kaiju.onSpecialPayload(payload, part, getOwner());
         hit.hurt(payload == Payload.RAILGUN || payload == Payload.LASER ? damageSources().mobProjectile(this, getOwner() instanceof LivingEntity l ? l : null)
                 : damageSources().explosion(this, getOwner()), damage);
     }
@@ -130,9 +138,15 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
         if (!(level() instanceof ServerLevel server)) return;
         Payload payload = getPayload();
         boolean grief = payload == Payload.EXPLOSIVE && getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
-        if (payload == Payload.D03) grief = getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
+        if (payload == Payload.D03 || payload == Payload.MOP) grief = getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
+        if (payload == Payload.COAGULANT || payload == Payload.EMP_PROBE) {
+            server.sendParticles(payload == Payload.COAGULANT ? ParticleTypes.FALLING_DRIPSTONE_LAVA : ParticleTypes.ELECTRIC_SPARK,
+                    getX(), getY(), getZ(), 20, 0.6, 0.6, 0.6, 0.1);
+            discard();
+            return;
+        }
         if (payload != Payload.FREEZER && payload != Payload.RAILGUN && payload != Payload.LASER) {
-            float power = payload == Payload.D03 ? 3.0f : payload == Payload.EXPLOSIVE ? 2.0f : 1.0f;
+            float power = payload == Payload.MOP ? 5.0f : payload == Payload.D03 ? 3.0f : payload == Payload.EXPLOSIVE ? 2.0f : 1.0f;
             server.explode(this, getX(), getY(), getZ(), power, false, grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }
         if (payload == Payload.RAILGUN || payload == Payload.LASER) {

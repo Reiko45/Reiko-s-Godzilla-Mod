@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ROR",
+    "IAI",
+    "I I"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "O": {
+      "item": "minecraft:observer"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "reikogodzilla:archetype_crystal"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:jet_jaguar_pp",
+    "count": 1
+  }
+}
