@@ -83,7 +83,7 @@ public class GmkMothraEntity extends FlyingKaijuEntity implements ShrineGuardian
     public void die(DamageSource source) {
         super.die(source);
         if (!(level() instanceof ServerLevel server)) return;
-        GmkGhidorahEntity ghidorah = server.getEntitiesOfClass(GmkGhidorahEntity.class, getBoundingBox().inflate(160)).stream()
+        GmkGhidorahEntity ghidorah = server.getEntitiesOfClass(GmkGhidorahEntity.class, getBoundingBox().inflate(160), g -> g.isAlive() && !g.isDeadOrDying()).stream()
                 .min(Comparator.comparingDouble(this::distanceToSqr)).orElse(null);
         if (ghidorah != null) ghidorah.receiveMothraEnergy();
         passOn(this, server);
@@ -92,7 +92,7 @@ public class GmkMothraEntity extends FlyingKaijuEntity implements ShrineGuardian
     /** A fallen Guardian's spirit strengthens the others still fighting. */
     public static void passOn(KaijuEntity fallen, ServerLevel server) {
         for (KaijuEntity k : server.getEntitiesOfClass(KaijuEntity.class, fallen.getBoundingBox().inflate(160),
-                k -> k != fallen && k.isAlive() && k instanceof ShrineGuardian)) {
+                k -> k != fallen && k.isAlive() && !k.isDeadOrDying() && k instanceof ShrineGuardian)) {
             k.heal(k.getMaxHealth() * 0.3f);
             k.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 1));
             server.sendParticles(ParticleTypes.END_ROD, k.getX(), k.getY(0.6), k.getZ(), 60, k.getBbWidth() * 0.5, k.getBbHeight() * 0.4, k.getBbWidth() * 0.5, 0.1);

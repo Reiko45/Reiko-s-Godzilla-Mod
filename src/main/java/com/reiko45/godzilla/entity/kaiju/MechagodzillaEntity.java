@@ -116,6 +116,15 @@ public class MechagodzillaEntity extends KaijuEntity {
         }
     }
 
+    /** Mechagodzilla 2 relays the Black Hole aliens' orders to Titanosaurus. */
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if (getVariant() == MECHAGODZILLA_2 && !isShutDown() && tickCount % 20 == 0 && level() instanceof ServerLevel server) {
+            com.reiko45.godzilla.world.AlienControl.broadcast(server, position(), 128, com.reiko45.godzilla.world.AlienSignal.BLACK_HOLE, this);
+        }
+    }
+
     public boolean isShutDown() {
         return entityData.get(DATA_SHUTDOWN);
     }

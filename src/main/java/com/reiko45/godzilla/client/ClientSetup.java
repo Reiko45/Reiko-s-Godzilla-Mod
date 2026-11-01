@@ -112,7 +112,7 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.GIGAN.get(), ctx -> new KaijuRenderer<>(ctx,
                 new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.showa.GiganEntity>(g -> "gigan",
                         g -> g.getVariant() == com.reiko45.godzilla.entity.showa.GiganEntity.FINAL_WARS ? "gigan_final_wars" : "gigan",
-                        java.util.List.of("hooks", "saws"), (g, bone) -> bone.equals("saws") == g.isModified()), 3.0f));
+                        java.util.List.of("hook_left", "hook_right", "saw_left", "saw_right"), (g, bone) -> bone.startsWith("saw") == g.isModified()), 3.0f));
         event.registerEntityRenderer(ModEntities.HEDORAH.get(), ctx -> new KaijuRenderer<>(ctx,
                 new NamedGeoModel<com.reiko45.godzilla.entity.showa.HedorahEntity>(h -> switch (h.getVariant()) {
                     case com.reiko45.godzilla.entity.showa.HedorahEntity.AQUATIC -> "hedorah_aquatic";

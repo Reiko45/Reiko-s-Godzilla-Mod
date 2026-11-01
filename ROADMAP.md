@@ -86,12 +86,25 @@ The best-known monsters, plus the systems every later monster reuses.
 
 **Still to do for Phase 3:** final Blockbench models and textures (stand-ins ship for now), custom sounds.
 
-## Phase 4: Showa and Millennium deep cuts
+## Phase 4: Showa and Millennium deep cuts ✅ (v0.4.0)
 
-- Gigan, Hedorah, Megalon, Jet Jaguar, Ebirah, Kumonga, Kamacuras
-- Minilla, Gorosaurus, Manda, Baragon, Varan, King Caesar, Titanosaurus
-- Orga, Megaguirus, GMK roster, Kiryu, Monster X → Keizer Ghidorah, Zilla
-- Gotengo, Dimension Tide
+**Showa**
+- [x] Gigan (Showa, Final Wars, Modified Gigan), Hedorah (four stages, pollution growth, splitting, electrode plates), Megalon, Jet Jaguar
+- [x] Ebirah (Yellow Juice), Kumonga, Kamacuras, Minilla (egg, training), Gorosaurus, Manda, Baragon, Varan (Light Bombs)
+- [x] King Caesar (Prism Eye, Shisa Statue awakening), Titanosaurus (implant, Supersonic Wave Oscillator), Mechagodzilla 2
+
+**Millennium**
+- [x] Godzilla 2000, GMK Godzilla (wound + D-03), Godzilla (2002), Final Wars Godzilla
+- [x] Millennian UFO → Orga, Megaguirus with Meganulon and Meganula, the GMK Guardians (Baragon, Mothra, King Ghidorah / Dragon King)
+- [x] Kiryu / Kiryu Kai (energy, Absolute Zero Cannon, spirit rampage), Monster X → Keizer Ghidorah, Zilla, Xilien saucers
+- [x] Gotengo, Dimension Tide
+
+**Systems and world**
+- [x] Alien control signals (Nebula M, Seatopia, Kilaak, Black Hole, Xilien/M-Base) with transmitters, relays and release
+- [x] Sollgel Island, Letchi Island, Godzilla Tower, Seatopia, the Azumi shrine, three GMK shrines, the UFO wreck, Meganulon ruins, Kiryu's hangar, a Xilien mothership; Monster Island residents
+- [x] Nine new events
+
+**Still to do for Phase 4:** final Blockbench models and textures (stand-ins ship for now), custom sounds; the Satsuma submarine and the AC-3 White Heron as vehicles.
 
 ## Phase 5: Reiwa and Modern
 

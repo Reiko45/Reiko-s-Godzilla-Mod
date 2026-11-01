@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "guardian=baragon": {
+      "model": "reikogodzilla:block/guardian_shrine_baragon"
+    },
+    "guardian=mothra": {
+      "model": "reikogodzilla:block/guardian_shrine_mothra"
+    },
+    "guardian=ghidorah": {
+      "model": "reikogodzilla:block/guardian_shrine_ghidorah"
+    }
+  }
+}

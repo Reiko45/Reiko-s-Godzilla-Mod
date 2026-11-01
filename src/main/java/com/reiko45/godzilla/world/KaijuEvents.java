@@ -43,9 +43,10 @@ import java.util.List;
 @EventBusSubscriber(modid = ReikoGodzilla.MODID)
 public final class KaijuEvents {
     public static final List<String> EVENTS = List.of("godzilla", "ghidorah", "mechagodzilla", "spacegodzilla", "battra", "destoroyah",
-            "monsterverse_godzilla", "muto", "scylla", "behemoth", "alpha_call", "skullcrawlers");
+            "monsterverse_godzilla", "muto", "scylla", "behemoth", "alpha_call", "skullcrawlers",
+            "gigan", "megalon", "hedorah", "xilien_invasion", "titanosaurus", "orga", "meganulon", "gmk_godzilla", "kamacuras");
     /** Relative odds of each random event (same order as {@link #EVENTS}). */
-    private static final int[] WEIGHTS = {14, 10, 8, 8, 7, 5, 12, 10, 7, 5, 6, 8};
+    private static final int[] WEIGHTS = {14, 10, 8, 8, 7, 5, 12, 10, 7, 5, 6, 8, 6, 6, 6, 5, 5, 5, 6, 5, 6};
 
     /** Delayed spawns (Destoroyah juveniles after an Oxygen Destroyer). Not saved across restarts. */
     private record Pending(net.minecraft.resources.ResourceKey<Level> dimension, BlockPos pos, long time) {}
@@ -110,6 +111,15 @@ public final class KaijuEvents {
             case "behemoth" -> MonsterverseEvents.behemoth(level, player);
             case "alpha_call" -> MonsterverseEvents.alphaCall(level, player);
             case "skullcrawlers" -> MonsterverseEvents.skullcrawlers(level, player);
+            case "gigan" -> ClassicEvents.gigan(level, player);
+            case "megalon" -> ClassicEvents.megalon(level, player);
+            case "hedorah" -> ClassicEvents.hedorah(level, player);
+            case "xilien_invasion" -> ClassicEvents.xilienInvasion(level, player);
+            case "titanosaurus" -> ClassicEvents.titanosaurus(level, player);
+            case "orga" -> ClassicEvents.orga(level, player);
+            case "meganulon" -> ClassicEvents.meganulon(level, player);
+            case "gmk_godzilla" -> ClassicEvents.gmkGodzilla(level, player);
+            case "kamacuras" -> ClassicEvents.kamacuras(level, player);
             default -> false;
         };
     }

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TBT",
+    "NMN",
+    "T T"
+  ],
+  "key": {
+    "T": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "B": {
+      "item": "reikogodzilla:godzilla_bones"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "M": {
+      "item": "reikogodzilla:maser_tank"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:kiryu",
+    "count": 1
+  }
+}

@@ -24,5 +24,10 @@ public final class ModStructures {
     public static final DeferredHolder<StructurePieceType, StructurePieceType> MONSTERVERSE_SITE_PIECE =
             PIECE_TYPES.register("monsterverse_site", () -> (StructurePieceType.ContextlessType) com.reiko45.godzilla.world.MonsterverseSitePiece::new);
 
+    public static final DeferredHolder<StructureType<?>, StructureType<com.reiko45.godzilla.world.ClassicSiteStructure>> CLASSIC_SITE =
+            STRUCTURE_TYPES.register("classic_site", () -> () -> com.reiko45.godzilla.world.ClassicSiteStructure.CODEC);
+    public static final DeferredHolder<StructurePieceType, StructurePieceType> CLASSIC_SITE_PIECE =
+            PIECE_TYPES.register("classic_site", () -> (StructurePieceType.ContextlessType) com.reiko45.godzilla.world.ClassicSitePiece::new);
+
     private ModStructures() {}
 }

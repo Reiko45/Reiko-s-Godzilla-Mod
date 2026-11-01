@@ -54,13 +54,18 @@ public class MicroBlackHoleEntity extends Entity {
         super.tick();
         float r = Math.max(0.5f, getRadius());
         if (level().isClientSide) {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 45; i++) {
                 double theta = random.nextDouble() * Math.PI * 2, phi = Math.acos(2 * random.nextDouble() - 1);
                 double d = r * (0.6 + random.nextDouble() * 1.6);
                 double x = getX() + d * Math.sin(phi) * Math.cos(theta), y = getY() + d * Math.cos(phi), z = getZ() + d * Math.sin(phi) * Math.sin(theta);
                 level().addParticle(ParticleTypes.REVERSE_PORTAL, x, y, z, (getX() - x) * 0.1, (getY() - y) * 0.1, (getZ() - z) * 0.1);
             }
-            level().addParticle(ParticleTypes.SQUID_INK, getX(), getY(), getZ(), 0, 0, 0);
+            for (int i = 0; i < 6; i++) {
+                level().addParticle(ParticleTypes.SQUID_INK, getX() + (random.nextDouble() - 0.5) * r * 0.6, getY() + (random.nextDouble() - 0.5) * r * 0.6,
+                        getZ() + (random.nextDouble() - 0.5) * r * 0.6, 0, 0, 0);
+            }
+            level().addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), (random.nextDouble() - 0.5) * 0.2, (random.nextDouble() - 0.5) * 0.2,
+                    (random.nextDouble() - 0.5) * 0.2);
             return;
         }
         ServerLevel level = (ServerLevel) level();

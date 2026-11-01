@@ -6,7 +6,11 @@ public enum IslandKind implements StringRepresentable {
     MONSTER("monster", 52),
     INFANT("infant", 40),
     /** Kong: Skull Island - jungle, a skull-faced mountain, the Iwi wall, Skullcrawler caves and a Hollow Earth vortex. */
-    SKULL("skull", 58);
+    SKULL("skull", 58),
+    /** Son of Godzilla: Sollgel Island - the weather station, Minilla's egg, the Valley of Kumonga, Kamacuras. */
+    SOLLGEL("sollgel", 46),
+    /** Ebirah, Horror of the Deep: Letchi Island - the Red Bamboo's base, with Ebirah patrolling the waters. */
+    LETCHI("letchi", 38);
 
     public final int radius;
     private final String name;

@@ -1,0 +1,8 @@
+{
+  "type": "reikogodzilla:kaiju_island",
+  "island": "letchi",
+  "biomes": "#reikogodzilla:has_structure/letchi_island",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

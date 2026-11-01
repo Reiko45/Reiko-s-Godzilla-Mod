@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TDT",
+    "MRM",
+    "TIT"
+  ],
+  "key": {
+    "T": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "M": {
+      "item": "reikogodzilla:maser_tank"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:kiryu_kai_kit",
+    "count": 1
+  }
+}

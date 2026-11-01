@@ -72,6 +72,9 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     protected static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
     protected static final RawAnimation ROAR = RawAnimation.begin().thenPlay("roar");
 
+    /** Vanilla's ceiling for the max health attribute. */
+    private static final double MAX_HEALTH_CAP = 1024.0;
+
     public static final int PHASE_CHARGE = 0;
     public static final int PHASE_ACTIVE = 1;
 
@@ -927,6 +930,9 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         }
         if (isFrozenSolid()) amount *= 1.5f;
         if (source.is(DamageTypeTags.IS_FIRE) && getFreeze() > 0) entityData.set(DATA_FREEZE, Math.max(0f, getFreeze() - amount));
+        // Minecraft caps max health at 1024. Bigger kaiju get the rest as toughness instead.
+        double design = getAttributeBaseValue(Attributes.MAX_HEALTH);
+        if (design > MAX_HEALTH_CAP && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) amount *= (float) (MAX_HEALTH_CAP / design);
         return super.hurt(source, amount);
     }
 

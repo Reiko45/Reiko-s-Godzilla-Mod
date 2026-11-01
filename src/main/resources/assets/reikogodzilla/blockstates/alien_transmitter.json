@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "signal=nebula_m": {
+      "model": "reikogodzilla:block/alien_transmitter_nebula_m"
+    },
+    "signal=seatopia": {
+      "model": "reikogodzilla:block/alien_transmitter_seatopia"
+    },
+    "signal=kilaak": {
+      "model": "reikogodzilla:block/alien_transmitter_kilaak"
+    },
+    "signal=black_hole": {
+      "model": "reikogodzilla:block/alien_transmitter_black_hole"
+    },
+    "signal=xilien": {
+      "model": "reikogodzilla:block/alien_transmitter_xilien"
+    }
+  }
+}

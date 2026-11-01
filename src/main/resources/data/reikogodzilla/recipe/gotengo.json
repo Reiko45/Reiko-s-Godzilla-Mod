@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "TDT",
+    "NSN",
+    "MEM"
+  ],
+  "key": {
+    "T": {
+      "item": "reikogodzilla:space_titanium"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "M": {
+      "item": "reikogodzilla:maser_tank"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    }
+  },
+  "result": {
+    "id": "reikogodzilla:gotengo",
+    "count": 1
+  }
+}

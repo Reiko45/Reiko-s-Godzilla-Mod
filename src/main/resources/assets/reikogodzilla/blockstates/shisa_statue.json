@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "reikogodzilla:block/shisa_statue",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "reikogodzilla:block/shisa_statue",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "reikogodzilla:block/shisa_statue",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "reikogodzilla:block/shisa_statue",
+      "y": 270
+    }
+  }
+}

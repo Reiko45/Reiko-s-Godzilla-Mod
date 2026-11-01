@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "fed=0": {
+      "model": "reikogodzilla:block/meganulon_egg"
+    },
+    "fed=1": {
+      "model": "reikogodzilla:block/meganulon_egg"
+    },
+    "fed=2": {
+      "model": "reikogodzilla:block/meganulon_egg"
+    },
+    "fed=3": {
+      "model": "reikogodzilla:block/meganulon_egg"
+    },
+    "fed=4": {
+      "model": "reikogodzilla:block/meganulon_egg"
+    }
+  }
+}

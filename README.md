@@ -2,7 +2,7 @@
 
 Giant monsters from every era of Godzilla films, for **Minecraft 1.21.1 (NeoForge)**.
 
-Kaiju fight each other, level terrain with charged beam attacks, and can be fought with film-inspired human tech like the Maser Tank and the Oxygen Destroyer. The mod is built in five phases (Showa/Heisei icons → Heisei → MonsterVerse → Showa & Millennium deep cuts → Reiwa & modern films). See **[ROADMAP.md](ROADMAP.md)**.
+Kaiju fight each other, level terrain with charged beam attacks, and can be fought with film-inspired human tech like the Maser Tank and the Oxygen Destroyer. The mod is built in five phases (Showa/Heisei icons → Heisei → MonsterVerse → Showa & Millennium deep cuts → Reiwa & modern films); phases 1 to 4 are done. See **[ROADMAP.md](ROADMAP.md)**.
 
 > Unofficial fan project. Godzilla and related characters are trademarks of Toho Co., Ltd.; MonsterVerse designs belong to Legendary. This mod contains no ripped models, logos or film audio.
 
@@ -182,9 +182,115 @@ A new dimension: a vast cavern world lit by glowstone, with three biomes. The **
 - **Antarctic vortices** (snowy biomes), **Methuselah** asleep in the hills, and **Behemoth** in the jungle.
 - **New events**: Godzilla on the move, a MUTO pair (a female bursts from the ground and her mate flies in), Scylla, Behemoth, the Alpha Call (Ghidorah and a storm arrive, and a Rodan answers), and Skullcrawler swarms.
 
+## What's new in Phase 4: Showa and Millennium
+
+### Showa monsters
+
+| Monster | Side | What it does |
+|---|---|---|
+| **Gigan** (Showa / Final Wars) | Invader | Hammer hands, a belly buzzsaw that holds its victim, a visor laser and dive attacks. The Final Wars Gigan is twice the size, reels prey in with grappling scythes and fires the Gigarium Cluster beam, which bursts into explosive bolts. Beaten to half health he is rebuilt as **Modified Gigan**, with chainsaws and homing **Bladed Slicer** discs |
+| **Hedorah** | Invader | Grows through four stages by feeding on pollution: lit furnaces, smokers, campfires, fire, lava, magma (the Nether is a feast). Tadpole → land form → flying saucer that rains **acid mist** (rusts armour, kills plants) → the towering Perfect form with the Hedrium Ray. Big hits splash off sludge that crawls back to heal it. Nearly beaten, it turns back into the saucer to escape |
+| **Megalon** | Invader | Drill arms, the Double Drill (tunnels under you and bursts out), napalm, horn lightning, grasshopper leaps and a ring of fire. Without Seatopia's guidance he only notices what's right in front of him |
+| **Jet Jaguar** | Human | Your robot: place it from its item. Follows you at human size and grows giant to fight hostile kaiju (or use the controller). Flying kicks and throws. Left far from you, Seatopia can hijack it; once it breaks free it becomes self-aware |
+| **Ebirah** (Showa / Final Wars) | Invader | Giant lobster of Letchi Island: a scissor claw that crushes, a spear claw that pierces armour, and he wrecks boats. Clumsy on land, always heads back to sea |
+| **Kumonga** (Showa / Final Wars) | Invader | Giant spider: sticky thread that binds and leaves cobwebs, a venom needle, ambushes from underground. Fire does double damage |
+| **Kamacuras** (Showa / Final Wars) | Invader | Giant mantises that hunt in threes, slash, pounce and fly. They burn very easily (triple fire damage) |
+| **Minilla** | Titan | Godzilla's son. Hatches from an egg kept warm by heat underneath and attaches to the nearest player. Blows smoke rings until he's practised enough for real atomic breath (practice next to a grown Godzilla counts triple). Feed a wild one fish to tame it |
+| **Gorosaurus** | Titan | Allosaurus from Monster Island with the famous kangaroo kick |
+| **Manda** (Showa / Final Wars) | Titan / Invader | Sea dragon that coils around its enemy, even a battleship, and crushes it. Freezes twice as fast and shatters when frozen |
+| **Baragon** (Showa / GMK) | Titan / Guardian | Burrows, leaps; the Showa version fires a magma ray and hunts livestock at night. GMK Baragon is a Guardian Monster (see below) |
+| **Varan** | Titan | Glides on skin membranes and swims. Can't resist light (see Light Bombs) |
+| **King Caesar** (Showa / Final Wars) | Guardian | His **Prism Eye** catches beams and fires them back twice as strong for a few seconds, then needs to recover. Nimble kicks and throws. Sleeps in his cliff until woken (see below) |
+| **Titanosaurus** | Titan | Tail-fan gales that blow kaiju away. Dr. Mafune's implant in his head lets the Black Hole aliens control him; smash the implant (head hits) to free him for good |
+| **Mechagodzilla 2** | Invader | The rebuilt Showa Mechagodzilla: rotating finger missiles, a tougher hull. It relays the Black Hole aliens' orders to Titanosaurus, and if its own link is cut after it's been linked, it shuts down |
+
+### Millennium monsters and machines
+
+| Monster | Side | What it does |
+|---|---|---|
+| **Godzilla 2000** | Titan | Red-orange breath and the Organizer G1: heals extraordinarily fast |
+| **GMK Godzilla** | Invader | Possessed by the vengeful dead, always hostile, extremely tough. At half health (or bitten by GMK Ghidorah) a **wound** opens in his shoulder: D-03 missiles fired into it do enormous damage |
+| **Godzilla (2002)** | Titan | The Godzilla whose roar can wake the first Godzilla's spirit inside Kiryu |
+| **Final Wars Godzilla** | Titan | 100 m, fast and agile; his breath becomes the red Hyper Spiral Burning when he's pushed to the limit |
+| **Millennian UFO** → **Orga** | Invader | The UFO fires a plasma cannon, binds with cables and sends out shockwaves. It absorbs half of any Godzilla's breath and studies it: destroy it after it has absorbed enough and the alien crawls out as **Orga**. Orga regenerates fast, fires a shoulder cannon and swallows enemies whole. Break the shoulder cannon to cripple its healing; swallowing a Godzilla is fatal for Orga |
+| **Megaguirus**, **Meganulon**, **Meganula** | Invader | Meganulon larvae hatch from egg masses in water and molt into Meganula, which swarm kaiju and drain their energy. Full Meganula fly home and feed the egg mass; feed it five times and **Megaguirus** bursts out. She flies very fast, drains with her stinger (then fires the stolen energy as a beam) and sends out ultrasonic waves that knock out machines. Break her stinger by hitting her tail |
+| **GMK Guardians**: Baragon, Mothra, King Ghidorah | Guardian | Rise from their shrines when GMK Godzilla comes near. Break a shrine and its Guardian hunts *you*. When Mothra dies, King Ghidorah takes her energy and becomes the **Thousand-Year-Old Dragon King** (flight, gravity beams, a barrier). Each fallen Guardian strengthens the others |
+| **Kiryu** / **Kiryu Kai** | Human | Pilotable (see below) |
+| **Monster X** → **Keizer Ghidorah** | Invader | The Xiliens' trump card: three gravity beams, levitating martial arts. At half health he sheds his shell and becomes Keizer Ghidorah: anti-gravity beams that lift and hurl, a draining bite, a barrier |
+| **Zilla** | Invader | Blindingly fast, leaps away from half the beams aimed at it. Fragile |
+| **Xilien saucers** | Invader | Small laser-armed craft. Each carries a Xilien control relay (see below): shoot them down to free their monsters |
+| **Gotengo** | Human | Pilotable flying battleship (see below) |
+
+### Alien control
+
+Several films end with an alien controller destroyed and its monsters freed, so it works the same way here. **Alien Control Transmitters** (and Xilien saucers, and Mechagodzilla 2) broadcast a signal; every monster the signal can reach fights for the aliens (red boss bar, hostile to everyone, coloured sparks over its head). Break the transmitter or kill the carrier and they're freed: confused for ten seconds, then back to their own side.
+
+| Signal | Controls |
+|---|---|
+| Nebula M (the Godzilla Tower) | Gigan, Showa King Ghidorah |
+| Seatopia | Megalon; Jet Jaguar if its owner is far away |
+| Kilaak (Destroy All Monsters) | Showa Godzilla and the Monster Island residents: Rodan, Anguirus, Minilla, Gorosaurus, Manda, Baragon, Varan, Kumonga, Kamacuras |
+| Black Hole Planet 3 | Titanosaurus (with his implant), Mechagodzilla |
+| Xilien | Every monster with **M-Base**: the Final Wars monsters, Monster X, Zilla, Rodan, Anguirus. Godzilla doesn't have it |
+
+Tamed and piloted kaiju can't be taken over.
+
+### Weaknesses from the films
+
+- **Electrode Plates** (Hedorah): power one with redstone and it arcs at any Hedorah within 24 blocks, drying it out: no healing, double damage, and it crumbles. Hedorah also takes extra damage and never heals in hot, dry places; water and rain heal it.
+- **Yellow Juice** (Ebirah): drink it and Ebirah leaves you and your boat alone for five minutes. The Red Bamboo's chests also hold a fake batch.
+- **Light Bombs** (Varan): throw one and it burns as a flare for fifteen seconds. Varan can't resist it, swallows it, and the charge goes off inside him.
+- **Supersonic Wave Oscillator** (Titanosaurus): a beam of supersonic waves along your view stuns him for seven seconds (other kaiju only stagger).
+- **D-03 Missiles** (GMK Godzilla): fire along your view; into the open wound they do 8-14x damage.
+- **Freezing** (Manda): freezes twice as fast and takes double damage while frozen.
+- **Fire** (Kumonga, Kamacuras): double and triple damage.
+
+### Machines and tech
+
+| Item | Use |
+|---|---|
+| **Kiryu** | R: twin masers. V: back-unit missiles / Type-0 railguns. G: the **Absolute Zero Cannon** (freezes its target solid, costs 40% power) or a thruster leap. Everything costs power; at zero he shuts down. Recharge with a **White Heron Power Cell** or park him by a **Kiryu Maintenance Gantry**. When a Godzilla roars nearby, the first Godzilla's spirit may wake: Kiryu throws you out and rampages until his batteries are flat |
+| **Kiryu Kai Upgrade Kit** | Use on Kiryu: the Triple Hyper Maser (R) replaces the twin masers and the Absolute Zero Cannon, and G becomes the Spiral Claw drill, which bores through terrain |
+| **Gotengo** | R: maser cannons. V: Freezing Maser (freezes kaiju and water). G: drill ram through rock. Flies and dives; the electrified hull shocks anything clinging to it |
+| **Dimension Tide Uplink** | Hold use on a target for three seconds, release: a micro black hole that drags everything in and erases the ground. The target must be under open sky and not in water; Megaguirus or Meganula nearby jam the lock-on; long recharge |
+| **Jet Jaguar** / **Jet Jaguar Controller** | Deploy your robot / tell your robots to grow or shrink |
+| **Bladed Slicer** | Dropped by Modified Gigan. Throw it at what you're looking at: it homes in and loops back for a second pass |
+| **Organizer G1** | Godzilla's regenerative cells: eating one gives strong Regeneration and Absorption |
+| **Shisa Statue** | Place it near King Caesar's cliff and play a music disc in a jukebox beside it to wake him |
+| **Minilla Egg** | Hatches only with lava, magma, fire or a campfire within two blocks below it. The hatching call draws Kamacuras |
+| **Meganulon Egg Mass** | Buds off Meganulon while wet; feed it (via Meganula) to hatch Megaguirus |
+
+| Recipe | Pattern |
+|---|---|
+| Kiryu | `TBT` / `NMN` / `T T`: Space Titanium, **Bones of the First Godzilla** (dropped by Showa/Heisei Godzilla), netherite blocks, Maser Tank |
+| Kiryu Kai Upgrade Kit | `TDT` / `MRM` / `TIT`: Space Titanium, diamond block, Maser Tanks, redstone block, iron blocks |
+| White Heron Power Cell (x2) | `IGI` / `RLR` / `IGI`: iron, glowstone dust, redstone blocks, lightning rod |
+| Kiryu Maintenance Gantry | `ILI` / `RCR` / `III`: iron blocks, lightning rod, redstone blocks, White Heron Power Cell |
+| Gotengo | `TDT` / `NSN` / `MEM`: Space Titanium, diamond block, netherite blocks, nether star, Maser Tanks, elytra |
+| Dimension Tide Uplink | `EOE` / `TNT` / `RSR`: eyes of ender, observer, Space Titanium, nether star, redstone blocks, spyglass |
+| D-03 Missile (x2) | ` I ` / `ITI` / `IFI`: iron, TNT, fire charge |
+| Light Bomb (x2) | `G` / `T` / `P`: glowstone, TNT, paper |
+| Supersonic Wave Oscillator | `NAN` / `RCR` / `I I`: note blocks, amethyst shard, redstone, comparator, iron |
+| Jet Jaguar | `ROR` / `INI` / `I I`: redstone blocks, observer, iron blocks, netherite ingot |
+| Jet Jaguar Controller | `  L` / `IRI` / `ICI`: lightning rod, iron, redstone, comparator |
+| Electrode Plate (x2) | `CCC` / `IRI`: copper blocks, iron, redstone block |
+| Yellow Juice | Shapeless: glass bottle, yellow dye, sweet berries, sugar |
+
+### World
+
+- **Sollgel Island** (warm oceans): the weather-control station and balloon tower, **Minilla's egg** on a bed of magma, the **Valley of Kumonga** (a web-choked pit) and a Kamacuras pack.
+- **Letchi Island** (oceans): the Red Bamboo's base with its heavy-water plant and smokestack (Yellow Juice in the chest) and Ebirah patrolling offshore.
+- **Monster Island** now also holds Gorosaurus, Baragon, Minilla, Varan and Manda.
+- **The Godzilla Tower** (plains, meadows, savannas): World Children's Land. The tower's head holds the **Nebula M control room** (a transmitter controlling Gigan) and a mouth laser that fires at intruders. Gigan waits nearby.
+- **Seatopia** (deep underground, anywhere): a cavern kingdom with an artificial sun, columns, statues, the Seatopian transmitter and Megalon's glowing spire. A shaft climbs to the surface.
+- **The Azumi shrine** (savannas, jungles, beaches): King Caesar sleeps in the cliff. The chest holds the Shisa Statue and music discs.
+- **GMK shrines**: Baragon's tunnel shrine (hills), Mothra's lake shrine (forests), King Ghidorah's ice cave (dark and snowy forests).
+- **The Millennian UFO wreck** (deep oceans), **flooded Meganulon ruins** (swamps, plains), **Kiryu's hangar** (plains) with gantries and parts, and a landed **Xilien mothership** (plains, deserts, badlands) with the Xilien control core, Monster X and saucers.
+- **New events**: Gigan and King Ghidorah from space, Megalon bursting out of the ground, Hedorah drifting in, a Xilien invasion (saucers plus controlled monsters, or Monster X), Titanosaurus with Mechagodzilla 2, the Millennian UFO, a Meganulon swarm, GMK Godzilla, and a Kamacuras pack.
+
 ## Commands
 
-`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah|monsterverse_godzilla|muto|scylla|behemoth|alpha_call|skullcrawlers>` starts an event near you (needs operator permissions).
+`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah|monsterverse_godzilla|muto|scylla|behemoth|alpha_call|skullcrawlers|gigan|megalon|hedorah|xilien_invasion|titanosaurus|orga|meganulon|gmk_godzilla|kamacuras>` starts an event near you (needs operator permissions).
 
 ## Config
 
@@ -197,6 +303,7 @@ A new dimension: a vast cavern world lit by glowstone, with three biomes. The **
 - `weapons.maserAutoFire`, `maserDamage`, `oxygenDestroyerKaijuDamage`
 - `heisei.burningGodzilla`, `meltdownTicks`, `meltdownExplosion`, `frozenTicks`, `juniorGrowthTicks`, `destoroyahChance`, `biollanteGrowthStages`
 - `monsterverse.alphaCall`, `kongGrowthTicks`, `apexTakeoverChance`, `iceAge`, `orcaRange`, `vortexDamage`
+- `showa_millennium.controlRange`, `saucerControlRange`, `hedorahGrowth`, `minillaGrowthTicks`, `jetJaguarGiantTicks`, `kiryuRampageChance`, `dimensionTideRadius`, `dimensionTideCooldown`
 
 ## Custom models (Blockbench)
 
@@ -214,10 +321,11 @@ Names:
 - Phase 2: `godzilla_junior`, `biollante_flower`, `biollante_plant`, `battra_larva`, `battra`, `space_godzilla`, `space_crystal`, `destoroyah_juvenile`, `destoroyah_aggregate`, `destoroyah_flying`, `destoroyah_perfect`, `mechagodzilla_heisei`, `super_mechagodzilla`, `garuda`, `moguera`, `star_falcon`, `land_moguera`, `super_x`, `super_x2`, `super_x3`, `freezer_tank`
 
 - Phase 3: `godzilla_mv`, `godzilla_evolved`, `kong`, `suko`, `great_ape`, `skar_king`, `shimo`, `muto_male`, `muto_female`, `skullcrawler`, `skull_devil`, `warbat`, `king_ghidorah_mv`, `scylla`, `behemoth`, `methuselah`, `tiamat`, `apex_mechagodzilla`, `heav`
+- Phase 4: `gigan`, `hedorah_aquatic`, `hedorah_land`, `hedorah_flying`, `hedorah_perfect`, `megalon`, `jet_jaguar`, `ebirah`, `kumonga`, `kamacuras`, `minilla`, `gorosaurus`, `manda`, `baragon`, `varan`, `king_caesar`, `titanosaurus`, `godzilla_millennium`, `godzilla_gmk`, `godzilla_kiryu_era`, `godzilla_final_wars`, `orga`, `millennian_ufo`, `megaguirus`, `meganulon`, `meganula`, `king_ghidorah_gmk`, `kiryu`, `monster_x`, `keizer_ghidorah`, `zilla`, `gotengo`, `xilien_saucer`
 
-Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Burning Godzilla tints `godzilla_heisei` orange.
+Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Phase 4 forms that share a model with their own texture: `gigan_final_wars`, `hedorah_final_wars` (on `hedorah_perfect`), `ebirah_final_wars`, `kumonga_final_wars`, `kamacuras_final_wars`, `manda_final_wars`, `baragon_gmk`, `king_caesar_final_wars`, `mechagodzilla_2` (on `mechagodzilla`), `mothra_gmk` (on `mothra`), `king_ghidorah_dragon_king` (on `king_ghidorah_gmk`) and `kiryu_kai` (on `kiryu`). Burning Godzilla tints `godzilla_heisei` orange.
 
-**Bones:** a bone named `head` turns to follow where the kaiju is looking. A few bones are shown or hidden by the game: `axe` and `glove` on Kong (when he has them), `crystal` on the Skar King (until it shatters), and `head_0`, `head_1`, `head_2` on MonsterVerse Ghidorah (while a head is severed). Everything else is up to you.
+**Bones:** a bone named `head` turns to follow where the kaiju is looking. A few bones are shown or hidden by the game: `axe` and `glove` on Kong (when he has them), `crystal` on the Skar King (until it shatters), `head_0`, `head_1`, `head_2` on MonsterVerse Ghidorah (while a head is severed), `hook_left`/`hook_right` and `saw_left`/`saw_right` on Gigan (hammer hands, swapped for chainsaws once he's Modified), and `zero_cannon`, `drill` and `triple_maser` on Kiryu (the cannon for Kiryu, the other two for Kiryu Kai). Everything else is up to you.
 
 **Animations** the code plays. Use these exact names; if one is missing, that move simply won't animate:
 
@@ -245,8 +353,10 @@ Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. Monste
 | `leap`, `throw` | Leaping attacks (Kong, the Skar King, Suko, Apex Mechagodzilla's thrusters) and grab-and-throw |
 | `slam` | Ground-pound attacks (Behemoth, Methuselah, Shimo, the female MUTO) |
 | `emp`, `ink` | The male MUTO's EMP pulse, Tiamat's ink cloud |
-| `dormant` | Methuselah asleep as a mountain, Shimo in chains |
+| `dormant` | Methuselah asleep as a mountain, Shimo in chains, King Caesar asleep in his cliff |
 | `swim` | Tiamat in water |
+| `saw` | Holds that grind or crush: Gigan's buzzsaw, Megalon's drills (some holds use `grab` instead) |
+| `dig`, `burrow` | Digging in and tunnelling underground (Megalon, Baragon, Kumonga) |
 
 Beam start points (mouths, Ghidorah's three heads, Mechagodzilla's eyes, weapon mounts on the mechs) and extra hitboxes are set in each kaiju's class (`beamLocalOffset` and `createParts`), measured in blocks at scale 1 with +z forward. Adjust them if your model's proportions differ.
 

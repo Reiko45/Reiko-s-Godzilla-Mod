@@ -3,6 +3,12 @@
   "values": [
     "reikogodzilla:nuclear_warhead",
     "reikogodzilla:solar_crystal",
-    "reikogodzilla:orca"
+    "reikogodzilla:orca",
+    "reikogodzilla:alien_transmitter",
+    "reikogodzilla:electrode_plate",
+    "reikogodzilla:shisa_statue",
+    "reikogodzilla:guardian_shrine",
+    "reikogodzilla:kiryu_charger",
+    "reikogodzilla:tower_laser"
   ]
 }

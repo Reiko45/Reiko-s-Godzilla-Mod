@@ -188,13 +188,16 @@ public class KaijuIslandPiece extends StructurePiece {
         }
 
         decorate(level, generator, random, box);
-        if (kind == IslandKind.SKULL) {
-            buildSkullIsland(level, box);
-        } else if (kind == IslandKind.MONSTER) {
-            placeMonsterLairs(level, box);
-            placeEggNest(level, box);
+        switch (kind) {
+            case SKULL -> buildSkullIsland(level, box);
+            case MONSTER -> {
+                placeMonsterLairs(level, box);
+                placeEggNest(level, box);
+            }
+            case SOLLGEL -> buildSollgel(level, box);
+            case LETCHI -> buildLetchi(level, box);
+            default -> buildShrine(level, box);
         }
-        else buildShrine(level, box);
     }
 
     private static BlockState rockBlock(int depth, RandomSource random) {
@@ -224,20 +227,27 @@ public class KaijuIslandPiece extends StructurePiece {
     }
 
     private void decorate(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BoundingBox box) {
-        int attempts = kind == IslandKind.INFANT ? 16 : kind == IslandKind.SKULL ? 26 : 5;
+        int attempts = switch (kind) {
+            case INFANT -> 16;
+            case SKULL -> 26;
+            case SOLLGEL -> 20;
+            case LETCHI -> 8;
+            default -> 5;
+        };
         for (int i = 0; i < attempts; i++) {
             int x = box.minX() + 2 + random.nextInt(Math.max(1, box.getXSpan() - 4));
             int z = box.minZ() + 2 + random.nextInt(Math.max(1, box.getZSpan() - 4));
             if (!boundingBox.isInside(x, center.getY(), z)) continue;
             if (shapeDistance(x, z) > 0.85 || volcanoDistance(x, z) < 1.05 || mountainDistance(x, z) < 0.9) continue;
-            if (kind == IslandKind.INFANT && Math.abs(x - center.getX()) < 9 && Math.abs(z - center.getZ()) < 9) continue;
+            if ((kind == IslandKind.INFANT || kind == IslandKind.LETCHI) && Math.abs(x - center.getX()) < 12 && Math.abs(z - center.getZ()) < 12) continue;
+            if (kind == IslandKind.SOLLGEL && nearSollgelFeature(x, z)) continue;
             if (kind == IslandKind.MONSTER && Math.abs(x - (center.getX() - (int) (kind.radius * 0.3))) < 7
                     && Math.abs(z - (center.getZ() + (int) (kind.radius * 0.25))) < 7) continue;
             int top = topSolid(level, x, z);
             BlockPos ground = new BlockPos(x, top, z);
             if (!level.getBlockState(ground).is(Blocks.GRASS_BLOCK)) continue;
             ResourceKey<ConfiguredFeature<?, ?>> tree;
-            if (kind == IslandKind.INFANT || kind == IslandKind.SKULL) {
+            if (kind == IslandKind.INFANT || kind == IslandKind.SKULL || kind == IslandKind.SOLLGEL) {
                 int r = random.nextInt(8);
                 tree = r == 0 ? TreeFeatures.MEGA_JUNGLE_TREE : r < 5 ? TreeFeatures.JUNGLE_TREE_NO_VINE : TreeFeatures.JUNGLE_BUSH;
             } else {
@@ -283,6 +293,148 @@ public class KaijuIslandPiece extends StructurePiece {
         if (box.isInside(ax, center.getY(), az)) {
             placeLair(level, new BlockPos(ax, topSolid(level, ax, az) + 1, az), ModEntities.ANGUIRUS.get(), -1);
         }
+        // Phase 4: the rest of the Showa Monsterland residents.
+        lairAt(level, box, 120, 0.5, ModEntities.GOROSAURUS.get());
+        lairAt(level, box, 260, 0.42, ModEntities.BARAGON.get());
+        lairAt(level, box, 80, 0.3, ModEntities.MINILLA.get());
+        lairAt(level, box, 330, 0.6, ModEntities.VARAN.get());
+        lairAt(level, box, 160, 1.25, ModEntities.MANDA.get());
+    }
+
+    /** A lair at {@code fraction} of the island's radius, at {@code degrees} around the centre (sea floor if offshore). */
+    private void lairAt(WorldGenLevel level, BoundingBox box, double degrees, double fraction, EntityType<?> type) {
+        double a = Math.toRadians(degrees);
+        int x = center.getX() + (int) (Math.cos(a) * kind.radius * fraction);
+        int z = center.getZ() + (int) (Math.sin(a) * kind.radius * fraction);
+        if (box.isInside(x, center.getY(), z)) placeLair(level, new BlockPos(x, topSolid(level, x, z) + 1, z), type, -1);
+    }
+
+    // ------------------------------------------------------------------ Sollgel Island (Son of Godzilla)
+
+    private int[] sollgelSpot(double degrees, double fraction) {
+        double a = Math.toRadians(degrees);
+        return new int[]{center.getX() + (int) (Math.cos(a) * kind.radius * fraction), center.getZ() + (int) (Math.sin(a) * kind.radius * fraction)};
+    }
+
+    private boolean nearSollgelFeature(int x, int z) {
+        for (int[] spot : new int[][]{sollgelSpot(330, 0.35), sollgelSpot(150, 0.3), sollgelSpot(240, 0.42)}) {
+            if (Math.abs(x - spot[0]) < 9 && Math.abs(z - spot[1]) < 9) return true;
+        }
+        return false;
+    }
+
+    private void put(WorldGenLevel level, BoundingBox box, int x, int y, int z, BlockState state) {
+        if (box.isInside(x, y, z)) level.setBlock(new BlockPos(x, y, z), state, 2);
+    }
+
+    private void buildSollgel(WorldGenLevel level, BoundingBox box) {
+        RandomSource r = RandomSource.create(seed + 7);
+        // The weather-control station and its balloon tower
+        int[] st = sollgelSpot(330, 0.35);
+        if (box.isInside(st[0], center.getY(), st[1])) {
+            int gy = topSolid(level, st[0], st[1]);
+            for (int dx = -3; dx <= 3; dx++)
+                for (int dz = -3; dz <= 3; dz++)
+                    for (int dy = 0; dy <= 5; dy++) {
+                        boolean wall = Math.abs(dx) == 3 || Math.abs(dz) == 3 || dy == 0 || dy == 5;
+                        boolean window = dy == 2 && (Math.abs(dx) == 3 ^ Math.abs(dz) == 3) && (dx + dz) % 2 == 0;
+                        put(level, box, st[0] + dx, gy + dy, st[1] + dz, !wall ? Blocks.AIR.defaultBlockState()
+                                : window ? Blocks.GLASS_PANE.defaultBlockState() : Blocks.WHITE_CONCRETE.defaultBlockState());
+                    }
+            put(level, box, st[0], gy + 1, st[1] + 3, Blocks.AIR.defaultBlockState());
+            put(level, box, st[0], gy + 2, st[1] + 3, Blocks.AIR.defaultBlockState());
+            BlockPos chestPos = new BlockPos(st[0] - 2, gy + 1, st[1] - 2);
+            if (box.isInside(chestPos)) {
+                level.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 2);
+                net.minecraft.world.RandomizableContainer.setBlockEntityLootTable(level, r, chestPos,
+                        ResourceKey.create(Registries.LOOT_TABLE, com.reiko45.godzilla.ReikoGodzilla.id("chests/sollgel_station")));
+            }
+            for (int dy = 6; dy <= 18; dy++) put(level, box, st[0] + 5, gy + dy - 5, st[1], Blocks.IRON_BARS.defaultBlockState());
+            for (int dx = -1; dx <= 1; dx++)
+                for (int dz = -1; dz <= 1; dz++)
+                    for (int dy = 0; dy <= 2; dy++) put(level, box, st[0] + 5 + dx, gy + 14 + dy, st[1] + dz, Blocks.WHITE_WOOL.defaultBlockState());
+        }
+        // Minilla's egg, buried in the warm earth
+        int[] egg = sollgelSpot(150, 0.3);
+        if (box.isInside(egg[0], center.getY(), egg[1])) {
+            int gy = topSolid(level, egg[0], egg[1]);
+            for (int dx = -2; dx <= 2; dx++)
+                for (int dz = -2; dz <= 2; dz++) {
+                    for (int dy = 1; dy <= 4; dy++) put(level, box, egg[0] + dx, gy + dy, egg[1] + dz, Blocks.AIR.defaultBlockState());
+                    put(level, box, egg[0] + dx, gy, egg[1] + dz, Math.abs(dx) == 2 || Math.abs(dz) == 2 ? Blocks.COARSE_DIRT.defaultBlockState() : Blocks.PODZOL.defaultBlockState());
+                }
+            put(level, box, egg[0], gy - 1, egg[1], Blocks.MAGMA_BLOCK.defaultBlockState());
+            put(level, box, egg[0], gy, egg[1], Blocks.MAGMA_BLOCK.defaultBlockState());
+            put(level, box, egg[0], gy + 1, egg[1], ModBlocks.MINILLA_EGG.get().defaultBlockState());
+        }
+        // The Valley of Kumonga: a deep, web-choked pit
+        int[] pit = sollgelSpot(240, 0.42);
+        if (box.isInside(pit[0], center.getY(), pit[1])) {
+            int gy = topSolid(level, pit[0], pit[1]);
+            for (int dx = -5; dx <= 5; dx++)
+                for (int dz = -5; dz <= 5; dz++) {
+                    if (dx * dx + dz * dz > 26) continue;
+                    for (int dy = -6; dy <= 6; dy++) put(level, box, pit[0] + dx, gy + dy, pit[1] + dz, Blocks.AIR.defaultBlockState());
+                    put(level, box, pit[0] + dx, gy - 7, pit[1] + dz, Blocks.COARSE_DIRT.defaultBlockState());
+                    if (r.nextInt(7) == 0) put(level, box, pit[0] + dx, gy - 6 + r.nextInt(5), pit[1] + dz, Blocks.COBWEB.defaultBlockState());
+                }
+            if (box.isInside(pit[0], gy - 6, pit[1])) placeLair(level, new BlockPos(pit[0], gy - 6, pit[1]), ModEntities.KUMONGA.get(), -1);
+        }
+        // The Kamacuras hunt in threes
+        for (double deg : new double[]{30, 90, 200}) {
+            int[] k = sollgelSpot(deg, 0.6);
+            if (box.isInside(k[0], center.getY(), k[1])) placeLair(level, new BlockPos(k[0], topSolid(level, k[0], k[1]) + 1, k[1]), ModEntities.KAMACURAS.get(), -1);
+        }
+    }
+
+    // ------------------------------------------------------------------ Letchi Island (Ebirah, Horror of the Deep)
+
+    private void buildLetchi(WorldGenLevel level, BoundingBox box) {
+        RandomSource r = RandomSource.create(seed + 11);
+        int cx = center.getX(), cz = center.getZ();
+        int gy = center.getY() + 6;
+        // Level the compound
+        for (int dx = -10; dx <= 10; dx++)
+            for (int dz = -8; dz <= 8; dz++) {
+                for (int dy = 1; dy <= 14; dy++) put(level, box, cx + dx, gy + dy, cz + dz, Blocks.AIR.defaultBlockState());
+                put(level, box, cx + dx, gy, cz + dz, Blocks.GRAY_CONCRETE.defaultBlockState());
+                for (int dy = 1; dy <= 6; dy++) {
+                    BlockPos below = new BlockPos(cx + dx, gy - dy, cz + dz);
+                    if (box.isInside(below) && (level.getBlockState(below).isAir() || !level.getFluidState(below).isEmpty())) {
+                        level.setBlock(below, Blocks.STONE.defaultBlockState(), 2);
+                    }
+                }
+            }
+        // The Red Bamboo's main building
+        for (int dx = -6; dx <= 2; dx++)
+            for (int dz = -4; dz <= 4; dz++)
+                for (int dy = 1; dy <= 6; dy++) {
+                    boolean wall = dx == -6 || dx == 2 || dz == -4 || dz == 4 || dy == 6;
+                    BlockState w = dy == 4 ? Blocks.RED_CONCRETE.defaultBlockState() : Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState();
+                    put(level, box, cx + dx, gy + dy, cz + dz, wall ? w : Blocks.AIR.defaultBlockState());
+                }
+        put(level, box, cx + 2, gy + 1, cz, Blocks.AIR.defaultBlockState());
+        put(level, box, cx + 2, gy + 2, cz, Blocks.AIR.defaultBlockState());
+        BlockPos chestPos = new BlockPos(cx - 5, gy + 1, cz - 3);
+        if (box.isInside(chestPos)) {
+            level.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 2);
+            net.minecraft.world.RandomizableContainer.setBlockEntityLootTable(level, r, chestPos,
+                    ResourceKey.create(Registries.LOOT_TABLE, com.reiko45.godzilla.ReikoGodzilla.id("chests/red_bamboo_base")));
+        }
+        put(level, box, cx - 5, gy + 1, cz + 3, Blocks.BARREL.defaultBlockState());
+        put(level, box, cx - 4, gy + 1, cz + 3, Blocks.BARREL.defaultBlockState());
+        // The heavy-water plant: a tank and a smokestack
+        for (int dx = -2; dx <= 2; dx++)
+            for (int dz = -2; dz <= 2; dz++) {
+                if (dx * dx + dz * dz > 5) continue;
+                for (int dy = 1; dy <= 8; dy++) put(level, box, cx + 6 + dx, gy + dy, cz - 3 + dz, Blocks.WHITE_CONCRETE.defaultBlockState());
+            }
+        for (int dy = 1; dy <= 14; dy++) put(level, box, cx + 6, gy + dy, cz + 4, Blocks.BRICKS.defaultBlockState());
+        put(level, box, cx + 6, gy + 15, cz + 4, Blocks.CAMPFIRE.defaultBlockState());
+        // Ebirah keeps the waters
+        double a = Math.toRadians(120);
+        int ex = cx + (int) (Math.cos(a) * kind.radius * 1.2), ez = cz + (int) (Math.sin(a) * kind.radius * 1.2);
+        if (box.isInside(ex, center.getY(), ez)) placeLair(level, new BlockPos(ex, topSolid(level, ex, ez) + 1, ez), ModEntities.EBIRAH.get(), -1);
     }
 
     /** Highest block that isn't air, water or foliage (heightmaps can be stale after we reshape the terrain). */

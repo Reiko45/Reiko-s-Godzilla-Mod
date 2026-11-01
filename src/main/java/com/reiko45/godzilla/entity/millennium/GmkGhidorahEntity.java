@@ -110,6 +110,7 @@ public class GmkGhidorahEntity extends FlyingKaijuEntity implements ShrineGuardi
 
     /** Mothra's life energy: the Thousand-Year-Old Dragon King awakens. */
     public void receiveMothraEnergy() {
+        if (!isAlive() || isDeadOrDying()) return;
         if (getVariant() == DRAGON_KING) {
             heal(getMaxHealth() * 0.5f);
             return;

@@ -17,9 +17,14 @@ public final class AlienControl {
 
     /** Returns how many kaiju are under this signal's control. */
     public static int broadcast(ServerLevel level, Vec3 center, double radius, AlienSignal signal) {
+        return broadcast(level, center, radius, signal, null);
+    }
+
+    /** As {@link #broadcast(ServerLevel, Vec3, double, AlienSignal)}, but the sender ({@code except}) doesn't control itself. */
+    public static int broadcast(ServerLevel level, Vec3 center, double radius, AlienSignal signal, @javax.annotation.Nullable KaijuEntity except) {
         int count = 0;
         for (KaijuEntity k : level.getEntitiesOfClass(KaijuEntity.class, new AABB(center, center).inflate(radius),
-                k -> k.distanceToSqr(center) <= radius * radius)) {
+                k -> k != except && k.distanceToSqr(center) <= radius * radius)) {
             k.receiveSignal(signal, SIGNAL_TICKS);
             if (k.getControllingSignal() == signal) count++;
         }
