@@ -67,8 +67,19 @@ public class GodzillaEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
+    }
+
+    @Override
+    public boolean isGodzilla() {
+        return true;
+    }
+
+    /** The Kilaaks controlled the Showa Godzilla along with the rest of Monster Island (Destroy All Monsters). */
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.KILAAK && getVariant() == SHOWA;
     }
 
     @Override

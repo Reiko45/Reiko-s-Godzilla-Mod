@@ -38,7 +38,7 @@ public class SukoEntity extends TameableKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
     }
 

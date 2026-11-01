@@ -38,8 +38,19 @@ public class RodanEntity extends FlyingKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
+    }
+
+    /** Final Wars Rodan was a Xilien weapon (M-Base); the Kilaaks controlled the Showa Rodan. */
+    @Override
+    public boolean hasMBase() {
+        return true;
+    }
+
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.KILAAK || super.controllableBy(signal);
     }
 
     @Override

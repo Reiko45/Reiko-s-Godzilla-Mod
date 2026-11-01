@@ -12,5 +12,8 @@ public final class ModEffects {
 
     public static final DeferredHolder<MobEffect, FrostbiteEffect> FROSTBITE = EFFECTS.register("frostbite", FrostbiteEffect::new);
 
+    public static final DeferredHolder<MobEffect, com.reiko45.godzilla.effect.RepellentEffect> REPELLENT =
+            EFFECTS.register("repellent", com.reiko45.godzilla.effect.RepellentEffect::new);
+
     private ModEffects() {}
 }

@@ -55,8 +55,19 @@ public class MonsterverseRodanEntity extends RodanEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return alphaAware(KaijuFaction.TITAN);
+    }
+
+    /** The MonsterVerse Rodan answers only to the Alpha, never to alien signals. */
+    @Override
+    public boolean hasMBase() {
+        return false;
+    }
+
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return false;
     }
 
     @Override

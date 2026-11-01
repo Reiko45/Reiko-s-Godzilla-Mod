@@ -60,7 +60,7 @@ public class GodzillaJuniorEntity extends TameableKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
     }
 

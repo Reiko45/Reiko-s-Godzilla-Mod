@@ -49,6 +49,36 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> ORCA_SIGNAL = register("orca_signal");
     public static final DeferredHolder<SoundEvent, SoundEvent> VORTEX_WHOOSH = register("vortex_whoosh");
 
+    // Phase 4
+    public static final DeferredHolder<SoundEvent, SoundEvent> GIGAN_SCREECH = register("gigan_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HEDORAH_CRY = register("hedorah_cry");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MEGALON_SCREECH = register("megalon_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> JET_JAGUAR_HUM = register("jet_jaguar_hum");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EBIRAH_CLICK = register("ebirah_click");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KUMONGA_HISS = register("kumonga_hiss");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KAMACURAS_SCREECH = register("kamacuras_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MINILLA_CRY = register("minilla_cry");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOROSAURUS_ROAR = register("gorosaurus_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MANDA_ROAR = register("manda_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BARAGON_ROAR = register("baragon_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VARAN_CRY = register("varan_cry");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KING_CAESAR_ROAR = register("king_caesar_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITANOSAURUS_ROAR = register("titanosaurus_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ORGA_ROAR = register("orga_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> UFO_HUM = register("ufo_hum");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MEGAGUIRUS_BUZZ = register("megaguirus_buzz");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MEGANULON_CHITTER = register("meganulon_chitter");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MILLENNIUM_GODZILLA_ROAR = register("millennium_godzilla_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GMK_GHIDORAH_ROAR = register("gmk_ghidorah_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRYU_ROAR = register("kiryu_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MONSTER_X_ROAR = register("monster_x_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KEIZER_ROAR = register("keizer_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ZILLA_ROAR = register("zilla_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOTENGO_HORN = register("gotengo_horn");
+    public static final DeferredHolder<SoundEvent, SoundEvent> XILIEN_SAUCER = register("xilien_saucer");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLACK_HOLE = register("black_hole");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALIEN_SIGNAL = register("alien_signal");
+
     private ModSounds() {}
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {

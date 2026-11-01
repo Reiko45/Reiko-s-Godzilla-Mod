@@ -42,6 +42,15 @@ public final class GodzillaConfig {
     public static final ModConfigSpec.BooleanValue ICE_AGE;
     public static final ModConfigSpec.IntValue ORCA_RANGE;
     public static final ModConfigSpec.DoubleValue VORTEX_DAMAGE;
+    // Phase 4
+    public static final ModConfigSpec.IntValue CONTROL_RANGE;
+    public static final ModConfigSpec.IntValue SAUCER_CONTROL_RANGE;
+    public static final ModConfigSpec.DoubleValue HEDORAH_GROWTH;
+    public static final ModConfigSpec.IntValue MINILLA_GROWTH_TICKS;
+    public static final ModConfigSpec.IntValue JET_JAGUAR_GIANT_TICKS;
+    public static final ModConfigSpec.DoubleValue KIRYU_RAMPAGE_CHANCE;
+    public static final ModConfigSpec.DoubleValue DIMENSION_TIDE_RADIUS;
+    public static final ModConfigSpec.IntValue DIMENSION_TIDE_COOLDOWN;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -114,6 +123,25 @@ public final class GodzillaConfig {
                 .defineInRange("orcaRange", 96, 8, 512);
         VORTEX_DAMAGE = b.comment("Damage from the gravity inversion when passing through a Hollow Earth vortex without a HEAV.")
                 .defineInRange("vortexDamage", 6.0, 0.0, 100.0);
+        b.pop();
+
+        b.push("showa_millennium");
+        CONTROL_RANGE = b.comment("Range in blocks of an alien control transmitter (Godzilla Tower, Seatopia, the Xilien mothership...).")
+                .defineInRange("controlRange", 160, 16, 1024);
+        SAUCER_CONTROL_RANGE = b.comment("Range in blocks of the Xilien control relay carried by each Xilien saucer.")
+                .defineInRange("saucerControlRange", 96, 8, 512);
+        HEDORAH_GROWTH = b.comment("How quickly Hedorah grows from the pollution it feeds on (0 stops it growing).")
+                .defineInRange("hedorahGrowth", 1.0, 0.0, 100.0);
+        MINILLA_GROWTH_TICKS = b.comment("Ticks for a newly hatched Minilla to grow up.")
+                .defineInRange("minillaGrowthTicks", 24000, 200, 10_000_000);
+        JET_JAGUAR_GIANT_TICKS = b.comment("How long Jet Jaguar stays giant-sized each time he grows.")
+                .defineInRange("jetJaguarGiantTicks", 2400, 100, 1_000_000);
+        KIRYU_RAMPAGE_CHANCE = b.comment("Chance that a Godzilla's roar wakes the first Godzilla's spirit inside Kiryu (Kiryu Kai: 40% of this).")
+                .defineInRange("kiryuRampageChance", 0.25, 0.0, 1.0);
+        DIMENSION_TIDE_RADIUS = b.comment("Radius in blocks of the Dimension Tide's micro black hole.")
+                .defineInRange("dimensionTideRadius", 8.0, 1.0, 32.0);
+        DIMENSION_TIDE_COOLDOWN = b.comment("Ticks before the Dimension Tide can fire again (the film's satellite needed an hour).")
+                .defineInRange("dimensionTideCooldown", 12000, 0, 1_000_000);
         b.pop();
 
         SPEC = b.build();

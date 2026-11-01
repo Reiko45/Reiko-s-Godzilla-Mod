@@ -30,10 +30,13 @@ import net.neoforged.neoforge.entity.PartEntity;
  *     <li>PARALYZER: stuns and slows (Heisei Mechagodzilla).</li>
  *     <li>CADMIUM: shuts down regeneration and nuclear attacks (Super X).</li>
  *     <li>FREEZER: fills the freeze meter (Super X3).</li>
+ *     <li>D03: the Satsuma's D-03 drill missile. Devastating fired into an open wound (GMK Godzilla).</li>
+ *     <li>RAILGUN: Kiryu's Type-0 railgun rounds: no explosion, just a heavy hit.</li>
+ *     <li>LASER: a burning laser bolt (the Godzilla Tower, Xilien saucers).</li>
  * </ul>
  */
 public class KaijuMissileEntity extends ThrowableItemProjectile {
-    public enum Payload { EXPLOSIVE, PARALYZER, CADMIUM, FREEZER }
+    public enum Payload { EXPLOSIVE, PARALYZER, CADMIUM, FREEZER, D03, RAILGUN, LASER }
 
     private static final EntityDataAccessor<Integer> DATA_PAYLOAD = SynchedEntityData.defineId(KaijuMissileEntity.class, EntityDataSerializers.INT);
 
@@ -47,6 +50,12 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
 
     public KaijuMissileEntity(Level level, LivingEntity shooter, Payload payload) {
         super(ModEntities.KAIJU_MISSILE.get(), shooter, level);
+        entityData.set(DATA_PAYLOAD, payload.ordinal());
+    }
+
+    /** A missile with no shooter (the Godzilla Tower's laser). */
+    public KaijuMissileEntity(Level level, double x, double y, double z, Payload payload) {
+        super(ModEntities.KAIJU_MISSILE.get(), x, y, z, level);
         entityData.set(DATA_PAYLOAD, payload.ordinal());
     }
 
@@ -77,7 +86,8 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
             ParticleOptions trail = switch (getPayload()) {
                 case FREEZER -> ParticleTypes.SNOWFLAKE;
                 case CADMIUM -> ParticleTypes.HAPPY_VILLAGER;
-                case PARALYZER -> ParticleTypes.ELECTRIC_SPARK;
+                case PARALYZER, RAILGUN -> ParticleTypes.ELECTRIC_SPARK;
+                case LASER -> ParticleTypes.CRIMSON_SPORE;
                 default -> ParticleTypes.FLAME;
             };
             level().addParticle(ParticleTypes.SMOKE, getX(), getY(), getZ(), 0, 0, 0);
@@ -97,7 +107,21 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(damageSources().explosion(this, getOwner()), getPayload() == Payload.EXPLOSIVE ? 6.0f : 4.0f);
+        Payload payload = getPayload();
+        float damage = switch (payload) {
+            case EXPLOSIVE -> 6.0f;
+            case D03 -> 14.0f;
+            case RAILGUN -> 10.0f;
+            case LASER -> 5.0f;
+            default -> 4.0f;
+        };
+        net.minecraft.world.entity.Entity hit = result.getEntity();
+        String part = hit instanceof com.reiko45.godzilla.entity.KaijuPart p ? p.name : null;
+        KaijuEntity kaiju = hit instanceof KaijuEntity k ? k : hit instanceof com.reiko45.godzilla.entity.KaijuPart p ? p.getParent() : null;
+        if (kaiju != null) damage *= kaiju.missileDamageMultiplier(payload, part);
+        if (payload == Payload.LASER) hit.igniteForSeconds(4);
+        hit.hurt(payload == Payload.RAILGUN || payload == Payload.LASER ? damageSources().mobProjectile(this, getOwner() instanceof LivingEntity l ? l : null)
+                : damageSources().explosion(this, getOwner()), damage);
     }
 
     @Override
@@ -106,9 +130,15 @@ public class KaijuMissileEntity extends ThrowableItemProjectile {
         if (!(level() instanceof ServerLevel server)) return;
         Payload payload = getPayload();
         boolean grief = payload == Payload.EXPLOSIVE && getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
-        if (payload != Payload.FREEZER) {
-            server.explode(this, getX(), getY(), getZ(), payload == Payload.EXPLOSIVE ? 2.0f : 1.0f, false,
-                    grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+        if (payload == Payload.D03) grief = getOwner() != null && KaijuDestruction.canGrief(server, getOwner());
+        if (payload != Payload.FREEZER && payload != Payload.RAILGUN && payload != Payload.LASER) {
+            float power = payload == Payload.D03 ? 3.0f : payload == Payload.EXPLOSIVE ? 2.0f : 1.0f;
+            server.explode(this, getX(), getY(), getZ(), power, false, grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+        }
+        if (payload == Payload.RAILGUN || payload == Payload.LASER) {
+            server.sendParticles(payload == Payload.LASER ? ParticleTypes.FLAME : ParticleTypes.ELECTRIC_SPARK, getX(), getY(), getZ(), 12, 0.3, 0.3, 0.3, 0.1);
+            discard();
+            return;
         }
         for (LivingEntity e : server.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(4.0), e -> e != getOwner())) {
             KaijuEntity kaiju = e instanceof KaijuEntity k ? k : null;

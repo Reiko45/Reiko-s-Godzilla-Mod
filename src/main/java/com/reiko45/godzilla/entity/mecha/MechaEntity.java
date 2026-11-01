@@ -42,7 +42,7 @@ public abstract class MechaEntity extends FlyingKaijuEntity {
     public abstract Item packedItem();
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.HUMAN;
     }
 

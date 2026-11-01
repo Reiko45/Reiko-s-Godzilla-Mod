@@ -35,7 +35,7 @@ public class MothraLarvaEntity extends LarvaKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.GUARDIAN;
     }
 

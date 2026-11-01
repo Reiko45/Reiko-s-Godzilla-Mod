@@ -51,7 +51,7 @@ public class BattraEntity extends FlyingKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return entityData != null && isAllied() ? KaijuFaction.GUARDIAN : KaijuFaction.INVADER;
     }
 

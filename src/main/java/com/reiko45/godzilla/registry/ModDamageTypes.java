@@ -42,6 +42,21 @@ public final class ModDamageTypes {
     public static final ResourceKey<DamageType> ELECTRIC_COIL = key("electric_coil");
     public static final ResourceKey<DamageType> FROST_BREATH = key("frost_breath");
     public static final ResourceKey<DamageType> GRAVITY_INVERSION = key("gravity_inversion");
+    // Phase 4
+    public static final ResourceKey<DamageType> BUZZSAW = key("buzzsaw");
+    public static final ResourceKey<DamageType> HEDRIUM_RAY = key("hedrium_ray");
+    public static final ResourceKey<DamageType> ACID_MIST = key("acid_mist");
+    public static final ResourceKey<DamageType> BEAST_KILLER = key("beast_killer");
+    public static final ResourceKey<DamageType> MAGMA_RAY = key("magma_ray");
+    public static final ResourceKey<DamageType> PLASMA_CANNON = key("plasma_cannon");
+    public static final ResourceKey<DamageType> ABSOLUTE_ZERO = key("absolute_zero");
+    public static final ResourceKey<DamageType> DESTROYED_THUNDER = key("destroyed_thunder");
+    public static final ResourceKey<DamageType> GIGARIUM_CLUSTER = key("gigarium_cluster");
+    public static final ResourceKey<DamageType> BLACK_HOLE = key("black_hole");
+    public static final ResourceKey<DamageType> THUNDER_SPARK = key("thunder_spark");
+    public static final ResourceKey<DamageType> ENERGY_DRAIN = key("energy_drain");
+    public static final ResourceKey<DamageType> CONSTRICTION = key("constriction");
+    public static final ResourceKey<DamageType> TOWER_LASER = key("tower_laser");
     /** Every beam-type attack: these can be reflected (Super X2's Fire Mirror, shields) or absorbed. */
     public static final net.minecraft.tags.TagKey<DamageType> KAIJU_BEAM =
             net.minecraft.tags.TagKey.create(Registries.DAMAGE_TYPE, ReikoGodzilla.id("kaiju_beam"));

@@ -37,7 +37,7 @@ public class BattraLarvaEntity extends LarvaKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
     }
 

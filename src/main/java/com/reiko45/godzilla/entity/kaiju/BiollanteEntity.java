@@ -48,7 +48,7 @@ public class BiollanteEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
     }
 

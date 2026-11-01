@@ -26,6 +26,9 @@ public class RoarAbility extends KaijuAbility {
     public void activate(KaijuEntity kaiju, @Nullable LivingEntity target) {
         kaiju.level().playSound(null, kaiju.getX(), kaiju.getEyeY(), kaiju.getZ(), sound.get(), SoundSource.HOSTILE,
                 8.0f + kaiju.getScale() * 2, 0.9f + kaiju.getRandom().nextFloat() * 0.2f);
+        for (KaijuEntity other : kaiju.level().getEntitiesOfClass(KaijuEntity.class, kaiju.getBoundingBox().inflate(96), k -> k != kaiju)) {
+            other.onRoarHeard(kaiju);
+        }
         for (LivingEntity e : AreaAbility.victims(kaiju, 24 * kaiju.getScale())) {
             if (e instanceof KaijuEntity) continue;
             e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));

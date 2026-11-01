@@ -47,7 +47,8 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.ANGUIRUS.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("anguirus"), 3.0f));
         // While disguised, Mechagodzilla wears the Showa Godzilla model.
         event.registerEntityRenderer(ModEntities.MECHAGODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
-                new NamedGeoModel<MechagodzillaEntity>(m -> m.isDisguised() ? "godzilla_showa" : "mechagodzilla"), 3.0f));
+                new NamedGeoModel<MechagodzillaEntity>(m -> m.isDisguised() ? "godzilla_showa" : "mechagodzilla",
+                        m -> m.isDisguised() ? "godzilla_showa" : m.getVariant() == MechagodzillaEntity.MECHAGODZILLA_2 ? "mechagodzilla_2" : "mechagodzilla"), 3.0f));
         event.registerEntityRenderer(ModEntities.MASER_TANK.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("maser_tank"), 1.4f));
 
         // Phase 2: Heisei
@@ -107,12 +108,78 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.HEAV.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("heav"), 2.0f));
         event.registerEntityRenderer(ModEntities.HEAVY_PROJECTILE.get(), ctx -> new ThrownItemRenderer<>(ctx, 3.0f, true));
 
+        // Phase 4: Showa and Millennium
+        event.registerEntityRenderer(ModEntities.GIGAN.get(), ctx -> new KaijuRenderer<>(ctx,
+                new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.showa.GiganEntity>(g -> "gigan",
+                        g -> g.getVariant() == com.reiko45.godzilla.entity.showa.GiganEntity.FINAL_WARS ? "gigan_final_wars" : "gigan",
+                        java.util.List.of("hooks", "saws"), (g, bone) -> bone.equals("saws") == g.isModified()), 3.0f));
+        event.registerEntityRenderer(ModEntities.HEDORAH.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.showa.HedorahEntity>(h -> switch (h.getVariant()) {
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.AQUATIC -> "hedorah_aquatic";
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.LAND -> "hedorah_land";
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.FLYING -> "hedorah_flying";
+                    default -> "hedorah_perfect";
+                }, h -> h.getVariant() == com.reiko45.godzilla.entity.showa.HedorahEntity.FINAL_WARS ? "hedorah_final_wars" : switch (h.getVariant()) {
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.AQUATIC -> "hedorah_aquatic";
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.LAND -> "hedorah_land";
+                    case com.reiko45.godzilla.entity.showa.HedorahEntity.FLYING -> "hedorah_flying";
+                    default -> "hedorah_perfect";
+                }), 3.0f));
+        event.registerEntityRenderer(ModEntities.MEGALON.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("megalon"), 3.0f));
+        event.registerEntityRenderer(ModEntities.JET_JAGUAR.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("jet_jaguar"), 0.6f));
+        event.registerEntityRenderer(ModEntities.EBIRAH.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("ebirah", "ebirah_final_wars"), 3.0f));
+        event.registerEntityRenderer(ModEntities.KUMONGA.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("kumonga", "kumonga_final_wars"), 3.0f));
+        event.registerEntityRenderer(ModEntities.KAMACURAS.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("kamacuras", "kamacuras_final_wars"), 2.0f));
+        event.registerEntityRenderer(ModEntities.MINILLA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("minilla"), 1.0f));
+        event.registerEntityRenderer(ModEntities.GOROSAURUS.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("gorosaurus"), 2.5f));
+        event.registerEntityRenderer(ModEntities.MANDA.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("manda", "manda_final_wars"), 3.0f));
+        event.registerEntityRenderer(ModEntities.BARAGON.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("baragon", "baragon_gmk"), 2.5f));
+        event.registerEntityRenderer(ModEntities.VARAN.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("varan"), 3.0f));
+        event.registerEntityRenderer(ModEntities.KING_CAESAR.get(), ctx -> new KaijuRenderer<>(ctx, variantTexture("king_caesar", "king_caesar_final_wars"), 3.0f));
+        event.registerEntityRenderer(ModEntities.TITANOSAURUS.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("titanosaurus"), 3.0f));
+        event.registerEntityRenderer(ModEntities.MILLENNIUM_GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.millennium.MillenniumGodzillaEntity>(g -> switch (g.getVariant()) {
+                    case com.reiko45.godzilla.entity.millennium.MillenniumGodzillaEntity.GMK -> "godzilla_gmk";
+                    case com.reiko45.godzilla.entity.millennium.MillenniumGodzillaEntity.KIRYU_ERA -> "godzilla_kiryu_era";
+                    case com.reiko45.godzilla.entity.millennium.MillenniumGodzillaEntity.FINAL_WARS -> "godzilla_final_wars";
+                    default -> "godzilla_millennium";
+                }), 4.0f));
+        event.registerEntityRenderer(ModEntities.ORGA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("orga"), 4.0f));
+        event.registerEntityRenderer(ModEntities.MILLENNIAN_UFO.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("millennian_ufo"), 4.0f));
+        event.registerEntityRenderer(ModEntities.MEGAGUIRUS.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("megaguirus"), 3.0f));
+        event.registerEntityRenderer(ModEntities.MEGANULON.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("meganulon"), 0.6f));
+        event.registerEntityRenderer(ModEntities.MEGANULA.get(), ctx -> new GeoBeamRenderer<>(ctx, NamedGeoModel.fixed("meganula"), 0.4f));
+        event.registerEntityRenderer(ModEntities.GMK_MOTHRA.get(), ctx -> new KaijuRenderer<>(ctx, new NamedGeoModel<>(m -> "mothra", m -> "mothra_gmk"), 3.0f));
+        event.registerEntityRenderer(ModEntities.GMK_KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.millennium.GmkGhidorahEntity>(g -> "king_ghidorah_gmk",
+                        g -> g.getVariant() == com.reiko45.godzilla.entity.millennium.GmkGhidorahEntity.DRAGON_KING ? "king_ghidorah_dragon_king" : "king_ghidorah_gmk"), 4.0f));
+        event.registerEntityRenderer(ModEntities.KIRYU.get(), ctx -> new KaijuRenderer<>(ctx,
+                new com.reiko45.godzilla.client.model.ToggleBoneModel<com.reiko45.godzilla.entity.millennium.KiryuEntity>(k -> "kiryu",
+                        k -> k.getVariant() == com.reiko45.godzilla.entity.millennium.KiryuEntity.KAI ? "kiryu_kai" : "kiryu",
+                        java.util.List.of("zero_cannon", "drill", "triple_maser"),
+                        (k, bone) -> bone.equals("zero_cannon") == (k.getVariant() == com.reiko45.godzilla.entity.millennium.KiryuEntity.KIRYU)), 4.0f));
+        event.registerEntityRenderer(ModEntities.MONSTER_X.get(), ctx -> new KaijuRenderer<>(ctx,
+                new NamedGeoModel<com.reiko45.godzilla.entity.millennium.MonsterXEntity>(m -> m.getVariant() == com.reiko45.godzilla.entity.millennium.MonsterXEntity.KEIZER
+                        ? "keizer_ghidorah" : "monster_x"), 5.0f));
+        event.registerEntityRenderer(ModEntities.ZILLA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("zilla"), 3.0f));
+        event.registerEntityRenderer(ModEntities.GOTENGO.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("gotengo"), 6.0f));
+        event.registerEntityRenderer(ModEntities.XILIEN_SAUCER.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("xilien_saucer"), 1.5f));
+        event.registerEntityRenderer(ModEntities.WEB_SHOT.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.SLICER_DISC.get(), ctx -> new ThrownItemRenderer<>(ctx, 2.0f, true));
+        event.registerEntityRenderer(ModEntities.LIGHT_BOMB.get(), ctx -> new ThrownItemRenderer<>(ctx, 1.0f, true));
+        event.registerEntityRenderer(ModEntities.MICRO_BLACK_HOLE.get(), net.minecraft.client.renderer.entity.NoopRenderer::new);
+
         // Projectiles
         event.registerEntityRenderer(ModEntities.SILK_SHOT.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.KAIJU_MISSILE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.OXYGEN_DESTROYER.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.ACID_SAP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.GHIDORAH_METEOR.get(), ctx -> new ThrownItemRenderer<>(ctx, 6.0f, true));
+    }
+
+    /** One model, with a second texture for the entity's other form (variant 1: Final Wars, GMK...). */
+    private static <T extends com.reiko45.godzilla.entity.KaijuEntity> NamedGeoModel<T> variantTexture(String model, String variantTexture) {
+        return new NamedGeoModel<>(e -> model, e -> e.getVariant() == 1 ? variantTexture : model);
     }
 
     /** Vanilla hides the crosshair in third person; pilots need it to aim their weapons. */

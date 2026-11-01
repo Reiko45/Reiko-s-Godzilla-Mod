@@ -58,6 +58,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     private static final EntityDataAccessor<Boolean> DATA_CADMIUM = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_ALPHA_CALLED = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_EMP = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_CONTROL = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     @SuppressWarnings("unchecked")
     private static final EntityDataAccessor<Vector3f>[] DATA_BEAM_END = new EntityDataAccessor[]{
             SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.VECTOR3),
@@ -96,6 +97,9 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     private int bowTicks;
     private int empTicks;
     private int calmTicks;
+    private int controlTicks;
+    private int confusedTicks;
+    private int stunTicks;
 
     /** Pilot actions sent by the rider's keys. */
     public static final int ACTION_PRIMARY = 0;
@@ -191,6 +195,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         builder.define(DATA_CADMIUM, false);
         builder.define(DATA_ALPHA_CALLED, false);
         builder.define(DATA_EMP, false);
+        builder.define(DATA_CONTROL, -1);
         for (EntityDataAccessor<Vector3f> a : DATA_BEAM_END) builder.define(a, new Vector3f());
     }
 
@@ -228,10 +233,14 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType,
                                         @Nullable SpawnGroupData data) {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, spawnType, data);
+        finalizeSpawnVariant(spawnType);
         applyScale();
         setHealth(getMaxHealth());
         return result;
     }
+
+    /** Picks a variant for this kind of spawn (events bring Hedorah in its flying form, and so on). */
+    public void finalizeSpawnVariant(MobSpawnType type) {}
 
     // ---------------------------------------------------------------- multipart
 
@@ -385,12 +394,18 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     // ---------------------------------------------------------------- targeting
 
+    /** The side this kaiju is on, unless something has taken over its mind (see {@link #getBaseFaction()}). */
     @Override
-    public abstract KaijuFaction getFaction();
+    public final KaijuFaction getFaction() {
+        return isAlienControlled() ? KaijuFaction.INVADER : getBaseFaction();
+    }
+
+    /** The kaiju's own allegiance. Alien control overrides it. */
+    public abstract KaijuFaction getBaseFaction();
 
     /** Whether this kaiju picks a fight with {@code other} unprovoked. */
     public boolean wantsToAttack(LivingEntity other) {
-        if (other == this || !other.isAlive() || isAlliedTo(other) || isCalmed() || bowTicks > 0) return false;
+        if (other == this || !other.isAlive() || isAlliedTo(other) || isCalmed() || bowTicks > 0 || isConfused()) return false;
         if (other instanceof KaijuAligned aligned) {
             if (getFaction().isHostileTo(aligned.getFaction())) return true;
             // Human tech also engages any kaiju that is attacking people.
@@ -398,7 +413,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
                     && (mob.getTarget() instanceof Player || mob.getTarget() instanceof KaijuAligned t && t.getFaction() == KaijuFaction.HUMAN);
         }
         if (other instanceof Player player) {
-            return !player.isCreative() && !player.isSpectator() && attacksPlayersOnSight();
+            return !player.isCreative() && !player.isSpectator() && (attacksPlayersOnSight() || isAlienControlled());
         }
         return false;
     }
@@ -454,7 +469,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
             if (horizontalCollision && tickCount % 2 == 0 && canCrushBlocks() && KaijuDestruction.canGrief(level(), this)) {
                 crushBlocksAhead(motion);
             }
-            if (moving && tickCount % 10 == 0) stompSmallEntities();
+            if (moving && tickCount % 10 == 0 && !isInvisible()) stompSmallEntities();
         }
     }
 
@@ -487,6 +502,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         if (regenSuppressedTicks > 0) regenSuppressedTicks--;
         tickAbility();
         tickAlpha();
+        tickControl();
         if (calmTicks > 0) {
             calmTicks--;
             if (getTarget() != null && tickCount % 10 == 0) setTarget(null);
@@ -605,6 +621,13 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
             entityData.set(DATA_FREEZE, Math.max(0f, getFreeze() - thaw));
         }
         if (cadmiumTicks > 0 && --cadmiumTicks <= 0) entityData.set(DATA_CADMIUM, false);
+        if (stunTicks > 0) {
+            stunTicks--;
+            if (tickCount % 6 == 0 && level() instanceof ServerLevel server) {
+                server.sendParticles(net.minecraft.core.particles.ParticleTypes.NOTE, getX(), getY() + getBbHeight() + 0.4, getZ(), 2,
+                        getBbWidth() * 0.3, 0.2, getBbWidth() * 0.3, 0.5);
+            }
+        }
         if (empTicks > 0) {
             if (--empTicks <= 0) entityData.set(DATA_EMP, false);
             else if (tickCount % 5 == 0 && level() instanceof ServerLevel server) {
@@ -616,8 +639,27 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     @Override
     public boolean isImmobile() {
-        return isFrozenSolid() || isEmpDisabled() || super.isImmobile();
+        return isFrozenSolid() || isEmpDisabled() || stunTicks > 0 || super.isImmobile();
     }
+
+    /** Stunned (the Supersonic Wave Oscillator on Titanosaurus): can't move or attack for a while. */
+    public void stun(int ticks) {
+        if (level().isClientSide) return;
+        stunTicks = Math.max(stunTicks, ticks);
+        if (isAbilityActive()) stopAbility();
+    }
+
+    public boolean isStunned() {
+        return stunTicks > 0;
+    }
+
+    /** Any of the Godzillas (Showa/Heisei, Millennium, MonsterVerse). Kiryu, Orga and the Minilla training care. */
+    public boolean isGodzilla() {
+        return false;
+    }
+
+    /** Another kaiju roared nearby. Kiryu, built on the first Godzilla's bones, may answer a Godzilla's roar. */
+    public void onRoarHeard(KaijuEntity roarer) {}
 
     /**
      * Colour multiplier for the renderer: icy blue while freezing, or null for none. Subclasses add their own
@@ -703,6 +745,97 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         }
     }
 
+    // ---------------------------------------------------------------- alien control (Phase 4)
+
+    /**
+     * The Xiliens' "M-Base": a gene they planted in Earth's monsters thousands of years ago, which lets them control
+     * those monsters. Godzilla never had it.
+     */
+    public boolean hasMBase() {
+        return false;
+    }
+
+    /**
+     * Which alien signals can take this kaiju over. By default only the Xiliens, and only monsters with M-Base;
+     * the Kilaaks (Destroy All Monsters) could control any Earth monster that opts in here.
+     */
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.XILIEN && hasMBase();
+    }
+
+    public boolean isAlienControlled() {
+        return entityData.get(DATA_CONTROL) >= 0;
+    }
+
+    @Nullable
+    public com.reiko45.godzilla.world.AlienSignal getControllingSignal() {
+        int i = entityData.get(DATA_CONTROL);
+        return i >= 0 ? com.reiko45.godzilla.world.AlienSignal.byId(i) : null;
+    }
+
+    /** Lost its controller: wanders around confused for a while and fights nobody. */
+    public boolean isConfused() {
+        return confusedTicks > 0;
+    }
+
+    /**
+     * A control signal reached this kaiju (a transmitter, a Xilien saucer...). It stays under control while the signal
+     * keeps arriving; tamed and piloted kaiju can't be taken over.
+     */
+    public void receiveSignal(com.reiko45.godzilla.world.AlienSignal signal, int ticks) {
+        if (level().isClientSide || !isAlive() || !controllableBy(signal) || getPilot() != null || resistsControl()) return;
+        boolean fresh = entityData.get(DATA_CONTROL) != signal.ordinal();
+        entityData.set(DATA_CONTROL, signal.ordinal());
+        controlTicks = Math.max(controlTicks, ticks);
+        confusedTicks = 0;
+        if (fresh) {
+            setTarget(null);
+            refreshBossColor();
+            onControlled(signal);
+        }
+    }
+
+    /** Tamed kaiju belong to their owner and can't be taken over. */
+    protected boolean resistsControl() {
+        return this instanceof net.minecraft.world.entity.OwnableEntity owned && owned.getOwnerUUID() != null;
+    }
+
+    protected void onControlled(com.reiko45.godzilla.world.AlienSignal signal) {}
+
+    /** The signal stopped (its transmitter was destroyed). Mechagodzilla 2 shuts down; most monsters are just confused. */
+    protected void onControlLost(com.reiko45.godzilla.world.AlienSignal signal) {}
+
+    /** Frees the kaiju right away (Ozaki's Keizer power, a destroyed control implant). */
+    public void releaseControl(int confusedFor) {
+        if (!isAlienControlled()) return;
+        com.reiko45.godzilla.world.AlienSignal lost = getControllingSignal();
+        entityData.set(DATA_CONTROL, -1);
+        controlTicks = 0;
+        confusedTicks = confusedFor;
+        setTarget(null);
+        setDestination(null);
+        if (isAbilityActive()) stopAbility();
+        refreshBossColor();
+        onControlLost(lost);
+    }
+
+    private void tickControl() {
+        if (controlTicks > 0 && --controlTicks <= 0) releaseControl(200);
+        if (confusedTicks > 0) {
+            confusedTicks--;
+            if (getTarget() != null) setTarget(null);
+            if (tickCount % 10 == 0 && level() instanceof ServerLevel server) {
+                server.sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT, getX(), getY() + getBbHeight() + 0.5, getZ(), 6,
+                        getBbWidth() * 0.3, 0.3, getBbWidth() * 0.3, 0.1);
+            }
+        }
+        com.reiko45.godzilla.world.AlienSignal signal = getControllingSignal();
+        if (signal != null && tickCount % 15 == 0 && level() instanceof ServerLevel server) {
+            server.sendParticles(new net.minecraft.core.particles.DustParticleOptions(signal.color(), 2.0f), getX(), getY() + getBbHeight() + 0.6, getZ(), 6,
+                    getBbWidth() * 0.25, 0.4, getBbWidth() * 0.25, 0);
+        }
+    }
+
     // ---------------------------------------------------------------- EMP and the ORCA (Phase 3)
 
     /** Only machines are knocked out by EMP (MUTOs). */
@@ -760,6 +893,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     public static boolean isBeam(DamageSource source) {
         return source.is(com.reiko45.godzilla.registry.ModDamageTypes.KAIJU_BEAM);
+    }
+
+    /** Damage multiplier for a missile hitting this kaiju (or one of its parts, by name). GMK Godzilla's open wound. */
+    public float missileDamageMultiplier(com.reiko45.godzilla.entity.projectile.KaijuMissileEntity.Payload payload, @Nullable String part) {
+        return 1.0f;
     }
 
     /** Called when a beam is reflected. Return the damage multiplier sent back. */
@@ -978,6 +1116,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         tag.putInt("Cadmium", cadmiumTicks);
         if (alphaId != null) tag.putUUID("Alpha", alphaId);
         tag.putInt("Emp", empTicks);
+        tag.putInt("Control", entityData.get(DATA_CONTROL));
+        tag.putInt("ControlTicks", controlTicks);
+        tag.putInt("Confused", confusedTicks);
+        tag.putInt("Stun", stunTicks);
+        if (com.reiko45.godzilla.entity.ability.BurrowAbility.isBurrowed(this)) tag.putBoolean("Burrowing", true);
     }
 
     @Override
@@ -996,6 +1139,17 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         entityData.set(DATA_ALPHA_CALLED, alphaId != null);
         empTicks = tag.getInt("Emp");
         entityData.set(DATA_EMP, empTicks > 0);
+        controlTicks = tag.getInt("ControlTicks");
+        entityData.set(DATA_CONTROL, controlTicks > 0 && tag.contains("Control") ? tag.getInt("Control") : -1);
+        confusedTicks = tag.getInt("Confused");
+        stunTicks = tag.getInt("Stun");
+        if (tag.getBoolean("SpawnFull")) setHealth(getMaxHealth());
+        if (tag.getBoolean("Burrowing")) {
+            // Saved halfway through burrowing: come back up.
+            setInvisible(false);
+            setInvulnerable(false);
+            noPhysics = false;
+        }
         applyScale();
         if (hasCustomName()) bossEvent.setName(getDisplayName());
     }

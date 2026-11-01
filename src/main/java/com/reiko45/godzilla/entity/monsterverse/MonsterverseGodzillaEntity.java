@@ -76,8 +76,13 @@ public class MonsterverseGodzillaEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
+    }
+
+    @Override
+    public boolean isGodzilla() {
+        return true;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class TiamatEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
     }
 

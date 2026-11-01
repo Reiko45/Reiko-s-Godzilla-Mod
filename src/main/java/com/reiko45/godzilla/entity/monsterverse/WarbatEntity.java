@@ -37,7 +37,7 @@ public class WarbatEntity extends FlyingKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
     }
 

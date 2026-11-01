@@ -67,7 +67,7 @@ public class ShimoEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return isControlled() ? KaijuFaction.INVADER : KaijuFaction.TITAN;
     }
 

@@ -55,7 +55,26 @@ public enum BeamStyle {
     /** MonsterVerse Mothra's "god rays". */
     GOD_RAY(1.0f, 0.9f, 0.55f, 1.0f, 1.0f, 0.9f),
     /** Lightning from MonsterVerse King Ghidorah's wingtips and Tiamat's electric coils. */
-    LIGHTNING(0.6f, 0.75f, 1.0f, 1.0f, 1.0f, 1.0f, Shape.JAGGED);
+    LIGHTNING(0.6f, 0.75f, 1.0f, 1.0f, 1.0f, 1.0f, Shape.JAGGED),
+    // ---- Phase 4 (Showa and Millennium)
+    /** Minilla's atomic smoke rings. */
+    SMOKE_RING(0.85f, 0.85f, 0.9f, 1.0f, 1.0f, 1.0f, Shape.RINGS),
+    /** Hedorah's crimson Hedrium Ray. */
+    HEDRIUM(0.9f, 0.1f, 0.15f, 1.0f, 0.6f, 0.5f),
+    /** Final Wars Gigan's Gigarium Cluster eye beam, which bursts into explosive bolts. */
+    CLUSTER(1.0f, 0.15f, 0.35f, 1.0f, 0.75f, 0.8f, Shape.JAGGED),
+    /** Thin red laser (Showa Gigan's forehead beam, Xilien saucers, the Godzilla Tower). */
+    VISOR(1.0f, 0.2f, 0.1f, 1.0f, 0.8f, 0.6f),
+    /** Showa Baragon's magma heat ray. */
+    MAGMA(1.0f, 0.45f, 0.05f, 1.0f, 0.85f, 0.4f),
+    /** The Millennian UFO's and Orga's plasma cannons. */
+    MILLENNIAN(1.0f, 0.75f, 0.2f, 1.0f, 1.0f, 0.75f),
+    /** Godzilla 2000's red-orange atomic breath. */
+    MILLENNIUM(1.0f, 0.35f, 0.2f, 1.0f, 0.85f, 0.65f),
+    /** Monster X's "Destroyed Thunder" gravity beams. */
+    XILIEN_GRAVITY(0.85f, 0.2f, 0.75f, 1.0f, 0.75f, 1.0f, Shape.JAGGED),
+    /** Keizer Ghidorah's anti-gravity beams. */
+    KEIZER(1.0f, 0.4f, 0.1f, 1.0f, 0.8f, 0.4f, Shape.JAGGED);
 
     public enum Shape { STRAIGHT, JAGGED, RAINBOW, SPIRAL, CURVED, RINGS }
 

@@ -53,5 +53,31 @@ public final class ModBlocks {
     public static final DeferredBlock<StormWallBlock> STORM_WALL = BLOCKS.register("storm_wall",
             () -> new StormWallBlock(BlockBehaviour.Properties.of().strength(-1.0f, 3_600_000.0f).noCollission().noLootTable().noOcclusion()));
 
+    // Phase 4
+    public static final DeferredBlock<AlienTransmitterBlock> ALIEN_TRANSMITTER = BLOCKS.register("alien_transmitter",
+            () -> new AlienTransmitterBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(6.0f, 12.0f).sound(SoundType.METAL)
+                    .lightLevel(s -> 9).noLootTable()));
+    public static final DeferredBlock<ElectrodePlateBlock> ELECTRODE_PLATE = BLOCKS.register("electrode_plate",
+            () -> new ElectrodePlateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(4.0f, 6.0f).sound(SoundType.COPPER)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<MinillaEggBlock> MINILLA_EGG = BLOCKS.register("minilla_egg",
+            () -> new MinillaEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(3.0f, 6.0f)
+                    .sound(SoundType.BONE_BLOCK).randomTicks().noOcclusion().pushReaction(PushReaction.BLOCK)));
+    public static final DeferredBlock<ShisaStatueBlock> SHISA_STATUE = BLOCKS.register("shisa_statue",
+            () -> new ShisaStatueBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(2.0f, 6.0f)
+                    .sound(SoundType.DECORATED_POT).noOcclusion()));
+    public static final DeferredBlock<GuardianShrineBlock> GUARDIAN_SHRINE = BLOCKS.register("guardian_shrine",
+            () -> new GuardianShrineBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(3.0f, 6.0f).sound(SoundType.STONE)
+                    .noOcclusion().noLootTable()));
+    public static final DeferredBlock<MeganulonEggBlock> MEGANULON_EGG = BLOCKS.register("meganulon_egg",
+            () -> new MeganulonEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(0.6f, 1.0f)
+                    .sound(SoundType.FROGSPAWN).randomTicks().noOcclusion().lightLevel(s -> 3).pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<KiryuChargerBlock> KIRYU_CHARGER = BLOCKS.register("kiryu_charger",
+            () -> new KiryuChargerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0f, 12.0f).sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops().lightLevel(s -> 6)));
+    public static final DeferredBlock<TowerLaserBlock> TOWER_LASER = BLOCKS.register("tower_laser",
+            () -> new TowerLaserBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0f, 12.0f).sound(SoundType.METAL)
+                    .lightLevel(s -> 10).noLootTable()));
+
     private ModBlocks() {}
 }

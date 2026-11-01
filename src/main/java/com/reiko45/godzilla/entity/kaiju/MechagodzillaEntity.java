@@ -33,9 +33,17 @@ import java.util.List;
  * <p>
  * Mechagodzilla that arrive through the invasion event come disguised as Godzilla ("Fake Godzilla") until they take
  * enough damage or start shooting, when the disguise burns away.
+ * <p>
+ * Mechagodzilla 2 (Terror of Mechagodzilla, 1975) is the rebuilt version, variant 1: rotating finger missiles and a
+ * stronger hull, linked to its controllers through Katsura's cyborg body. If the Black Hole aliens' signal is cut
+ * after it has been linked, it shuts down for good.
  */
 public class MechagodzillaEntity extends KaijuEntity {
     private static final EntityDataAccessor<Boolean> DATA_DISGUISED = SynchedEntityData.defineId(MechagodzillaEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_SHUTDOWN = SynchedEntityData.defineId(MechagodzillaEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final int SHOWA = 0;
+    public static final int MECHAGODZILLA_2 = 1;
+    private boolean linked;
 
     public MechagodzillaEntity(EntityType<? extends MechagodzillaEntity> type, Level level) {
         super(type, level);
@@ -47,7 +55,7 @@ public class MechagodzillaEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
     }
 
@@ -58,7 +66,9 @@ public class MechagodzillaEntity extends KaijuEntity {
                 .sounds(ModSounds.SPACE_BEAM_CHARGE, ModSounds.SPACE_BEAM_FIRE)
                 .chargeParticle(ParticleTypes.END_ROD)
                 .range(4, 52));
-        list.add(new MissileBarrageAbility(new Vec3(-2.3, 6.2, 2.4), new Vec3(2.3, 6.2, 2.4)));
+        list.add(new MissileBarrageAbility(new Vec3(-2.3, 6.2, 2.4), new Vec3(2.3, 6.2, 2.4)).when(k -> k.getVariant() == SHOWA));
+        list.add(new MissileBarrageAbility("rotating_missiles", new Vec3(-2.3, 6.2, 2.4), new Vec3(2.3, 6.2, 2.4),
+                com.reiko45.godzilla.entity.projectile.KaijuMissileEntity.Payload.EXPLOSIVE, 140).interval(2).when(k -> k.getVariant() == MECHAGODZILLA_2));
         list.add(new ForceFieldAbility());
     }
 
@@ -80,10 +90,65 @@ public class MechagodzillaEntity extends KaijuEntity {
         return 0f;
     }
 
+    /** Built and controlled by the Black Hole Planet 3 aliens. */
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.BLACK_HOLE && !isShutDown();
+    }
+
+    @Override
+    protected void onControlled(com.reiko45.godzilla.world.AlienSignal signal) {
+        if (getVariant() == MECHAGODZILLA_2) linked = true;
+    }
+
+    /** Katsura's link is cut: Mechagodzilla 2 goes dead. */
+    @Override
+    protected void onControlLost(com.reiko45.godzilla.world.AlienSignal signal) {
+        if (getVariant() != MECHAGODZILLA_2 || !linked) return;
+        entityData.set(DATA_SHUTDOWN, true);
+        if (isAbilityActive()) stopAbility();
+        playSound(SoundEvents.BEACON_DEACTIVATE, 6f, 0.4f);
+        if (level() instanceof ServerLevel server) {
+            server.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY(0.7), getZ(), 60, getBbWidth() * 0.5, getBbHeight() * 0.3, getBbWidth() * 0.5, 0.02);
+            for (var player : server.players()) {
+                if (player.distanceToSqr(this) < 160 * 160) player.displayClientMessage(Component.translatable("message.reikogodzilla.mg2_shutdown"), true);
+            }
+        }
+    }
+
+    public boolean isShutDown() {
+        return entityData.get(DATA_SHUTDOWN);
+    }
+
+    @Override
+    public boolean isImmobile() {
+        return isShutDown() || super.isImmobile();
+    }
+
+    @Override
+    public boolean wantsToAttack(LivingEntity other) {
+        return !isShutDown() && super.wantsToAttack(other);
+    }
+
+    @Override
+    protected void applyVariantAttributes() {
+        var health = getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+        if (health != null) health.setBaseValue(getVariant() == MECHAGODZILLA_2 ? 1050 : 900);
+        var armor = getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR);
+        if (armor != null) armor.setBaseValue(getVariant() == MECHAGODZILLA_2 ? 28 : 26);
+    }
+
+    @Override
+    protected Component getTypeName() {
+        if (isDisguised()) return ModEntities.GODZILLA.get().getDescription();
+        return getVariant() == MECHAGODZILLA_2 ? Component.translatable("entity.reikogodzilla.mechagodzilla_2") : super.getTypeName();
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_DISGUISED, false);
+        builder.define(DATA_SHUTDOWN, false);
     }
 
     public boolean isDisguised() {
@@ -94,10 +159,6 @@ public class MechagodzillaEntity extends KaijuEntity {
         entityData.set(DATA_DISGUISED, disguised);
     }
 
-    @Override
-    protected Component getTypeName() {
-        return isDisguised() ? ModEntities.GODZILLA.get().getDescription() : super.getTypeName();
-    }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
@@ -141,12 +202,16 @@ public class MechagodzillaEntity extends KaijuEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("Disguised", isDisguised());
+        tag.putBoolean("Linked", linked);
+        tag.putBoolean("ShutDown", isShutDown());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setDisguised(tag.getBoolean("Disguised"));
+        linked = tag.getBoolean("Linked");
+        entityData.set(DATA_SHUTDOWN, tag.getBoolean("ShutDown"));
     }
 
     @Override

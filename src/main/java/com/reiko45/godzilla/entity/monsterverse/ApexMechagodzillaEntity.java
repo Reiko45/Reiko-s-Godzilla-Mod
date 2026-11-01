@@ -120,7 +120,7 @@ public class ApexMechagodzillaEntity extends MechaEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return isRogue() ? KaijuFaction.INVADER : KaijuFaction.HUMAN;
     }
 

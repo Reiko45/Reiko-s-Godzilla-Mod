@@ -41,8 +41,14 @@ public class KingGhidorahEntity extends FlyingKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.INVADER;
+    }
+
+    /** The Space Hunter Nebula M sent King Ghidorah alongside Gigan (Godzilla vs. Gigan). */
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.NEBULA_M || signal == com.reiko45.godzilla.world.AlienSignal.KILAAK;
     }
 
     @Override

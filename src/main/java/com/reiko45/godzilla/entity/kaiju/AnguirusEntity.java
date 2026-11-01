@@ -58,8 +58,19 @@ public class AnguirusEntity extends TameableKaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return KaijuFaction.TITAN;
+    }
+
+    /** Final Wars Anguirus was a Xilien weapon (M-Base); the Kilaaks controlled the Showa Anguirus. */
+    @Override
+    public boolean hasMBase() {
+        return true;
+    }
+
+    @Override
+    public boolean controllableBy(com.reiko45.godzilla.world.AlienSignal signal) {
+        return signal == com.reiko45.godzilla.world.AlienSignal.KILAAK || super.controllableBy(signal);
     }
 
     @Override

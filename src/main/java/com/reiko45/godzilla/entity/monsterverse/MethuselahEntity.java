@@ -49,7 +49,7 @@ public class MethuselahEntity extends KaijuEntity {
     }
 
     @Override
-    public KaijuFaction getFaction() {
+    public KaijuFaction getBaseFaction() {
         return alphaAware(KaijuFaction.TITAN);
     }
 
