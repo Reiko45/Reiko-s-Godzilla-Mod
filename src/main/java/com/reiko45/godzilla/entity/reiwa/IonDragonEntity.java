@@ -111,7 +111,7 @@ public class IonDragonEntity extends FlyingKaijuEntity {
 
     @Override
     protected double variantScale() {
-        return 2.2;
+        return 0.75;
     }
 
     @Override

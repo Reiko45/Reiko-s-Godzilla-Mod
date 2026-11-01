@@ -72,7 +72,7 @@ import java.util.Set;
 public class ShinGodzillaEntity extends KaijuEntity {
     public static final int SECOND = 0, THIRD = 1, FOURTH = 2;
     public static final int NORMAL = 0, MOLTING = 1, DORMANT = 2, KNOCKED_DOWN = 3, FROZEN = 4;
-    private static final EntityDimensions[] DIMENSIONS = {EntityDimensions.scalable(5.0f, 3.0f), EntityDimensions.scalable(3.0f, 10.0f),
+    private static final EntityDimensions[] DIMENSIONS = {EntityDimensions.scalable(5.0f, 4.2f), EntityDimensions.scalable(3.0f, 10.0f),
             EntityDimensions.scalable(3.6f, 11.0f)};
     private static final EntityDataAccessor<Float> DATA_ENERGY = SynchedEntityData.defineId(ShinGodzillaEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> DATA_COAGULANT = SynchedEntityData.defineId(ShinGodzillaEntity.class, EntityDataSerializers.FLOAT);
@@ -168,7 +168,7 @@ public class ShinGodzillaEntity extends KaijuEntity {
     @Override
     protected double variantScale() {
         return switch (getVariant()) {
-            case SECOND -> 1.7;
+            case SECOND -> 1.3;
             case THIRD -> 1.15;
             default -> 2.15;
         };

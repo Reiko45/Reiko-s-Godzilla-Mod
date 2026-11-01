@@ -86,7 +86,7 @@ public class SingularRodanEntity extends FlyingKaijuEntity {
 
     @Override
     protected double variantScale() {
-        return getVariant() == ADULT ? 3.5 : 1.2;
+        return getVariant() == ADULT ? 1.1 : 0.35;
     }
 
     @Override

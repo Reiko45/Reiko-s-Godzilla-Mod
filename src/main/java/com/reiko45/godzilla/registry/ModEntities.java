@@ -374,7 +374,7 @@ public final class ModEntities {
                     .clientTrackingRange(16).build("godzilla_earth"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.ServumEntity>> SERVUM = ENTITY_TYPES.register("servum",
-            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ServumEntity::new, MobCategory.MONSTER).sized(1.6f, 1.4f).eyeHeight(1.0f)
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.ServumEntity::new, MobCategory.MONSTER).sized(3.0f, 2.6f).eyeHeight(2.0f)
                     .clientTrackingRange(16).build("servum"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.VultureEntity>> VULTURE = ENTITY_TYPES.register("vulture",
@@ -398,7 +398,7 @@ public final class ModEntities {
                     .clientTrackingRange(16).build("jet_jaguar_pp"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.SingularRodanEntity>> SINGULAR_RODAN = ENTITY_TYPES.register("singular_rodan",
-            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.SingularRodanEntity::new, MobCategory.MONSTER).sized(1.4f, 1.0f).eyeHeight(0.8f)
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.SingularRodanEntity::new, MobCategory.MONSTER).sized(3.0f, 5.0f).eyeHeight(4.6f)
                     .clientTrackingRange(16).build("singular_rodan"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.SalungaEntity>> SALUNGA = ENTITY_TYPES.register("salunga",
@@ -418,7 +418,7 @@ public final class ModEntities {
                     .clientTrackingRange(16).build("frost_vark"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.IonDragonEntity>> ION_DRAGON = ENTITY_TYPES.register("ion_dragon",
-            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.IonDragonEntity::new, MobCategory.MONSTER).sized(2.4f, 1.6f).eyeHeight(1.2f)
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.reiwa.IonDragonEntity::new, MobCategory.MONSTER).sized(4.0f, 2.0f).eyeHeight(1.5f)
                     .clientTrackingRange(16).build("ion_dragon"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.reiwa.KrakenEntity>> KRAKEN = ENTITY_TYPES.register("kraken",

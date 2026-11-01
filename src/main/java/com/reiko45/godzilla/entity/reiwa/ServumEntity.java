@@ -86,7 +86,12 @@ public class ServumEntity extends FlyingKaijuEntity {
 
     @Override
     protected double variantScale() {
-        return getVariant() == WORM ? 2.2 : 1.8;
+        return getVariant() == WORM ? 1.2 : 0.6;
+    }
+
+    @Override
+    public net.minecraft.world.entity.EntityDimensions getDefaultDimensions(net.minecraft.world.entity.Pose pose) {
+        return getVariant() == WORM ? net.minecraft.world.entity.EntityDimensions.scalable(3.0f, 1.4f) : net.minecraft.world.entity.EntityDimensions.scalable(3.0f, 2.6f);
     }
 
     @Override
