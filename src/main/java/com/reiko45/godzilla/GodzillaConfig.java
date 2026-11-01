@@ -35,6 +35,14 @@ public final class GodzillaConfig {
     public static final ModConfigSpec.DoubleValue DESTOROYAH_CHANCE;
     public static final ModConfigSpec.IntValue BIOLLANTE_GROWTH_STAGES;
 
+    // Phase 3
+    public static final ModConfigSpec.BooleanValue ALPHA_CALL;
+    public static final ModConfigSpec.IntValue KONG_GROWTH_TICKS;
+    public static final ModConfigSpec.DoubleValue APEX_TAKEOVER_CHANCE;
+    public static final ModConfigSpec.BooleanValue ICE_AGE;
+    public static final ModConfigSpec.IntValue ORCA_RANGE;
+    public static final ModConfigSpec.DoubleValue VORTEX_DAMAGE;
+
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
 
@@ -91,6 +99,21 @@ public final class GodzillaConfig {
                 .defineInRange("destoroyahChance", 0.35, 0.0, 1.0);
         BIOLLANTE_GROWTH_STAGES = b.comment("Random-tick growth stages before a G-Cell Rose becomes Biollante.")
                 .defineInRange("biollanteGrowthStages", 6, 1, 100);
+        b.pop();
+
+        b.push("monsterverse");
+        ALPHA_CALL = b.comment("MonsterVerse King Ghidorah's Alpha Call turns Rodan, Behemoth, Methuselah and Scylla against everyone.")
+                .define("alphaCall", true);
+        KONG_GROWTH_TICKS = b.comment("Ticks for a young Kong (Skull Island, 1973) to grow into an adult. Feeding him fruit speeds it up.")
+                .defineInRange("kongGrowthTicks", 48000, 200, 10_000_000);
+        APEX_TAKEOVER_CHANCE = b.comment("Chance, every 10 seconds in a fight, that King Ghidorah's mind takes over a fully powered Apex Mechagodzilla.")
+                .defineInRange("apexTakeoverChance", 0.08, 0.0, 1.0);
+        ICE_AGE = b.comment("A Shimo controlled by the Skar King turns the weather to snow and freezes the land around her.")
+                .define("iceAge", true);
+        ORCA_RANGE = b.comment("Range in blocks of the ORCA's calm and lure signals (the Alpha signal reaches 2.5x as far).")
+                .defineInRange("orcaRange", 96, 8, 512);
+        VORTEX_DAMAGE = b.comment("Damage from the gravity inversion when passing through a Hollow Earth vortex without a HEAV.")
+                .defineInRange("vortexDamage", 6.0, 0.0, 100.0);
         b.pop();
 
         SPEC = b.build();

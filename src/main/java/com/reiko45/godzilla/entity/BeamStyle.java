@@ -36,7 +36,26 @@ public enum BeamStyle {
     /** Shock Anchor cables. */
     ANCHOR(0.95f, 0.85f, 0.35f, 0.8f, 0.8f, 0.85f, Shape.JAGGED),
     /** Little Godzilla's harmless-looking bubble breath. */
-    BUBBLE(1.0f, 0.45f, 0.4f, 1.0f, 0.8f, 0.7f, Shape.RINGS);
+    BUBBLE(1.0f, 0.45f, 0.4f, 1.0f, 0.8f, 0.7f, Shape.RINGS),
+    // ---- Phase 3 (MonsterVerse)
+    /** MonsterVerse Godzilla supercharged after feeding on radiation: blinding cyan-white. */
+    ATOMIC_CHARGED(0.45f, 0.85f, 1.0f, 0.95f, 1.0f, 1.0f),
+    /** Thermonuclear Godzilla: red-orange. */
+    THERMONUCLEAR(1.0f, 0.25f, 0.1f, 1.0f, 0.85f, 0.7f),
+    /** Evolved Godzilla's magenta breath. */
+    EVOLVED(1.0f, 0.25f, 0.75f, 1.0f, 0.85f, 0.95f),
+    /** The tight, twisting drilling breath that bored into the Hollow Earth. */
+    SPIRAL_ATOMIC(0.35f, 0.5f, 1.0f, 1.0f, 0.55f, 0.55f, Shape.SPIRAL),
+    /** Apex Mechagodzilla's Proton Scream. */
+    PROTON(1.0f, 0.1f, 0.15f, 1.0f, 0.75f, 0.75f),
+    /** Shimo's freezing breath. */
+    FROST(0.75f, 0.92f, 1.0f, 1.0f, 1.0f, 1.0f),
+    /** The Skar King's Whipslash (bone and crystal). */
+    WHIP(0.85f, 0.85f, 0.75f, 0.6f, 0.85f, 1.0f, Shape.JAGGED),
+    /** MonsterVerse Mothra's "god rays". */
+    GOD_RAY(1.0f, 0.9f, 0.55f, 1.0f, 1.0f, 0.9f),
+    /** Lightning from MonsterVerse King Ghidorah's wingtips and Tiamat's electric coils. */
+    LIGHTNING(0.6f, 0.75f, 1.0f, 1.0f, 1.0f, 1.0f, Shape.JAGGED);
 
     public enum Shape { STRAIGHT, JAGGED, RAINBOW, SPIRAL, CURVED, RINGS }
 

@@ -49,13 +49,15 @@ import java.util.List;
  * Base class for every giant monster: scaling, boss bars, multipart hitboxes, special abilities (beams and so on),
  * faction-based targeting, block crushing and regeneration.
  */
-public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned, VehicleWeapon {
+public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned, VehicleWeapon, EmpSensitive {
     private static final EntityDataAccessor<Integer> DATA_VARIANT = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_ABILITY = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_ABILITY_PHASE = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> DATA_FREEZE = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> DATA_FROZEN = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_CADMIUM = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_ALPHA_CALLED = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_EMP = SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.BOOLEAN);
     @SuppressWarnings("unchecked")
     private static final EntityDataAccessor<Vector3f>[] DATA_BEAM_END = new EntityDataAccessor[]{
             SynchedEntityData.defineId(KaijuEntity.class, EntityDataSerializers.VECTOR3),
@@ -89,6 +91,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
     private float lastPartScale = -1;
     private int frozenTicks;
     private int cadmiumTicks;
+    @Nullable
+    private java.util.UUID alphaId;
+    private int bowTicks;
+    private int empTicks;
+    private int calmTicks;
 
     /** Pilot actions sent by the rider's keys. */
     public static final int ACTION_PRIMARY = 0;
@@ -182,6 +189,8 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         builder.define(DATA_FREEZE, 0f);
         builder.define(DATA_FROZEN, false);
         builder.define(DATA_CADMIUM, false);
+        builder.define(DATA_ALPHA_CALLED, false);
+        builder.define(DATA_EMP, false);
         for (EntityDataAccessor<Vector3f> a : DATA_BEAM_END) builder.define(a, new Vector3f());
     }
 
@@ -366,7 +375,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     @Override
     public BeamStyle getBeamStyle() {
-        return getActiveAbility() instanceof BeamAbility beam ? beam.style : BeamStyle.ATOMIC;
+        return getActiveAbility() instanceof BeamAbility beam ? beam.styleFor(this) : BeamStyle.ATOMIC;
     }
 
     @Override
@@ -381,7 +390,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     /** Whether this kaiju picks a fight with {@code other} unprovoked. */
     public boolean wantsToAttack(LivingEntity other) {
-        if (other == this || !other.isAlive() || isAlliedTo(other)) return false;
+        if (other == this || !other.isAlive() || isAlliedTo(other) || isCalmed() || bowTicks > 0) return false;
         if (other instanceof KaijuAligned aligned) {
             if (getFaction().isHostileTo(aligned.getFaction())) return true;
             // Human tech also engages any kaiju that is attacking people.
@@ -477,6 +486,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         if (meleeCooldown > 0) meleeCooldown--;
         if (regenSuppressedTicks > 0) regenSuppressedTicks--;
         tickAbility();
+        tickAlpha();
+        if (calmTicks > 0) {
+            calmTicks--;
+            if (getTarget() != null && tickCount % 10 == 0) setTarget(null);
+        }
 
         if (tickCount % 20 == 0) {
             float regen = regenPerSecond();
@@ -591,11 +605,18 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
             entityData.set(DATA_FREEZE, Math.max(0f, getFreeze() - thaw));
         }
         if (cadmiumTicks > 0 && --cadmiumTicks <= 0) entityData.set(DATA_CADMIUM, false);
+        if (empTicks > 0) {
+            if (--empTicks <= 0) entityData.set(DATA_EMP, false);
+            else if (tickCount % 5 == 0 && level() instanceof ServerLevel server) {
+                server.sendParticles(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK, getX(), getY(0.6), getZ(), 6,
+                        getBbWidth() * 0.4, getBbHeight() * 0.3, getBbWidth() * 0.4, 0.2);
+            }
+        }
     }
 
     @Override
     public boolean isImmobile() {
-        return isFrozenSolid() || super.isImmobile();
+        return isFrozenSolid() || isEmpDisabled() || super.isImmobile();
     }
 
     /**
@@ -607,6 +628,127 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         float f = isFrozenSolid() ? 1.0f : getFreeze() / 100f * 0.6f;
         if (f <= 0.01f) return null;
         return new float[]{1.0f - 0.45f * f, 1.0f - 0.15f * f, 1.0f};
+    }
+
+    // ---------------------------------------------------------------- Alpha Call (Phase 3, MonsterVerse)
+
+    /**
+     * Titans that obey whoever is Alpha (MonsterVerse Rodan, Behemoth, Methuselah, Scylla). King Ghidorah's Alpha Call
+     * turns them against everyone; when he dies they bow to Godzilla.
+     */
+    public boolean followsAlpha() {
+        return false;
+    }
+
+    public boolean isUnderAlphaCall() {
+        return entityData.get(DATA_ALPHA_CALLED);
+    }
+
+    /** Followers fight for the Alpha that called them. Use in {@link #getFaction()}. */
+    protected KaijuFaction alphaAware(KaijuFaction base) {
+        return isUnderAlphaCall() ? KaijuFaction.INVADER : base;
+    }
+
+    /** Answer an Alpha Call: follow {@code alpha} and fight its enemies. */
+    public void answerAlphaCall(KaijuEntity alpha) {
+        if (!followsAlpha() || alpha == this || level().isClientSide) return;
+        wakeUp();
+        alphaId = alpha.getUUID();
+        entityData.set(DATA_ALPHA_CALLED, true);
+        bowTicks = 0;
+        setTarget(null);
+        refreshBossColor();
+        triggerAnim("action", "roar");
+    }
+
+    /** Freed from the Alpha (it died): optionally bow for a few seconds. */
+    public void releaseFromAlpha(boolean bow) {
+        if (alphaId == null && !isUnderAlphaCall()) return;
+        alphaId = null;
+        entityData.set(DATA_ALPHA_CALLED, false);
+        setTarget(null);
+        setDestination(null);
+        if (bow) {
+            bowTicks = 120;
+            triggerAnim("action", "roar");
+        }
+        refreshBossColor();
+    }
+
+    @Nullable
+    public KaijuEntity getAlpha() {
+        if (alphaId == null || !(level() instanceof ServerLevel server)) return null;
+        return server.getEntity(alphaId) instanceof KaijuEntity k && k.isAlive() ? k : null;
+    }
+
+    /** Dormant Titans (Methuselah) wake up when called. */
+    public void wakeUp() {}
+
+    private void tickAlpha() {
+        if (bowTicks > 0) {
+            bowTicks--;
+            if (getTarget() != null) setTarget(null);
+        }
+        if (!isUnderAlphaCall() || tickCount % 20 != 0) return;
+        KaijuEntity alpha = getAlpha();
+        if (alpha == null) {
+            releaseFromAlpha(true);
+            return;
+        }
+        LivingEntity alphaTarget = alpha.getTarget();
+        if (getTarget() == null && alphaTarget != null && alphaTarget != this && alphaTarget.isAlive() && canAttack(alphaTarget)) {
+            setTarget(alphaTarget);
+        } else if (getTarget() == null && distanceToSqr(alpha) > Math.pow(48 + alpha.getBbWidth() * 2, 2)) {
+            setDestination(alpha.blockPosition());
+        }
+    }
+
+    // ---------------------------------------------------------------- EMP and the ORCA (Phase 3)
+
+    /** Only machines are knocked out by EMP (MUTOs). */
+    protected boolean reactsToEmp() {
+        return getFaction() == KaijuFaction.HUMAN;
+    }
+
+    public boolean isEmpDisabled() {
+        return entityData.get(DATA_EMP);
+    }
+
+    /** MUTO electromagnetic pulse: machines go dead for a while. Aircraft fall out of the sky. */
+    @Override
+    public void applyEmp(int ticks) {
+        if (!reactsToEmp() || level().isClientSide) return;
+        boolean wasOn = !isEmpDisabled();
+        empTicks = Math.max(empTicks, ticks);
+        entityData.set(DATA_EMP, true);
+        if (isAbilityActive()) stopAbility();
+        if (this instanceof FlyingKaijuEntity flyer && flyer.isFlying()) flyer.setFlying(false);
+        if (wasOn && getPilot() != null) {
+            getPilot().displayClientMessage(net.minecraft.network.chat.Component.translatable("message.reikogodzilla.emp_hit")
+                    .withStyle(net.minecraft.ChatFormatting.RED), true);
+        }
+    }
+
+    public boolean isCalmed() {
+        return calmTicks > 0;
+    }
+
+    /** Alien minds (King Ghidorah) can't be soothed by the ORCA. */
+    public boolean ignoresOrca() {
+        return getFaction() == KaijuFaction.HUMAN;
+    }
+
+    /** The ORCA's calming frequency: drop targets and stop fighting for a while. */
+    public void calm(int ticks) {
+        if (ignoresOrca() || level().isClientSide) return;
+        calmTicks = Math.max(calmTicks, ticks);
+        setTarget(null);
+        if (isAbilityActive()) stopAbility();
+    }
+
+    /** False for a severed head (MonsterVerse King Ghidorah): that beam stays dark. */
+    public boolean isBeamEmitterActive(int index) {
+        return true;
     }
 
     // ---------------------------------------------------------------- beam reflection & absorption
@@ -701,6 +843,11 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     protected boolean tryPilotAbility(int index, ServerPlayer pilot) {
         if (isAbilityActive() || isFrozenSolid()) return false;
+        if (isEmpDisabled()) {
+            pilot.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.reikogodzilla.emp_offline")
+                    .withStyle(net.minecraft.ChatFormatting.RED), true);
+            return false;
+        }
         KaijuAbility ability = abilities.get(index);
         if (!ability.isReady(this)) {
             pilot.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.reikogodzilla.recharging",
@@ -737,6 +884,7 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
 
     @Override
     protected Vec3 getRiddenInput(Player player, Vec3 input) {
+        if (isEmpDisabled()) return Vec3.ZERO;
         float strafe = player.xxa * 0.5f;
         float forward = player.zza;
         if (forward <= 0) forward *= 0.4f;
@@ -828,6 +976,8 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         tag.putFloat("Freeze", getFreeze());
         tag.putInt("FrozenTicks", frozenTicks);
         tag.putInt("Cadmium", cadmiumTicks);
+        if (alphaId != null) tag.putUUID("Alpha", alphaId);
+        tag.putInt("Emp", empTicks);
     }
 
     @Override
@@ -842,6 +992,10 @@ public abstract class KaijuEntity extends PathfinderMob implements GeoEntity, Be
         entityData.set(DATA_FROZEN, frozenTicks > 0);
         cadmiumTicks = tag.getInt("Cadmium");
         entityData.set(DATA_CADMIUM, cadmiumTicks > 0);
+        alphaId = tag.hasUUID("Alpha") ? tag.getUUID("Alpha") : null;
+        entityData.set(DATA_ALPHA_CALLED, alphaId != null);
+        empTicks = tag.getInt("Emp");
+        entityData.set(DATA_EMP, empTicks > 0);
         applyScale();
         if (hasCustomName()) bossEvent.setName(getDisplayName());
     }

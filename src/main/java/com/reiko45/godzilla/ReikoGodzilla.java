@@ -21,11 +21,13 @@ public class ReikoGodzilla {
         ModEntities.ENTITY_TYPES.register(modBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModSounds.SOUNDS.register(modBus);
+        com.reiko45.godzilla.registry.ModEffects.EFFECTS.register(modBus);
         ModCreativeTabs.TABS.register(modBus);
         ModStructures.STRUCTURE_TYPES.register(modBus);
         ModStructures.PIECE_TYPES.register(modBus);
 
         modBus.addListener(ModEntities::registerAttributes);
+        modBus.addListener(ModEntities::registerSpawnPlacements);
         modBus.addListener(ModNetwork::register);
 
         container.registerConfig(ModConfig.Type.COMMON, GodzillaConfig.SPEC);

@@ -89,7 +89,12 @@ public abstract class MechaEntity extends FlyingKaijuEntity {
     /** Never turns its weapons on players, even if they shoot it. */
     @Override
     public boolean canAttack(LivingEntity target) {
-        return !(target instanceof Player) && super.canAttack(target);
+        return (allowsAttackingPlayers() || !(target instanceof Player)) && super.canAttack(target);
+    }
+
+    /** Only a machine taken over by something else (Apex Mechagodzilla under Ghidorah's control) turns on people. */
+    protected boolean allowsAttackingPlayers() {
+        return false;
     }
 
     @Override

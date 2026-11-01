@@ -108,11 +108,11 @@ public abstract class FlyingKaijuEntity extends KaijuEntity {
     public void aiStep() {
         super.aiStep();
         if (!level().isClientSide) {
-            if (alwaysFlies() && !isFlying()) setFlying(true);
+            if (alwaysFlies() && !isFlying() && !isEmpDisabled()) setFlying(true);
             net.minecraft.world.entity.player.Player pilot = getPilot();
             if (pilot != null && !alwaysFlies()) {
                 // Look up and push forward to take off; look down onto the ground to land.
-                if (!isFlying() && canFlyNow() && pilot.getXRot() < -25 && pilot.zza > 0) {
+                if (!isFlying() && canFlyNow() && !isEmpDisabled() && pilot.getXRot() < -25 && pilot.zza > 0) {
                     setFlying(true);
                     setDeltaMovement(getDeltaMovement().add(0, 0.6, 0));
                 } else if (isFlying() && (onGround() || !canFlyNow()) && pilot.getXRot() > 20) {

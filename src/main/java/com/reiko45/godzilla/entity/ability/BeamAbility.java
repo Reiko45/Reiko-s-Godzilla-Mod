@@ -53,6 +53,16 @@ public class BeamAbility extends KaijuAbility {
     private String beamAnim = "beam";
     @Nullable
     private java.util.function.ToDoubleFunction<KaijuEntity> damageScaling;
+    @Nullable
+    private TerrainEffect terrain;
+    @Nullable
+    private java.util.function.Function<KaijuEntity, BeamStyle> styleSelector;
+
+    /** Replaces block breaking where the beam lands (Shimo's breath freezes the ground instead). */
+    @FunctionalInterface
+    public interface TerrainEffect {
+        void apply(ServerLevel level, KaijuEntity kaiju, Vec3 hit, float radius);
+    }
 
     private final Vec3[] aim = new Vec3[3];
     private final LivingEntity[] targets = new LivingEntity[3];
@@ -126,6 +136,22 @@ public class BeamAbility extends KaijuAbility {
         return this;
     }
 
+    /** Custom effect on the terrain where the beam lands, instead of breaking blocks. */
+    public BeamAbility terrain(TerrainEffect effect) {
+        this.terrain = effect;
+        return this;
+    }
+
+    /** Lets one ability change colour with the kaiju's state (MonsterVerse Godzilla's charged and evolved breath). */
+    public BeamAbility styleBy(java.util.function.Function<KaijuEntity, BeamStyle> selector) {
+        this.styleSelector = selector;
+        return this;
+    }
+
+    public BeamStyle styleFor(KaijuEntity kaiju) {
+        return styleSelector == null ? style : styleSelector.apply(kaiju);
+    }
+
     /** Extra effect on every entity hit (freeze, slow, cadmium...). */
     public BeamAbility onHit(java.util.function.BiConsumer<KaijuEntity, LivingEntity> effect) {
         this.onHit = effect;
@@ -184,7 +210,7 @@ public class BeamAbility extends KaijuAbility {
         for (int i = 0; i < emitters; i++) {
             Vec3 origin = kaiju.getBeamOrigin(i, 1f);
             aim[i] = origin.add(forward.scale(10));
-            kaiju.setBeamEnd(i, aim[i]);
+            kaiju.setBeamEnd(i, kaiju.isBeamEmitterActive(i) ? aim[i] : origin);
         }
         if (fireSound != null) {
             kaiju.level().playSound(null, kaiju.getX(), kaiju.getY(), kaiju.getZ(), fireSound.get(), SoundSource.HOSTILE,
@@ -208,6 +234,10 @@ public class BeamAbility extends KaijuAbility {
         for (int i = 0; i < emitters; i++) {
             LivingEntity t = targets[i] != null && targets[i].isAlive() ? targets[i] : target;
             Vec3 origin = kaiju.getBeamOrigin(i, 1f);
+            if (!kaiju.isBeamEmitterActive(i)) {
+                kaiju.setBeamEnd(i, origin);
+                continue;
+            }
             if (aim[i] == null) aim[i] = origin.add(kaiju.getLookAngle().scale(10));
             if (pilotAim != null) {
                 aim[i] = aim[i].lerp(pilotAim, Math.max(0.35f, trackSpeed));
@@ -249,14 +279,16 @@ public class BeamAbility extends KaijuAbility {
                 }
                 if (hit.getType() != HitResult.Type.MISS) {
                     float r = blockRadius * Math.max(1.0f, kaiju.getScale() * 0.75f);
-                    if (griefing) KaijuDestruction.breakSphere(level, end, r, budget / emitters, setsFire, kaiju.getRandom());
+                    if (terrain != null) terrain.apply(level, kaiju, end, r);
+                    else if (griefing) KaijuDestruction.breakSphere(level, end, r, budget / emitters, setsFire, kaiju.getRandom());
                     level.sendParticles(ParticleTypes.EXPLOSION, end.x, end.y, end.z, 2, r * 0.5, r * 0.5, r * 0.5, 0.0);
                 }
             }
             if (tick % 3 == 0) {
                 for (int s = 0; s < 6; s++) {
                     Vec3 p = style.pointAt(origin, end, kaiju.getRandom().nextDouble());
-                    level.sendParticles(new DustParticleOptions(new Vector3f(style.r, style.g, style.b), 2.5f), p.x, p.y, p.z, 1, 0.2, 0.2, 0.2, 0);
+                    BeamStyle st = styleFor(kaiju);
+                    level.sendParticles(new DustParticleOptions(new Vector3f(st.r, st.g, st.b), 2.5f), p.x, p.y, p.z, 1, 0.2, 0.2, 0.2, 0);
                 }
                 level.sendParticles(ParticleTypes.LARGE_SMOKE, end.x, end.y, end.z, 3, 0.5, 0.5, 0.5, 0.02);
             }

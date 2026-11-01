@@ -33,6 +33,22 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPACEGODZILLA_ROAR = register("spacegodzilla_roar");
     public static final DeferredHolder<SoundEvent, SoundEvent> DESTOROYAH_ROAR = register("destoroyah_roar");
 
+    // Phase 3
+    public static final DeferredHolder<SoundEvent, SoundEvent> MONSTERVERSE_GODZILLA_ROAR = register("monsterverse_godzilla_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KONG_ROAR = register("kong_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUTO_CALL = register("muto_call");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SKULLCRAWLER_HISS = register("skullcrawler_hiss");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHIMO_ROAR = register("shimo_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SKAR_KING_ROAR = register("skar_king_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARBAT_SCREECH = register("warbat_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TIAMAT_HISS = register("tiamat_hiss");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BEHEMOTH_ROAR = register("behemoth_roar");
+    public static final DeferredHolder<SoundEvent, SoundEvent> METHUSELAH_RUMBLE = register("methuselah_rumble");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_SCREECH = register("scylla_screech");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PROTON_SCREAM = register("proton_scream");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ORCA_SIGNAL = register("orca_signal");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VORTEX_WHOOSH = register("vortex_whoosh");
+
     private ModSounds() {}
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {

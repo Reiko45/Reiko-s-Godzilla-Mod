@@ -35,6 +35,13 @@ public final class ModDamageTypes {
     public static final ResourceKey<DamageType> ACID_SAP = key("acid_sap");
     public static final ResourceKey<DamageType> MELTDOWN = key("meltdown");
 
+    // Phase 3
+    public static final ResourceKey<DamageType> PROTON_SCREAM = key("proton_scream");
+    public static final ResourceKey<DamageType> WHIPSLASH = key("whipslash");
+    public static final ResourceKey<DamageType> GOD_RAY = key("god_ray");
+    public static final ResourceKey<DamageType> ELECTRIC_COIL = key("electric_coil");
+    public static final ResourceKey<DamageType> FROST_BREATH = key("frost_breath");
+    public static final ResourceKey<DamageType> GRAVITY_INVERSION = key("gravity_inversion");
     /** Every beam-type attack: these can be reflected (Super X2's Fire Mirror, shields) or absorbed. */
     public static final net.minecraft.tags.TagKey<DamageType> KAIJU_BEAM =
             net.minecraft.tags.TagKey.create(Registries.DAMAGE_TYPE, ReikoGodzilla.id("kaiju_beam"));

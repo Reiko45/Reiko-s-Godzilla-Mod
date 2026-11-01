@@ -14,5 +14,16 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<KaijuLairBlockEntity>> KAIJU_LAIR = BLOCK_ENTITIES.register("kaiju_lair",
             () -> BlockEntityType.Builder.of(KaijuLairBlockEntity::new, ModBlocks.KAIJU_LAIR.get()).build(null));
 
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.reiko45.godzilla.block.RadiationSourceBlockEntity>> RADIATION_SOURCE =
+            BLOCK_ENTITIES.register("radiation_source", () -> BlockEntityType.Builder.of(com.reiko45.godzilla.block.RadiationSourceBlockEntity::new,
+                    ModBlocks.NUCLEAR_WARHEAD.get(), ModBlocks.SOLAR_CRYSTAL.get()).build(null));
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.reiko45.godzilla.block.OrcaBlockEntity>> ORCA =
+            BLOCK_ENTITIES.register("orca", () -> BlockEntityType.Builder.of(com.reiko45.godzilla.block.OrcaBlockEntity::new, ModBlocks.ORCA.get()).build(null));
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.reiko45.godzilla.block.StormWallBlockEntity>> STORM_WALL =
+            BLOCK_ENTITIES.register("storm_wall", () -> BlockEntityType.Builder.of(com.reiko45.godzilla.block.StormWallBlockEntity::new, ModBlocks.STORM_WALL.get()).build(null));
+
     private ModBlockEntities() {}
 }

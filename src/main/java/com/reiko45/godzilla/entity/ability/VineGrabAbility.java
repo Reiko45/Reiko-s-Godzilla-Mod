@@ -18,7 +18,12 @@ public class VineGrabAbility extends KaijuAbility {
     private LivingEntity held;
 
     public VineGrabAbility() {
-        super("vine_grab", 10, 60, 200, "charge", "grab");
+        this("vine_grab");
+    }
+
+    /** Any grab-and-reel attack: Scylla's tendrils, the Skull Devil's tongue. */
+    public VineGrabAbility(String name) {
+        super(name, 10, 60, 200, "charge", "grab");
         this.minRange = 4;
         this.maxRange = 24;
         this.useChance = 0.04f;

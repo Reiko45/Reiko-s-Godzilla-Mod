@@ -46,9 +46,10 @@ import java.util.Comparator;
  * a maser beam where you are looking. Unmanned tanks guard the area and fire at hostile kaiju on their own.
  * Sneak + use to pack it back into an item; use an iron ingot to repair it.
  */
-public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned, VehicleWeapon {
+public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmitter, KaijuAligned, VehicleWeapon, com.reiko45.godzilla.entity.EmpSensitive {
     private static final EntityDataAccessor<Integer> DATA_FIRING = SynchedEntityData.defineId(MaserTankEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Vector3f> DATA_BEAM_END = SynchedEntityData.defineId(MaserTankEntity.class, EntityDataSerializers.VECTOR3);
+    private static final EntityDataAccessor<Boolean> DATA_EMP = SynchedEntityData.defineId(MaserTankEntity.class, EntityDataSerializers.BOOLEAN);
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation DRIVE = RawAnimation.begin().thenLoop("walk");
     private static final RawAnimation FIRE = RawAnimation.begin().thenLoop("beam");
@@ -58,6 +59,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     private int cooldown;
+    private int empTicks;
     @Nullable
     private LivingEntity autoTarget;
 
@@ -85,6 +87,24 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
         super.defineSynchedData(builder);
         builder.define(DATA_FIRING, 0);
         builder.define(DATA_BEAM_END, new Vector3f());
+        builder.define(DATA_EMP, false);
+    }
+
+    public boolean isEmpDisabled() {
+        return entityData.get(DATA_EMP);
+    }
+
+    /** A MUTO's pulse kills the engine and the maser until the electronics recover. */
+    @Override
+    public void applyEmp(int ticks) {
+        if (level().isClientSide) return;
+        if (!isEmpDisabled() && getControllingPassenger() instanceof Player p) {
+            p.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.reikogodzilla.emp_hit")
+                    .withStyle(net.minecraft.ChatFormatting.RED), true);
+        }
+        empTicks = Math.max(empTicks, ticks);
+        entityData.set(DATA_EMP, true);
+        entityData.set(DATA_FIRING, 0);
     }
 
     @Override
@@ -100,7 +120,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
     }
 
     private void startFiring() {
-        if (cooldown > 0 || entityData.get(DATA_FIRING) > 0) return;
+        if (cooldown > 0 || entityData.get(DATA_FIRING) > 0 || isEmpDisabled()) return;
         entityData.set(DATA_FIRING, FIRE_TICKS);
         cooldown = COOLDOWN + FIRE_TICKS;
         level().playSound(null, getX(), getY(), getZ(), ModSounds.MASER_FIRE.get(), SoundSource.NEUTRAL, 4f, 1f);
@@ -110,6 +130,13 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
     protected void customServerAiStep() {
         super.customServerAiStep();
         if (cooldown > 0) cooldown--;
+        if (empTicks > 0) {
+            if (--empTicks <= 0) entityData.set(DATA_EMP, false);
+            else if (tickCount % 5 == 0 && level() instanceof ServerLevel server) {
+                server.sendParticles(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK, getX(), getY(0.6), getZ(), 4, 0.6, 0.4, 0.6, 0.2);
+            }
+            return;
+        }
         int firing = entityData.get(DATA_FIRING);
         if (firing > 0) {
             tickBeam(FIRE_TICKS - firing);
@@ -258,6 +285,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
 
     @Override
     protected Vec3 getRiddenInput(Player player, Vec3 input) {
+        if (isEmpDisabled()) return Vec3.ZERO;
         float forward = player.zza > 0 ? 1.0f : player.zza < 0 ? -0.5f : 0f;
         return new Vec3(0, 0, forward);
     }

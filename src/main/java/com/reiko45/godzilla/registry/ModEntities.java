@@ -3,6 +3,8 @@ package com.reiko45.godzilla.registry;
 import com.reiko45.godzilla.ReikoGodzilla;
 import com.reiko45.godzilla.entity.kaiju.*;
 import com.reiko45.godzilla.entity.mecha.*;
+import com.reiko45.godzilla.entity.monsterverse.*;
+import com.reiko45.godzilla.entity.projectile.HeavyProjectileEntity;
 import com.reiko45.godzilla.entity.projectile.AcidSapEntity;
 import com.reiko45.godzilla.entity.vehicle.FreezerTankEntity;
 import com.reiko45.godzilla.entity.projectile.GhidorahMeteorEntity;
@@ -147,6 +149,88 @@ public final class ModEntities {
             () -> EntityType.Builder.of(FreezerTankEntity::new, MobCategory.MISC).sized(2.6f, 2.0f).eyeHeight(1.6f)
                     .passengerAttachments(new Vec3(0, 1.5, -0.6)).clientTrackingRange(10).build("freezer_tank"));
 
+    // Phase 3: MonsterVerse
+    public static final DeferredHolder<EntityType<?>, EntityType<MonsterverseGodzillaEntity>> MONSTERVERSE_GODZILLA = ENTITY_TYPES.register("monsterverse_godzilla",
+            () -> EntityType.Builder.of(MonsterverseGodzillaEntity::new, MobCategory.CREATURE).sized(4.0f, 9.5f).eyeHeight(8.8f).fireImmune()
+                    .clientTrackingRange(16).build("monsterverse_godzilla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<KongEntity>> KONG = ENTITY_TYPES.register("kong",
+            () -> EntityType.Builder.of(KongEntity::new, MobCategory.CREATURE).sized(3.6f, 9.0f).eyeHeight(8.4f)
+                    .clientTrackingRange(16).build("kong"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<SukoEntity>> SUKO = ENTITY_TYPES.register("suko",
+            () -> EntityType.Builder.of(SukoEntity::new, MobCategory.CREATURE).sized(3.0f, 8.0f).eyeHeight(7.4f)
+                    .clientTrackingRange(12).build("suko"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<GreatApeEntity>> GREAT_APE = ENTITY_TYPES.register("great_ape",
+            () -> EntityType.Builder.of(GreatApeEntity::new, MobCategory.CREATURE).sized(1.6f, 3.8f).eyeHeight(3.2f)
+                    .clientTrackingRange(10).build("great_ape"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<SkarKingEntity>> SKAR_KING = ENTITY_TYPES.register("skar_king",
+            () -> EntityType.Builder.of(SkarKingEntity::new, MobCategory.MONSTER).sized(3.6f, 9.0f).eyeHeight(8.4f)
+                    .clientTrackingRange(16).build("skar_king"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ShimoEntity>> SHIMO = ENTITY_TYPES.register("shimo",
+            () -> EntityType.Builder.of(ShimoEntity::new, MobCategory.CREATURE).sized(5.0f, 9.5f).eyeHeight(8.6f)
+                    .clientTrackingRange(16).build("shimo"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MutoEntity>> MUTO = ENTITY_TYPES.register("muto",
+            () -> EntityType.Builder.of(MutoEntity::new, MobCategory.MONSTER).sized(3.0f, 5.6f).eyeHeight(5.2f).fireImmune()
+                    .clientTrackingRange(16).build("muto"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<SkullcrawlerEntity>> SKULLCRAWLER = ENTITY_TYPES.register("skullcrawler",
+            () -> EntityType.Builder.of(SkullcrawlerEntity::new, MobCategory.MONSTER).sized(1.4f, 1.8f).eyeHeight(1.5f)
+                    .clientTrackingRange(10).build("skullcrawler"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<SkullDevilEntity>> SKULL_DEVIL = ENTITY_TYPES.register("skull_devil",
+            () -> EntityType.Builder.of(SkullDevilEntity::new, MobCategory.MONSTER).sized(3.0f, 5.0f).eyeHeight(4.4f)
+                    .clientTrackingRange(14).build("skull_devil"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<WarbatEntity>> WARBAT = ENTITY_TYPES.register("warbat",
+            () -> EntityType.Builder.of(WarbatEntity::new, MobCategory.MONSTER).sized(3.0f, 2.4f).eyeHeight(1.8f)
+                    .clientTrackingRange(14).build("warbat"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MonsterverseGhidorahEntity>> MONSTERVERSE_KING_GHIDORAH = ENTITY_TYPES.register("monsterverse_king_ghidorah",
+            () -> EntityType.Builder.of(MonsterverseGhidorahEntity::new, MobCategory.MONSTER).sized(5.0f, 11.0f).eyeHeight(12.0f).fireImmune()
+                    .clientTrackingRange(16).build("monsterverse_king_ghidorah"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MonsterverseRodanEntity>> MONSTERVERSE_RODAN = ENTITY_TYPES.register("monsterverse_rodan",
+            () -> EntityType.Builder.of(MonsterverseRodanEntity::new, MobCategory.CREATURE).sized(3.0f, 5.0f).eyeHeight(5.0f).fireImmune()
+                    .clientTrackingRange(16).build("monsterverse_rodan"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MonsterverseMothraEntity>> MONSTERVERSE_MOTHRA = ENTITY_TYPES.register("monsterverse_mothra",
+            () -> EntityType.Builder.of(MonsterverseMothraEntity::new, MobCategory.CREATURE).sized(3.0f, 3.0f).eyeHeight(2.4f)
+                    .clientTrackingRange(16).build("monsterverse_mothra"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ScyllaEntity>> SCYLLA = ENTITY_TYPES.register("scylla",
+            () -> EntityType.Builder.of(ScyllaEntity::new, MobCategory.MONSTER).sized(5.0f, 6.0f).eyeHeight(5.6f)
+                    .clientTrackingRange(16).build("scylla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<BehemothEntity>> BEHEMOTH = ENTITY_TYPES.register("behemoth",
+            () -> EntityType.Builder.of(BehemothEntity::new, MobCategory.CREATURE).sized(5.0f, 8.0f).eyeHeight(7.0f)
+                    .clientTrackingRange(16).build("behemoth"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MethuselahEntity>> METHUSELAH = ENTITY_TYPES.register("methuselah",
+            () -> EntityType.Builder.of(MethuselahEntity::new, MobCategory.CREATURE).sized(7.0f, 8.0f).eyeHeight(3.6f)
+                    .clientTrackingRange(16).build("methuselah"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<TiamatEntity>> TIAMAT = ENTITY_TYPES.register("tiamat",
+            () -> EntityType.Builder.of(TiamatEntity::new, MobCategory.MONSTER).sized(3.4f, 3.0f).eyeHeight(2.2f)
+                    .clientTrackingRange(16).build("tiamat"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ApexMechagodzillaEntity>> APEX_MECHAGODZILLA = ENTITY_TYPES.register("apex_mechagodzilla",
+            () -> EntityType.Builder.of(ApexMechagodzillaEntity::new, MobCategory.MISC).sized(4.0f, 9.5f).eyeHeight(9.0f).fireImmune()
+                    .passengerAttachments(new Vec3(0, 10.2, 0.6))
+                    .clientTrackingRange(16).build("apex_mechagodzilla"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<HeavEntity>> HEAV = ENTITY_TYPES.register("heav",
+            () -> EntityType.Builder.of(HeavEntity::new, MobCategory.MISC).sized(3.4f, 1.8f).eyeHeight(1.2f).passengerAttachments(new Vec3(0, 1.0, 0.8))
+                    .clientTrackingRange(12).build("heav"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<HeavyProjectileEntity>> HEAVY_PROJECTILE = ENTITY_TYPES.register("heavy_projectile",
+            () -> EntityType.Builder.<HeavyProjectileEntity>of(HeavyProjectileEntity::new, MobCategory.MISC).sized(0.9f, 0.9f)
+                    .clientTrackingRange(8).updateInterval(10).build("heavy_projectile"));
+
     private ModEntities() {}
 
     public static void registerAttributes(EntityAttributeCreationEvent event) {
@@ -176,5 +260,37 @@ public final class ModEntities {
         event.put(SUPER_X2.get(), SuperXEntity.createAttributes().build());
         event.put(SUPER_X3.get(), SuperXEntity.createAttributes().build());
         event.put(FREEZER_TANK.get(), FreezerTankEntity.createAttributes().build());
+        // Phase 3
+        event.put(MONSTERVERSE_GODZILLA.get(), MonsterverseGodzillaEntity.createAttributes().build());
+        event.put(KONG.get(), KongEntity.createAttributes().build());
+        event.put(SUKO.get(), SukoEntity.createAttributes().build());
+        event.put(GREAT_APE.get(), GreatApeEntity.createAttributes().build());
+        event.put(SKAR_KING.get(), SkarKingEntity.createAttributes().build());
+        event.put(SHIMO.get(), ShimoEntity.createAttributes().build());
+        event.put(MUTO.get(), MutoEntity.createAttributes().build());
+        event.put(SKULLCRAWLER.get(), SkullcrawlerEntity.createAttributes().build());
+        event.put(SKULL_DEVIL.get(), SkullDevilEntity.createAttributes().build());
+        event.put(WARBAT.get(), WarbatEntity.createAttributes().build());
+        event.put(MONSTERVERSE_KING_GHIDORAH.get(), MonsterverseGhidorahEntity.createAttributes().build());
+        event.put(MONSTERVERSE_RODAN.get(), MonsterverseRodanEntity.createAttributes().build());
+        event.put(MONSTERVERSE_MOTHRA.get(), MonsterverseMothraEntity.createAttributes().build());
+        event.put(SCYLLA.get(), ScyllaEntity.createAttributes().build());
+        event.put(BEHEMOTH.get(), BehemothEntity.createAttributes().build());
+        event.put(METHUSELAH.get(), MethuselahEntity.createAttributes().build());
+        event.put(TIAMAT.get(), TiamatEntity.createAttributes().build());
+        event.put(APEX_MECHAGODZILLA.get(), ApexMechagodzillaEntity.createAttributes().build());
+        event.put(HEAV.get(), HeavEntity.createAttributes().build());
+    }
+
+    /** Where mobs that spawn naturally (Skullcrawlers, Great Apes, Warbats in the Hollow Earth) may appear. */
+    public static void registerSpawnPlacements(net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent event) {
+        var op = net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent.Operation.REPLACE;
+        event.register(SKULLCRAWLER.get(), net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND,
+                net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, net.minecraft.world.entity.monster.Monster::checkMonsterSpawnRules, op);
+        event.register(GREAT_APE.get(), net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND,
+                net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, net.minecraft.world.entity.Mob::checkMobSpawnRules, op);
+        event.register(WARBAT.get(), net.minecraft.world.entity.SpawnPlacementTypes.NO_RESTRICTIONS,
+                net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, reason, pos, random) -> random.nextInt(6) == 0 && level.getBlockState(pos).isAir(), op);
     }
 }
