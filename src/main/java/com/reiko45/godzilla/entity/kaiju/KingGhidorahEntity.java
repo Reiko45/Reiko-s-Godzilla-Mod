@@ -29,7 +29,7 @@ import java.util.List;
  * pick its own target), whips up hurricane winds with its wings, and calls lightning down around it.
  */
 public class KingGhidorahEntity extends FlyingKaijuEntity {
-    private static final Vec3[] HEADS = {new Vec3(-2.2, 12.2, 3.0), new Vec3(0, 13.0, 3.6), new Vec3(2.2, 12.2, 3.0)};
+    private static final Vec3[] HEADS = {new Vec3(-1.8, 10.8, 3.5), new Vec3(0, 11.3, 3.3), new Vec3(1.95, 10.7, 3.55)};
 
     public KingGhidorahEntity(EntityType<? extends KingGhidorahEntity> type, Level level) {
         super(type, level);

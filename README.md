@@ -419,7 +419,7 @@ Tamed and piloted kaiju can't be taken over.
 
 ## Custom models (Blockbench)
 
-Every kaiju currently uses a plain **stand-in model** so the mod is playable. **[MODELS.md](MODELS.md)** lists every model with the height to build it at and its size in game. To use your own, make a GeckoLib model in Blockbench (*GeckoLib Animated Model* project type, entity) and export three files with the same name, replacing the stand-ins:
+Phase 1 uses Reiko's own Blockbench models (all but Showa Godzilla, which is still a stand-in). Every other kaiju uses a plain **stand-in model** so the mod is playable. **[MODELS.md](MODELS.md)** lists every model with the height to build it at and its size in game. To use your own, make a GeckoLib model in Blockbench (*GeckoLib Animated Model* project type, entity) and export three files with the same name, replacing the stand-ins:
 
 ```
 src/main/resources/assets/reikogodzilla/geo/entity/<name>.geo.json
@@ -436,7 +436,9 @@ Names:
 - Phase 4: `gigan`, `hedorah_aquatic`, `hedorah_land`, `hedorah_flying`, `hedorah_perfect`, `megalon`, `jet_jaguar`, `ebirah`, `kumonga`, `kamacuras`, `minilla`, `gorosaurus`, `manda`, `baragon`, `varan`, `king_caesar`, `titanosaurus`, `godzilla_millennium`, `godzilla_gmk`, `godzilla_kiryu_era`, `godzilla_final_wars`, `orga`, `millennian_ufo`, `megaguirus`, `meganulon`, `meganula`, `king_ghidorah_gmk`, `kiryu`, `monster_x`, `keizer_ghidorah`, `zilla`, `gotengo`, `xilien_saucer`
 - Phase 5: `shin_godzilla_2`, `shin_godzilla_3`, `shin_godzilla`, `godzilla_odo`, `godzilla_minus_one`, `ghidorah_minus_zero`, `king_ghidorah_minus_zero`, `godzilla_earth`, `servum`, `servum_worm`, `vulture`, `mechagodzilla_city`, `planet_eater_ghidorah`, `godzilla_aquatilis`, `godzilla_amphibia`, `godzilla_terrestris`, `godzilla_ultima`, `jet_jaguar_pp`, `salunga`, `titan_x`, `scarab`, `frost_vark`, `ion_dragon`, `kraken`, `shinden`
 
-Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Phase 4 forms that share a model with their own texture: `gigan_final_wars`, `hedorah_final_wars` (on `hedorah_perfect`), `ebirah_final_wars`, `kumonga_final_wars`, `kamacuras_final_wars`, `manda_final_wars`, `baragon_gmk`, `king_caesar_final_wars`, `mechagodzilla_2` (on `mechagodzilla`), `mothra_gmk` (on `mothra`), `king_ghidorah_dragon_king` (on `king_ghidorah_gmk`) and `kiryu_kai` (on `kiryu`). Phase 5: `godzilla_minus_zero` (on `godzilla_minus_one`), `godzilla_filius` (on `godzilla_earth`), `rodan_sp` (on `rodan`), `gigan_rex` and `gigan_miles` (on `gigan`) and `space_godzilla_mv` (on `space_godzilla`). Burning Godzilla tints `godzilla_heisei` orange.
+Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Phase 4 forms that share a model with their own texture: `gigan_final_wars`, `hedorah_final_wars` (on `hedorah_perfect`), `ebirah_final_wars`, `kumonga_final_wars`, `kamacuras_final_wars`, `manda_final_wars`, `baragon_gmk`, `king_caesar_final_wars`, `mechagodzilla_2` (on `mechagodzilla`), `mothra_gmk` (on `mothra`), `king_ghidorah_dragon_king` (on `king_ghidorah_gmk`) and `kiryu_kai` (on `kiryu`). Phase 5: `godzilla_minus_zero` (on `godzilla_minus_one`), `godzilla_filius` (on `godzilla_earth`), `rodan_sp` (on `rodan`), `gigan_rex` and `gigan_miles` (on `gigan`) and `space_godzilla_mv` (on `space_godzilla`). Burning Godzilla tints `godzilla_heisei` orange. The textures for Phase 1 forms (`rodan_fire`, `rodan_mv`, `rodan_sp`, `mothra_mv`, `mothra_gmk`, `battra_cocoon`, `mechagodzilla_2`) are recoloured copies of the new Phase 1 textures for now; repaint them on the same UV layout.
+
+**Glow:** an optional `<texture>_glow.png` (transparent except the glowing parts) is drawn at full brightness over the model. Mechagodzilla's eyes and the Maser Tank's coils always glow (the tank's go dark under an EMP); Heisei Godzilla's dorsal plates glow only while charging or firing the atomic breath or the nuclear pulse.
 
 **Bones:** a bone named `head` turns to follow where the kaiju is looking. A few bones are shown or hidden by the game: `axe` and `glove` on Kong (when he has them), `crystal` on the Skar King (until it shatters), `head_0`, `head_1`, `head_2` on MonsterVerse Ghidorah (while a head is severed), `hook_left`/`hook_right` and `saw_left`/`saw_right` on Gigan (hammer hands, swapped for chainsaws once he's Modified), and `zero_cannon`, `drill` and `triple_maser` on Kiryu (the cannon for Kiryu, the other two for Kiryu Kai), and `implants` on Titan X (shown while Apex's implants are in). Everything else is up to you.
 
@@ -472,6 +474,8 @@ Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. Monste
 | `dig`, `burrow` | Digging in and tunnelling underground (Megalon, Baragon, Kumonga) |
 
 Beam start points (mouths, Ghidorah's three heads, Mechagodzilla's eyes, weapon mounts on the mechs) and extra hitboxes are set in each kaiju's class (`beamLocalOffset` and `createParts`), measured in blocks at scale 1 with +z forward. Adjust them if your model's proportions differ.
+
+If a model was built at its size in game rather than at its build height (for a form whose scale isn't 1), shrink it to the build height before exporting, or the game scales it a second time.
 
 ## Sounds
 

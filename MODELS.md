@@ -9,18 +9,22 @@ Every model the mod needs, with the height to build it at in Blockbench and the 
 
 ## Phase 1: Showa/Heisei icons
 
-| Model file | Monster | Build height (Blockbench) | In game (blocks) |
-| --- | --- | --- | --- |
-| `godzilla_showa` | Godzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide |
-| `godzilla_heisei` | Godzilla (Heisei) | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide |
-| `king_ghidorah` | King Ghidorah | 12.8 blocks (204 px) | 12.8 tall · 11 long · 19.6 wide |
-| `mothra_larva` | Mothra larva | 2.4 blocks (38 px) | 2.4 tall · 9.8 long · 2.6 wide |
-| `mothra_cocoon` | Mothra cocoon | 3 blocks (48 px) | 3 tall · 7.6 long · 2.6 wide |
-| `mothra` | Mothra | 3.3 blocks (53 px) | 3.3 tall · 8 long · 14.8 wide |
-| `rodan` | Rodan | 6.2 blocks (100 px) | 6.2 tall · 6.3 long · 14.4 wide |
-| `anguirus` | Anguirus | 4.4 blocks (70 px) | 4.4 tall · 11.6 long · 4.6 wide |
-| `mechagodzilla` | Mechagodzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide |
-| `maser_tank` | Maser Tank | 2.8 blocks (44 px) | 2.8 tall · 3.7 long · 2.8 wide |
+Reiko's Blockbench models are in for everything here except Showa Godzilla. Heisei Godzilla's was built at its 19.2-block size in game and halved to the 9.6-block build height when it was added.
+
+![Phase 1 models in game](docs/phase1_models.png)
+
+| Model file | Monster | Build height (Blockbench) | In game (blocks) | Model |
+| --- | --- | --- | --- | --- |
+| `godzilla_showa` | Godzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide | Stand-in |
+| `godzilla_heisei` | Godzilla (Heisei) | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide | ✅ Reiko's model |
+| `king_ghidorah` | King Ghidorah | 12.8 blocks (204 px) | 12.8 tall · 11 long · 19.6 wide | ✅ Reiko's model |
+| `mothra_larva` | Mothra larva | 2.4 blocks (38 px) | 2.4 tall · 9.8 long · 2.6 wide | ✅ Reiko's model |
+| `mothra_cocoon` | Mothra cocoon | 3 blocks (48 px) | 3 tall · 7.6 long · 2.6 wide | ✅ Reiko's model |
+| `mothra` | Mothra | 3.3 blocks (53 px) | 3.3 tall · 8 long · 14.8 wide | ✅ Reiko's model |
+| `rodan` | Rodan | 6.2 blocks (100 px) | 6.2 tall · 6.3 long · 14.4 wide | ✅ Reiko's model |
+| `anguirus` | Anguirus | 4.4 blocks (70 px) | 4.4 tall · 11.6 long · 4.6 wide | ✅ Reiko's model |
+| `mechagodzilla` | Mechagodzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide | ✅ Reiko's model |
+| `maser_tank` | Maser Tank | 2.8 blocks (44 px) | 2.8 tall · 3.7 long · 2.8 wide | ✅ Reiko's model |
 
 ## Phase 2: Heisei
 
@@ -153,7 +157,7 @@ Godzilla Earth's size follows `reiwa.godzillaEarthScale` (4.8 by default; 6.0 is
 
 ## Textures that reuse a model
 
-No new model: paint a texture for the listed model. The size in game is the form's own.
+No new model: paint a texture for the listed model. The size in game is the form's own. The ones on Phase 1 models (`rodan_fire`, `rodan_mv`, `rodan_sp`, `mothra_mv`, `mothra_gmk`, `battra_cocoon`, `mechagodzilla_2`) are recoloured copies of Reiko's textures for now, so they already fit the new UV layout.
 
 | Texture | Monster | Paint on model | In game (blocks) |
 | --- | --- | --- | --- |

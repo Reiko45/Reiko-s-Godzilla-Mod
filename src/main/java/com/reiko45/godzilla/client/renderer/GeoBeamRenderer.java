@@ -15,6 +15,8 @@ public class GeoBeamRenderer<T extends Mob & GeoEntity> extends GeoEntityRendere
     public GeoBeamRenderer(EntityRendererProvider.Context context, GeoModel<T> model, float shadow) {
         super(context, model);
         this.shadowRadius = shadow;
+        // Lights go dark while an EMP has knocked the tank out.
+        addRenderLayer(new GlowLayer<>(this, e -> !(e instanceof com.reiko45.godzilla.entity.vehicle.MaserTankEntity tank) || !tank.isEmpDisabled()));
     }
 
     @Override

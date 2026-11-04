@@ -68,15 +68,15 @@ public class RodanEntity extends FlyingKaijuEntity {
     @Override
     protected KaijuPart[] createParts() {
         return new KaijuPart[]{
-                new KaijuPart(this, "head", 1.6f, 1.6f, new Vec3(0, 5.0, 2.2), 1.4f),
-                new KaijuPart(this, "left_wing", 6.0f, 1.2f, new Vec3(-5.5, 3.6, 0), 0.7f),
-                new KaijuPart(this, "right_wing", 6.0f, 1.2f, new Vec3(5.5, 3.6, 0), 0.7f)
+                new KaijuPart(this, "head", 1.6f, 1.6f, new Vec3(0, 4.4, 1.7), 1.4f),
+                new KaijuPart(this, "left_wing", 6.0f, 1.2f, new Vec3(-4.5, 2.8, 0), 0.7f),
+                new KaijuPart(this, "right_wing", 6.0f, 1.2f, new Vec3(4.5, 2.8, 0), 0.7f)
         };
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        return new Vec3(0, 5.6, 2.8);
+        return new Vec3(0, 4.45, 3.05);
     }
 
     @Override

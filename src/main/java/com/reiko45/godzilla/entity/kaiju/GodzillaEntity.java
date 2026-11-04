@@ -116,7 +116,8 @@ public class GodzillaEntity extends KaijuEntity {
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        return new Vec3(0, 9.0, 2.9);
+        // Heisei: the mouth of the custom model; Showa: the stand-in's.
+        return getVariant() == HEISEI ? new Vec3(0, 8.5, 2.0) : new Vec3(0, 9.0, 2.9);
     }
 
     @Override

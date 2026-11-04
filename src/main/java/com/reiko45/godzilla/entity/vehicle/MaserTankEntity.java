@@ -219,7 +219,7 @@ public class MaserTankEntity extends PathfinderMob implements GeoEntity, BeamEmi
     @Override
     public Vec3 getBeamOrigin(int index, float partialTick) {
         float yaw = Mth.rotLerp(partialTick, yBodyRotO, yBodyRot) * Mth.DEG_TO_RAD;
-        return getPosition(partialTick).add(new Vec3(0, 2.1, 1.7).scale(getScale()).yRot(-yaw));
+        return getPosition(partialTick).add(new Vec3(0, 2.3, 1.85).scale(getScale()).yRot(-yaw));
     }
 
     @Override

@@ -66,8 +66,8 @@ public class MechagodzillaEntity extends KaijuEntity {
                 .sounds(ModSounds.SPACE_BEAM_CHARGE, ModSounds.SPACE_BEAM_FIRE)
                 .chargeParticle(ParticleTypes.END_ROD)
                 .range(4, 52));
-        list.add(new MissileBarrageAbility(new Vec3(-2.3, 6.2, 2.4), new Vec3(2.3, 6.2, 2.4)).when(k -> k.getVariant() == SHOWA));
-        list.add(new MissileBarrageAbility("rotating_missiles", new Vec3(-2.3, 6.2, 2.4), new Vec3(2.3, 6.2, 2.4),
+        list.add(new MissileBarrageAbility(new Vec3(-1.75, 6.2, 3.2), new Vec3(1.75, 6.2, 3.2)).when(k -> k.getVariant() == SHOWA));
+        list.add(new MissileBarrageAbility("rotating_missiles", new Vec3(-1.75, 6.2, 3.2), new Vec3(1.75, 6.2, 3.2),
                 com.reiko45.godzilla.entity.projectile.KaijuMissileEntity.Payload.EXPLOSIVE, 140).interval(2).when(k -> k.getVariant() == MECHAGODZILLA_2));
         list.add(new ForceFieldAbility());
     }
@@ -75,14 +75,14 @@ public class MechagodzillaEntity extends KaijuEntity {
     @Override
     protected KaijuPart[] createParts() {
         return new KaijuPart[]{
-                new KaijuPart(this, "head", 2.0f, 2.0f, new Vec3(0, 8.3, 2.0), 1.3f),
+                new KaijuPart(this, "head", 2.0f, 2.0f, new Vec3(0, 7.9, 0.8), 1.3f),
                 new KaijuPart(this, "tail", 2.4f, 2.0f, new Vec3(0, 1.6, -4.2), 0.8f)
         };
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        return new Vec3(index == 0 ? -0.45 : 0.45, 9.25, 2.8);
+        return new Vec3(index == 0 ? -0.41 : 0.41, 8.9, 1.1);
     }
 
     @Override

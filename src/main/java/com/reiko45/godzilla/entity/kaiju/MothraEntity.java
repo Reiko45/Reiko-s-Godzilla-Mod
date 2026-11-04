@@ -52,14 +52,14 @@ public class MothraEntity extends FlyingKaijuEntity {
     @Override
     protected KaijuPart[] createParts() {
         return new KaijuPart[]{
-                new KaijuPart(this, "left_wing", 7.0f, 1.0f, new Vec3(-6.0, 1.6, 0), 0.6f),
-                new KaijuPart(this, "right_wing", 7.0f, 1.0f, new Vec3(6.0, 1.6, 0), 0.6f)
+                new KaijuPart(this, "left_wing", 7.0f, 1.0f, new Vec3(-4.2, 1.6, 0), 0.6f),
+                new KaijuPart(this, "right_wing", 7.0f, 1.0f, new Vec3(4.2, 1.6, 0), 0.6f)
         };
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        return new Vec3(0, 2.4, 1.8);
+        return new Vec3(0, 2.1, 2.6);
     }
 
     @Override

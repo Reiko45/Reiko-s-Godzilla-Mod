@@ -37,7 +37,10 @@ public final class ClientSetup {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         // Phase 1
         event.registerEntityRenderer(ModEntities.GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
-                new NamedGeoModel<GodzillaEntity>(g -> g.getVariant() == GodzillaEntity.HEISEI ? "godzilla_heisei" : "godzilla_showa"), 3.0f));
+                new NamedGeoModel<GodzillaEntity>(g -> g.getVariant() == GodzillaEntity.HEISEI ? "godzilla_heisei" : "godzilla_showa"), 3.0f)
+                // The dorsal plates light up while charging or firing the breath and the nuclear pulse.
+                .glowWhen(g -> g.getActiveAbility() instanceof com.reiko45.godzilla.entity.ability.BeamAbility
+                        || g.getActiveAbility() instanceof com.reiko45.godzilla.entity.ability.NuclearPulseAbility));
         event.registerEntityRenderer(ModEntities.KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("king_ghidorah"), 4.0f));
         event.registerEntityRenderer(ModEntities.MOTHRA_LARVA.get(), ctx -> new KaijuRenderer<>(ctx,
                 new NamedGeoModel<MothraLarvaEntity>(l -> l.isCocoon() ? "mothra_cocoon" : "mothra_larva"), 2.0f));

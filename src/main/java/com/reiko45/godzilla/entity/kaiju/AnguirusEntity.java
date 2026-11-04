@@ -82,14 +82,14 @@ public class AnguirusEntity extends TameableKaijuEntity {
     @Override
     protected KaijuPart[] createParts() {
         return new KaijuPart[]{
-                new KaijuPart(this, "head", 2.2f, 2.2f, new Vec3(0, 2.4, 3.9), 1.4f),
+                new KaijuPart(this, "head", 2.2f, 2.2f, new Vec3(0, 1.7, 3.2), 1.4f),
                 new KaijuPart(this, "tail", 2.0f, 1.6f, new Vec3(0, 1.0, -4.8), 0.7f)
         };
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        return new Vec3(0, 3.2, 4.6);
+        return new Vec3(0, 2.1, 4.25);
     }
 
     @Override

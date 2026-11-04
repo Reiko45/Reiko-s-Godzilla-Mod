@@ -10,9 +10,18 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** GeckoLib renderer for every kaiju, plus their beams. */
 public class KaijuRenderer<T extends KaijuEntity> extends GeoEntityRenderer<T> {
+    private java.util.function.Predicate<T> glowWhen = e -> true;
+
     public KaijuRenderer(EntityRendererProvider.Context context, GeoModel<T> model, float shadow) {
         super(context, model);
         this.shadowRadius = shadow;
+        addRenderLayer(new GlowLayer<>(this, e -> glowWhen.test(e)));
+    }
+
+    /** Only light up the {@code _glow} overlay while this holds (by default it is always on when the file exists). */
+    public KaijuRenderer<T> glowWhen(java.util.function.Predicate<T> condition) {
+        this.glowWhen = condition;
+        return this;
     }
 
     @Override
