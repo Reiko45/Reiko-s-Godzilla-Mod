@@ -108,16 +108,16 @@ public class GodzillaEntity extends KaijuEntity {
     @Override
     protected KaijuPart[] createParts() {
         return new KaijuPart[]{
-                new KaijuPart(this, "head", 2.0f, 2.0f, new Vec3(0, 8.3, 2.2), 1.5f),
-                new KaijuPart(this, "tail", 2.6f, 2.4f, new Vec3(0, 1.4, -4.2), 0.8f),
-                new KaijuPart(this, "tail_tip", 1.8f, 1.6f, new Vec3(0, 0.6, -7.4), 0.6f)
+                new KaijuPart(this, "head", 2.0f, 2.0f, new Vec3(0, 7.9, 1.1), 1.5f),
+                new KaijuPart(this, "tail", 2.6f, 2.4f, new Vec3(0, 0.8, -4.4), 0.8f),
+                new KaijuPart(this, "tail_tip", 1.8f, 1.6f, new Vec3(0, 0.4, -7.6), 0.6f)
         };
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
-        // Heisei: the mouth of the custom model; Showa: the stand-in's.
-        return getVariant() == HEISEI ? new Vec3(0, 8.5, 2.0) : new Vec3(0, 9.0, 2.9);
+        // The mouths of Reiko's Heisei and Showa models.
+        return getVariant() == HEISEI ? new Vec3(0, 8.5, 2.0) : new Vec3(0, 8.2, 2.0);
     }
 
     @Override

@@ -9,13 +9,13 @@ Every model the mod needs, with the height to build it at in Blockbench and the 
 
 ## Phase 1: Showa/Heisei icons
 
-Reiko's Blockbench models are in for everything here except Showa Godzilla. Heisei Godzilla's was built at its 19.2-block size in game and halved to the 9.6-block build height when it was added.
+Reiko's Blockbench models are in for everything here. Heisei Godzilla's was built at its 19.2-block size in game and halved to the 9.6-block build height when it was added.
 
 ![Phase 1 models in game](docs/phase1_models.png)
 
 | Model file | Monster | Build height (Blockbench) | In game (blocks) | Model |
 | --- | --- | --- | --- | --- |
-| `godzilla_showa` | Godzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide | Stand-in |
+| `godzilla_showa` | Godzilla (Showa) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 4.3 wide | ✅ Reiko's model |
 | `godzilla_heisei` | Godzilla (Heisei) | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide | ✅ Reiko's model |
 | `king_ghidorah` | King Ghidorah | 12.8 blocks (204 px) | 12.8 tall · 11 long · 19.6 wide | ✅ Reiko's model |
 | `mothra_larva` | Mothra larva | 2.4 blocks (38 px) | 2.4 tall · 9.8 long · 2.6 wide | ✅ Reiko's model |

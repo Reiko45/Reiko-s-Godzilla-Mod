@@ -419,7 +419,7 @@ Tamed and piloted kaiju can't be taken over.
 
 ## Custom models (Blockbench)
 
-Phase 1 uses Reiko's own Blockbench models (all but Showa Godzilla, which is still a stand-in). Every other kaiju uses a plain **stand-in model** so the mod is playable. **[MODELS.md](MODELS.md)** lists every model with the height to build it at and its size in game. To use your own, make a GeckoLib model in Blockbench (*GeckoLib Animated Model* project type, entity) and export three files with the same name, replacing the stand-ins:
+All of Phase 1 uses Reiko's own Blockbench models. Every other kaiju uses a plain **stand-in model** so the mod is playable. **[MODELS.md](MODELS.md)** lists every model with the height to build it at and its size in game. To use your own, make a GeckoLib model in Blockbench (*GeckoLib Animated Model* project type, entity) and export three files with the same name, replacing the stand-ins:
 
 ```
 src/main/resources/assets/reikogodzilla/geo/entity/<name>.geo.json
