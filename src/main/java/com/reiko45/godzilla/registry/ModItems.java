@@ -76,8 +76,9 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> HOLLOW_EARTH_VORTEX = ITEMS.registerSimpleBlockItem(ModBlocks.HOLLOW_EARTH_VORTEX, new Item.Properties().rarity(Rarity.EPIC));
 
     // Spawn eggs
-    public static final DeferredItem<DeferredSpawnEggItem> GODZILLA_SPAWN_EGG = ITEMS.register("godzilla_spawn_egg",
-            () -> new DeferredSpawnEggItem(ModEntities.GODZILLA, 0x2F3B2F, 0x7FD8FF, new Item.Properties()));
+    // Showa keeps the original egg id so eggs already in worlds still work; Heisei gets its own egg.
+    public static final DeferredItem<DeferredSpawnEggItem> GODZILLA_SPAWN_EGG = variantEgg("godzilla", ModEntities.GODZILLA, 0x2E302E, 0xE6E1C8, 0);
+    public static final DeferredItem<DeferredSpawnEggItem> HEISEI_GODZILLA_SPAWN_EGG = variantEgg("heisei_godzilla", ModEntities.GODZILLA, 0x3A3836, 0x7FD8FF, 1);
     public static final DeferredItem<DeferredSpawnEggItem> KING_GHIDORAH_SPAWN_EGG = ITEMS.register("king_ghidorah_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.KING_GHIDORAH, 0xD4A017, 0xFFF1A8, new Item.Properties()));
     public static final DeferredItem<DeferredSpawnEggItem> MOTHRA_LARVA_SPAWN_EGG = ITEMS.register("mothra_larva_spawn_egg",
