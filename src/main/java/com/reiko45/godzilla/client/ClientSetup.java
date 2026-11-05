@@ -42,6 +42,9 @@ public final class ClientSetup {
                 .glowWhen(g -> g.getActiveAbility() instanceof com.reiko45.godzilla.entity.ability.BeamAbility
                         || g.getActiveAbility() instanceof com.reiko45.godzilla.entity.ability.NuclearPulseAbility));
         event.registerEntityRenderer(ModEntities.KING_GHIDORAH.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("king_ghidorah"), 4.0f));
+        // Phase 2: his own model file (a copy of the Heisei model for now); burning_godzilla_glow.png is always lit.
+        event.registerEntityRenderer(ModEntities.BURNING_GODZILLA.get(), ctx -> new KaijuRenderer<>(ctx,
+                NamedGeoModel.<com.reiko45.godzilla.entity.kaiju.BurningGodzillaEntity>fixed("burning_godzilla"), 3.0f));
         event.registerEntityRenderer(ModEntities.MOTHRA_LARVA.get(), ctx -> new KaijuRenderer<>(ctx,
                 new NamedGeoModel<MothraLarvaEntity>(l -> l.isCocoon() ? "mothra_cocoon" : "mothra_larva"), 2.0f));
         event.registerEntityRenderer(ModEntities.MOTHRA.get(), ctx -> new KaijuRenderer<>(ctx, NamedGeoModel.fixed("mothra"), 3.0f));

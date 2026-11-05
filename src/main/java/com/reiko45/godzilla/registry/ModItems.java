@@ -94,6 +94,8 @@ public final class ModItems {
 
     public static final DeferredItem<DeferredSpawnEggItem> GODZILLA_JUNIOR_SPAWN_EGG = ITEMS.register("godzilla_junior_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.GODZILLA_JUNIOR, 0x3F5A3A, 0xFFB0A0, new Item.Properties()));
+    public static final DeferredItem<DeferredSpawnEggItem> BURNING_GODZILLA_SPAWN_EGG = ITEMS.register("burning_godzilla_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.BURNING_GODZILLA, 0x3A1E14, 0xFF6A1A, new Item.Properties()));
     public static final DeferredItem<DeferredSpawnEggItem> BIOLLANTE_SPAWN_EGG = ITEMS.register("biollante_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.BIOLLANTE, 0x2E5E22, 0xC8202A, new Item.Properties()));
     public static final DeferredItem<DeferredSpawnEggItem> BATTRA_LARVA_SPAWN_EGG = ITEMS.register("battra_larva_spawn_egg",

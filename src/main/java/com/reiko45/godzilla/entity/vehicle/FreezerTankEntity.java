@@ -24,7 +24,7 @@ public class FreezerTankEntity extends MaserTankEntity {
     /** Also targets Burning Godzilla, to hold off the meltdown. */
     @Override
     protected boolean isAutoTarget(KaijuEntity k) {
-        return super.isAutoTarget(k) || k instanceof com.reiko45.godzilla.entity.kaiju.GodzillaEntity g && g.isBurning();
+        return super.isAutoTarget(k) || k instanceof com.reiko45.godzilla.entity.kaiju.BurningGodzillaEntity;
     }
 
     @Override

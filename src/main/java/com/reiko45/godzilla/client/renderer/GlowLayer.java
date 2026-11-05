@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 /**
- * Draws {@code <texture>_glow.png} over the model at full brightness (like spider eyes), if that file exists.
- * Transparent pixels add nothing, so the overlay only needs the glowing parts: eyes, dorsal plates, maser coils.
+ * Draws {@code <texture>_glow.png} over the model at full brightness, if that file exists.
+ * Transparent pixels are skipped, so the overlay only needs the glowing parts: eyes, dorsal plates, maser coils.
  */
 public class GlowLayer<T extends GeoAnimatable> extends GeoRenderLayer<T> {
     private static final Map<ResourceLocation, Boolean> EXISTS = new ConcurrentHashMap<>();
@@ -43,8 +43,8 @@ public class GlowLayer<T extends GeoAnimatable> extends GeoRenderLayer<T> {
         if (!active.test(animatable)) return;
         ResourceLocation glow = glowTexture(getTextureResource(animatable));
         if (!EXISTS.computeIfAbsent(glow, loc -> Minecraft.getInstance().getResourceManager().getResource(loc).isPresent())) return;
-        RenderType eyes = RenderType.eyes(glow);
-        getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, eyes, bufferSource.getBuffer(eyes), partialTick,
+        RenderType emissive = RenderType.entityTranslucentEmissive(glow);
+        getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, emissive, bufferSource.getBuffer(emissive), partialTick,
                 LightTexture.FULL_BRIGHT, packedOverlay, 0xFFFFFFFF);
     }
 }

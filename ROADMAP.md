@@ -49,7 +49,7 @@ The best-known monsters, plus the systems every later monster reuses.
 - [x] SpaceGodzilla (Corona Beam, crystal fields, Gravity Tornado, reflecting shield)
 - [x] Destoroyah (juveniles → aggregate → flying → Perfect Form, swarm split)
 - [x] Baby → Little → Godzilla Junior (hatches from an egg, imprints on a player)
-- [x] Burning Godzilla meltdown state (Infinite Heat Ray, Junior absorbs the meltdown)
+- [x] Burning Godzilla as his own kaiju (Infinite Heat Ray, heat meter and meltdown, Junior absorbs the meltdown; own egg and event, v0.5.5)
 
 **Tech**
 - [x] Mechagodzilla (G-Force) + Garuda → Super Mechagodzilla

@@ -60,7 +60,8 @@ Feed it any meat until hearts appear. Then: sneak + use to make it sit or follow
 
 | Kaiju | Side | Abilities |
 |---|---|---|
-| **Godzilla** (Heisei) | Titan | Gains the **Red Spiral Ray** for a while when a Fire Rodan dies nearby. Badly hurt, he becomes **Burning Godzilla** (see below) |
+| **Godzilla** (Heisei) | Titan | Gains the **Red Spiral Ray** for a while when a Fire Rodan dies nearby |
+| **Burning Godzilla** | Titan | Heisei Godzilla with his heart melting down (see below). Infinite Heat Ray, nuclear pulse, tail swipe, and a scorching radiation aura |
 | **Fire Rodan** | Titan | Half of all Rodan. Uranium Heat Beam |
 | **Baby → Little → Godzilla Junior** | Titan | Hatches from the **Godzilla Egg** in a nest on Monster Island and imprints on the nearest player. Feed it G-Cells to grow it a stage, meat to heal it; sneak + use to make it sit or follow. Bubble breath, later atomic breath |
 | **Biollante** (Flower → Plant Beast) | Titan | Vine lash, vine grab (pulls you in), acid sap, spore clouds. Killing the Flower Beast brings her back as the Plant Beast |
@@ -68,7 +69,7 @@ Feed it any meat until hearts appear. Then: sneak + use to make it sit or follow
 | **SpaceGodzilla** | Invader | Corona Beam (curves toward its target), Gravity Tornado, Photon Reactive Shield (reflects beams), tail swipe. Grows Space Crystal fields that feed it energy: break the crystals to stop it regenerating |
 | **Destoroyah** (juveniles → aggregate → flying → Perfect Form) | Invader | Micro-Oxygen beam, Variable Slicer, tail swipe, roar. Five juveniles merge into the aggregate, which evolves as it fights; the Perfect Form can split into a swarm and reform once. Weak to freezing |
 
-**Burning Godzilla:** when Heisei Godzilla drops low, his heart starts melting down. He glows orange, scorches everything around him and gains the Infinite Heat Ray, while a heat meter climbs. Freezer weapons cool him down. If the meter fills he explodes; if a Godzilla Junior is nearby it absorbs the radiation and becomes the new Godzilla instead.
+**Burning Godzilla:** his own kaiju, with his own spawn egg and event. His heart is melting down from the moment he appears: he glows, sets fires and burns everything near him, and a heat meter climbs. Freezer weapons cool him down. If the meter fills he explodes in a huge blast; if he's killed after being chilled enough, the meltdown is contained. A Godzilla Junior nearby absorbs the radiation and becomes the new Godzilla. (Heisei Godzilla no longer melts down when he's badly hurt.)
 
 **Weaknesses:**
 - **Freeze meter:** freezer weapons fill it. A full meter freezes a kaiju solid for a few seconds, and frozen kaiju take 50% more damage.
@@ -110,7 +111,7 @@ Unmanned mechs and tanks defend you: they attack hostile kaiju and anything targ
 
 - **G-Cell Rose:** plant it on soil within 4 blocks of water. While you're nearby it grows... and becomes Biollante.
 - **Godzilla Egg:** in a nest on Monster Island. It hatches when you're close.
-- **New events:** SpaceGodzilla falls from space inside a crystal meteor, the ground splits open and a Battra larva bursts out, or a swarm of Destoroyah juveniles crawls out of the water. Using an Oxygen Destroyer can also awaken Destoroyah juveniles a few minutes later.
+- **New events:** SpaceGodzilla falls from space inside a crystal meteor, the ground splits open and a Battra larva bursts out, a swarm of Destoroyah juveniles crawls out of the water, or Burning Godzilla wades ashore, sometimes with Godzilla Junior following him. Using an Oxygen Destroyer can also awaken Destoroyah juveniles a few minutes later.
 
 ## What's new in Phase 3: MonsterVerse
 
@@ -401,7 +402,7 @@ Tamed and piloted kaiju can't be taken over.
 
 ## Commands
 
-`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah|monsterverse_godzilla|muto|scylla|behemoth|alpha_call|skullcrawlers|gigan|megalon|hedorah|xilien_invasion|titanosaurus|orga|meganulon|gmk_godzilla|kamacuras|shin_godzilla|ginza_raid|ghidorah_storm|earth_tremors|catastrophe|titan_x|gigan_invasion|planet_eater|monarch|kraken|supernova>` starts an event near you (needs operator permissions).
+`/kaiju event <godzilla|ghidorah|mechagodzilla|spacegodzilla|battra|destoroyah|burning_godzilla|monsterverse_godzilla|muto|scylla|behemoth|alpha_call|skullcrawlers|gigan|megalon|hedorah|xilien_invasion|titanosaurus|orga|meganulon|gmk_godzilla|kamacuras|shin_godzilla|ginza_raid|ghidorah_storm|earth_tremors|catastrophe|titan_x|gigan_invasion|planet_eater|monarch|kraken|supernova>` starts an event near you (needs operator permissions).
 
 ## Config
 
@@ -412,7 +413,7 @@ Tamed and piloted kaiju can't be taken over.
 - `destruction.kaijuGriefing`, `beamBlockDamage`, `beamFire`, `maxBlocksPerTick`, `maxBlockResistance` (block breaking also respects the `mobGriefing` game rule)
 - `events.enabled`, `firstDay`, `intervalTicks`, `chance`, `maxKaijuNearPlayer`
 - `weapons.maserAutoFire`, `maserDamage`, `oxygenDestroyerKaijuDamage`
-- `heisei.burningGodzilla`, `meltdownTicks`, `meltdownExplosion`, `frozenTicks`, `juniorGrowthTicks`, `destoroyahChance`, `biollanteGrowthStages`
+- `heisei.meltdownTicks` (Burning Godzilla's time to meltdown), `meltdownExplosion`, `frozenTicks`, `juniorGrowthTicks`, `destoroyahChance`, `biollanteGrowthStages`
 - `monsterverse.alphaCall`, `kongGrowthTicks`, `apexTakeoverChance`, `iceAge`, `orcaRange`, `vortexDamage`
 - `showa_millennium.controlRange`, `saucerControlRange`, `hedorahGrowth`, `minillaGrowthTicks`, `jetJaguarGiantTicks`, `kiryuRampageChance`, `dimensionTideRadius`, `dimensionTideCooldown`
 - `reiwa.shinDormancyTicks`, `shinEvolutionRate`, `minusZeroScale`, `godzillaEarthScale`, `filiusGrowthTicks`, `nanometalRadius`, `redDustSpreads`, `ultimaMaxGrowth`, `mopCooldown`, `supernovaPlaceholder`
@@ -430,13 +431,13 @@ src/main/resources/assets/reikogodzilla/textures/entity/<name>.png
 Names:
 
 - Phase 1: `godzilla_showa`, `godzilla_heisei`, `king_ghidorah`, `mothra_larva`, `mothra_cocoon`, `mothra`, `rodan`, `anguirus`, `mechagodzilla`, `maser_tank`
-- Phase 2: `godzilla_junior`, `biollante_flower`, `biollante_plant`, `battra_larva`, `battra`, `space_godzilla`, `space_crystal`, `destoroyah_juvenile`, `destoroyah_aggregate`, `destoroyah_flying`, `destoroyah_perfect`, `mechagodzilla_heisei`, `super_mechagodzilla`, `garuda`, `moguera`, `star_falcon`, `land_moguera`, `super_x`, `super_x2`, `super_x3`, `freezer_tank`
+- Phase 2: `burning_godzilla`, `godzilla_junior`, `biollante_flower`, `biollante_plant`, `battra_larva`, `battra`, `space_godzilla`, `space_crystal`, `destoroyah_juvenile`, `destoroyah_aggregate`, `destoroyah_flying`, `destoroyah_perfect`, `mechagodzilla_heisei`, `super_mechagodzilla`, `garuda`, `moguera`, `star_falcon`, `land_moguera`, `super_x`, `super_x2`, `super_x3`, `freezer_tank`
 
 - Phase 3: `godzilla_mv`, `godzilla_evolved`, `kong`, `suko`, `great_ape`, `skar_king`, `shimo`, `muto_male`, `muto_female`, `skullcrawler`, `skull_devil`, `warbat`, `king_ghidorah_mv`, `scylla`, `behemoth`, `methuselah`, `tiamat`, `apex_mechagodzilla`, `heav`
 - Phase 4: `gigan`, `hedorah_aquatic`, `hedorah_land`, `hedorah_flying`, `hedorah_perfect`, `megalon`, `jet_jaguar`, `ebirah`, `kumonga`, `kamacuras`, `minilla`, `gorosaurus`, `manda`, `baragon`, `varan`, `king_caesar`, `titanosaurus`, `godzilla_millennium`, `godzilla_gmk`, `godzilla_kiryu_era`, `godzilla_final_wars`, `orga`, `millennian_ufo`, `megaguirus`, `meganulon`, `meganula`, `king_ghidorah_gmk`, `kiryu`, `monster_x`, `keizer_ghidorah`, `zilla`, `gotengo`, `xilien_saucer`
 - Phase 5: `shin_godzilla_2`, `shin_godzilla_3`, `shin_godzilla`, `godzilla_odo`, `godzilla_minus_one`, `ghidorah_minus_zero`, `king_ghidorah_minus_zero`, `godzilla_earth`, `servum`, `servum_worm`, `vulture`, `mechagodzilla_city`, `planet_eater_ghidorah`, `godzilla_aquatilis`, `godzilla_amphibia`, `godzilla_terrestris`, `godzilla_ultima`, `jet_jaguar_pp`, `salunga`, `titan_x`, `scarab`, `frost_vark`, `ion_dragon`, `kraken`, `shinden`
 
-Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Phase 4 forms that share a model with their own texture: `gigan_final_wars`, `hedorah_final_wars` (on `hedorah_perfect`), `ebirah_final_wars`, `kumonga_final_wars`, `kamacuras_final_wars`, `manda_final_wars`, `baragon_gmk`, `king_caesar_final_wars`, `mechagodzilla_2` (on `mechagodzilla`), `mothra_gmk` (on `mothra`), `king_ghidorah_dragon_king` (on `king_ghidorah_gmk`) and `kiryu_kai` (on `kiryu`). Phase 5: `godzilla_minus_zero` (on `godzilla_minus_one`), `godzilla_filius` (on `godzilla_earth`), `rodan_sp` (on `rodan`), `gigan_rex` and `gigan_miles` (on `gigan`) and `space_godzilla_mv` (on `space_godzilla`). Burning Godzilla tints `godzilla_heisei` orange. The textures for Phase 1 forms (`rodan_fire`, `rodan_mv`, `rodan_sp`, `mothra_mv`, `mothra_gmk`, `battra_cocoon`, `mechagodzilla_2`) are recoloured copies of the new Phase 1 textures for now; repaint them on the same UV layout.
+Fire Rodan uses the `rodan` model with its own texture, `rodan_fire.png`. MonsterVerse Rodan and Mothra reuse the `rodan` and `mothra` models with the textures `rodan_mv.png` and `mothra_mv.png`. Phase 4 forms that share a model with their own texture: `gigan_final_wars`, `hedorah_final_wars` (on `hedorah_perfect`), `ebirah_final_wars`, `kumonga_final_wars`, `kamacuras_final_wars`, `manda_final_wars`, `baragon_gmk`, `king_caesar_final_wars`, `mechagodzilla_2` (on `mechagodzilla`), `mothra_gmk` (on `mothra`), `king_ghidorah_dragon_king` (on `king_ghidorah_gmk`) and `kiryu_kai` (on `kiryu`). Phase 5: `godzilla_minus_zero` (on `godzilla_minus_one`), `godzilla_filius` (on `godzilla_earth`), `rodan_sp` (on `rodan`), `gigan_rex` and `gigan_miles` (on `gigan`) and `space_godzilla_mv` (on `space_godzilla`). Burning Godzilla has his own `burning_godzilla` model, for now a copy of the Heisei model with a burning texture and an always-lit `burning_godzilla_glow.png`. The textures for Phase 1 forms (`rodan_fire`, `rodan_mv`, `rodan_sp`, `mothra_mv`, `mothra_gmk`, `battra_cocoon`, `mechagodzilla_2`) are recoloured copies of the new Phase 1 textures for now; repaint them on the same UV layout.
 
 **Glow:** an optional `<texture>_glow.png` (transparent except the glowing parts) is drawn at full brightness over the model. Mechagodzilla's eyes and the Maser Tank's coils always glow (the tank's go dark under an EMP); Heisei Godzilla's dorsal plates glow only while charging or firing the atomic breath or the nuclear pulse.
 

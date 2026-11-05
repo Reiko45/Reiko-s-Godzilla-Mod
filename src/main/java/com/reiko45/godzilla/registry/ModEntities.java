@@ -76,6 +76,10 @@ public final class ModEntities {
                     .fireImmune().clientTrackingRange(16).updateInterval(2).build("ghidorah_meteor"));
 
     // ------------------------------------------------------------------ Phase 2: Heisei
+    public static final DeferredHolder<EntityType<?>, EntityType<com.reiko45.godzilla.entity.kaiju.BurningGodzillaEntity>> BURNING_GODZILLA = ENTITY_TYPES.register("burning_godzilla",
+            () -> EntityType.Builder.of(com.reiko45.godzilla.entity.kaiju.BurningGodzillaEntity::new, MobCategory.CREATURE).sized(4.0f, 9.5f).eyeHeight(8.8f)
+                    .fireImmune().clientTrackingRange(16).build("burning_godzilla"));
+
     public static final DeferredHolder<EntityType<?>, EntityType<GodzillaJuniorEntity>> GODZILLA_JUNIOR = ENTITY_TYPES.register("godzilla_junior",
             () -> EntityType.Builder.of(GodzillaJuniorEntity::new, MobCategory.CREATURE).sized(4.0f, 9.5f).eyeHeight(8.8f)
                     .clientTrackingRange(12).build("godzilla_junior"));
@@ -449,6 +453,7 @@ public final class ModEntities {
         event.put(MECHAGODZILLA.get(), MechagodzillaEntity.createAttributes().build());
         event.put(MASER_TANK.get(), MaserTankEntity.createAttributes().build());
         // Phase 2
+        event.put(BURNING_GODZILLA.get(), com.reiko45.godzilla.entity.kaiju.BurningGodzillaEntity.createAttributes().build());
         event.put(GODZILLA_JUNIOR.get(), GodzillaJuniorEntity.createAttributes().build());
         event.put(BIOLLANTE.get(), BiollanteEntity.createAttributes().build());
         event.put(BATTRA_LARVA.get(), BattraLarvaEntity.createAttributes().build());

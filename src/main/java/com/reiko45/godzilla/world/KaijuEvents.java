@@ -8,6 +8,7 @@ import com.reiko45.godzilla.GodzillaConfig;
 import com.reiko45.godzilla.ReikoGodzilla;
 import com.reiko45.godzilla.entity.KaijuEntity;
 import com.reiko45.godzilla.entity.kaiju.GodzillaEntity;
+import com.reiko45.godzilla.entity.kaiju.GodzillaJuniorEntity;
 import com.reiko45.godzilla.entity.kaiju.MechagodzillaEntity;
 import com.reiko45.godzilla.entity.projectile.GhidorahMeteorEntity;
 import com.reiko45.godzilla.registry.ModEntities;
@@ -36,19 +37,20 @@ import java.util.List;
  * Random kaiju events and the /kaiju command.
  * <ul>
  *     <li>Godzilla surfaces offshore and heads for land.</li>
+ *     <li>Burning Godzilla wades ashore, sometimes with Godzilla Junior following him.</li>
  *     <li>A golden meteor crashes and King Ghidorah emerges.</li>
  *     <li>"Godzilla" walks in from the horizon... but it's Mechagodzilla in disguise.</li>
  * </ul>
  */
 @EventBusSubscriber(modid = ReikoGodzilla.MODID)
 public final class KaijuEvents {
-    public static final List<String> EVENTS = List.of("godzilla", "ghidorah", "mechagodzilla", "spacegodzilla", "battra", "destoroyah",
+    public static final List<String> EVENTS = List.of("godzilla", "ghidorah", "mechagodzilla", "spacegodzilla", "battra", "destoroyah", "burning_godzilla",
             "monsterverse_godzilla", "muto", "scylla", "behemoth", "alpha_call", "skullcrawlers",
             "gigan", "megalon", "hedorah", "xilien_invasion", "titanosaurus", "orga", "meganulon", "gmk_godzilla", "kamacuras",
             "shin_godzilla", "ginza_raid", "ghidorah_storm", "earth_tremors", "catastrophe", "titan_x", "gigan_invasion", "planet_eater",
             "monarch", "kraken", "supernova");
     /** Relative odds of each random event (same order as {@link #EVENTS}). */
-    private static final int[] WEIGHTS = {14, 10, 8, 8, 7, 5, 12, 10, 7, 5, 6, 8, 6, 6, 6, 5, 5, 5, 6, 5, 6, 8, 7, 6, 5, 5, 5, 5, 3, 5, 4, 1};
+    private static final int[] WEIGHTS = {14, 10, 8, 8, 7, 5, 3, 12, 10, 7, 5, 6, 8, 6, 6, 6, 5, 5, 5, 6, 5, 6, 8, 7, 6, 5, 5, 5, 5, 3, 5, 4, 1};
 
     /** Delayed spawns (Destoroyah juveniles after an Oxygen Destroyer). Not saved across restarts. */
     private record Pending(net.minecraft.resources.ResourceKey<Level> dimension, BlockPos pos, long time) {}
@@ -102,6 +104,7 @@ public final class KaijuEvents {
     public static boolean trigger(ServerLevel level, ServerPlayer player, String event) {
         return switch (event) {
             case "godzilla" -> godzillaRises(level, player);
+            case "burning_godzilla" -> burningGodzillaRises(level, player);
             case "ghidorah" -> ghidorahMeteor(level, player);
             case "mechagodzilla" -> mechagodzillaInvasion(level, player);
             case "spacegodzilla" -> spaceGodzillaArrives(level, player);
@@ -138,6 +141,34 @@ public final class KaijuEvents {
     }
 
     private static boolean godzillaRises(ServerLevel level, ServerPlayer player) {
+        GodzillaEntity godzilla = riseFromSea(level, player, ModEntities.GODZILLA.get());
+        if (godzilla == null) return false;
+        announce(level, player, "event.reikogodzilla.godzilla", ChatFormatting.DARK_AQUA);
+        return true;
+    }
+
+    /** Burning Godzilla wades ashore; half the time Godzilla Junior follows him in. */
+    private static boolean burningGodzillaRises(ServerLevel level, ServerPlayer player) {
+        GodzillaEntity burning = riseFromSea(level, player, ModEntities.BURNING_GODZILLA.get());
+        if (burning == null) return false;
+        announce(level, player, "event.reikogodzilla.burning_godzilla", ChatFormatting.GOLD);
+        if (level.getRandom().nextBoolean()) {
+            GodzillaJuniorEntity junior = ModEntities.GODZILLA_JUNIOR.get().create(level);
+            if (junior != null) {
+                junior.moveTo(burning.getX() + 12, burning.getY(), burning.getZ() + 12, burning.getYRot(), 0);
+                junior.finalizeSpawn(level, level.getCurrentDifficultyAt(junior.blockPosition()), MobSpawnType.EVENT, null);
+                junior.setVariant(GodzillaJuniorEntity.JUNIOR);
+                junior.setHealth(junior.getMaxHealth());
+                level.addFreshEntity(junior);
+                announce(level, player, "event.reikogodzilla.burning_godzilla_junior", ChatFormatting.AQUA);
+            }
+        }
+        return true;
+    }
+
+    /** Surfaces a Godzilla from the sea 70-120 blocks from the player, heading for them. */
+    @javax.annotation.Nullable
+    private static <T extends GodzillaEntity> T riseFromSea(ServerLevel level, ServerPlayer player, net.minecraft.world.entity.EntityType<T> type) {
         RandomSource random = level.getRandom();
         for (int attempt = 0; attempt < 32; attempt++) {
             double angle = random.nextDouble() * Math.PI * 2;
@@ -149,16 +180,15 @@ public final class KaijuEvents {
             int floor = level.getHeight(Heightmap.Types.OCEAN_FLOOR, x, z);
             if (level.getSeaLevel() - floor < 8 || !level.getFluidState(column).is(FluidTags.WATER)) continue;
 
-            GodzillaEntity godzilla = ModEntities.GODZILLA.get().create(level);
-            if (godzilla == null) return false;
+            T godzilla = type.create(level);
+            if (godzilla == null) return null;
             godzilla.moveTo(x + 0.5, floor, z + 0.5, (float) Math.toDegrees(Math.atan2(player.getZ() - z, player.getX() - x)) - 90f, 0);
             godzilla.finalizeSpawn(level, level.getCurrentDifficultyAt(column), MobSpawnType.EVENT, null);
             godzilla.setDestination(player.blockPosition());
             level.addFreshEntity(godzilla);
-            announce(level, player, "event.reikogodzilla.godzilla", ChatFormatting.DARK_AQUA);
-            return true;
+            return godzilla;
         }
-        return false;
+        return null;
     }
 
     private static boolean ghidorahMeteor(ServerLevel level, ServerPlayer player) {

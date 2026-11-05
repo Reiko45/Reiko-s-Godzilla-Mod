@@ -27,7 +27,6 @@ public final class GodzillaConfig {
     public static final ModConfigSpec.DoubleValue OXYGEN_DESTROYER_KAIJU_DAMAGE;
 
     // Phase 2
-    public static final ModConfigSpec.BooleanValue BURNING_GODZILLA;
     public static final ModConfigSpec.IntValue MELTDOWN_TICKS;
     public static final ModConfigSpec.BooleanValue MELTDOWN_EXPLOSION;
     public static final ModConfigSpec.IntValue FROZEN_TICKS;
@@ -107,8 +106,7 @@ public final class GodzillaConfig {
         b.pop();
 
         b.push("heisei");
-        BURNING_GODZILLA = b.comment("Heisei Godzilla goes into meltdown (Burning Godzilla) when badly hurt.").define("burningGodzilla", true);
-        MELTDOWN_TICKS = b.comment("Ticks from the start of Burning Godzilla until meltdown, if nothing cools him down (6000 = 5 minutes).")
+        MELTDOWN_TICKS = b.comment("Ticks from Burning Godzilla's arrival until his meltdown, if nothing cools him down (6000 = 5 minutes).")
                 .defineInRange("meltdownTicks", 6000, 600, 1_000_000);
         MELTDOWN_EXPLOSION = b.comment("Meltdown causes a huge explosion (also needs kaijuGriefing for block damage).").define("meltdownExplosion", true);
         FROZEN_TICKS = b.comment("How long a kaiju stays frozen solid once its freeze meter fills.").defineInRange("frozenTicks", 120, 20, 2400);

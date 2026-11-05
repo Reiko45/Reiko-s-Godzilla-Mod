@@ -28,8 +28,11 @@ Reiko's Blockbench models are in for everything here. Heisei Godzilla's was buil
 
 ## Phase 2: Heisei
 
+`burning_godzilla` is a copy of Reiko's Heisei Godzilla model with a burning texture and glow for now. A model of his own goes in under the same name, built like Heisei Godzilla (scale 2.0).
+
 | Model file | Monster | Build height (Blockbench) | In game (blocks) |
 | --- | --- | --- | --- |
+| `burning_godzilla` | Burning Godzilla | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide |
 | `godzilla_junior` | Baby Godzilla | 9.6 blocks (154 px) | 2.4 tall · 2.6 long · 1.1 wide |
 | `godzilla_junior` | Little Godzilla | 9.6 blocks (154 px) | 4.3 tall · 4.8 long · 1.9 wide |
 | `godzilla_junior` | Godzilla Junior | 9.6 blocks (154 px) | 7.7 tall · 8.5 long · 3.4 wide |
