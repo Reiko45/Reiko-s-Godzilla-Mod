@@ -105,7 +105,7 @@ public final class ModEntities {
                     .fireImmune().clientTrackingRange(12).build("space_crystal"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DestoroyahEntity>> DESTOROYAH = ENTITY_TYPES.register("destoroyah",
-            () -> EntityType.Builder.of(DestoroyahEntity::new, MobCategory.MONSTER).sized(5.0f, 22.0f).eyeHeight(20.0f)
+            () -> EntityType.Builder.of(DestoroyahEntity::new, MobCategory.MONSTER).sized(3.75f, 9.6f).eyeHeight(8.6f)
                     .fireImmune().clientTrackingRange(16).build("destoroyah"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DestoroyahJuvenileEntity>> DESTOROYAH_JUVENILE = ENTITY_TYPES.register("destoroyah_juvenile",

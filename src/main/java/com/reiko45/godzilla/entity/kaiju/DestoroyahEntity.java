@@ -86,24 +86,34 @@ public class DestoroyahEntity extends FlyingKaijuEntity {
     @Override
     public EntityDimensions getDefaultDimensions(Pose pose) {
         return switch (getVariant()) {
-            case AGGREGATE -> EntityDimensions.scalable(6.0f, 6.0f).withEyeHeight(5.0f);
-            case FLYING -> EntityDimensions.scalable(5.0f, 5.0f).withEyeHeight(4.0f);
-            default -> EntityDimensions.scalable(5.0f, 22.0f).withEyeHeight(20.0f);
+            case AGGREGATE -> EntityDimensions.scalable(5.0f, 7.7f).withEyeHeight(6.0f);
+            case FLYING -> EntityDimensions.scalable(6.0f, 5.0f).withEyeHeight(4.2f);
+            default -> EntityDimensions.scalable(3.75f, 9.6f).withEyeHeight(8.6f);
         };
+    }
+
+    /**
+     * Film sizes at the mod's scale (Heisei Godzilla's 100 m = 19.2 blocks): Aggregate 40 m tall and 60 m long,
+     * Flying 65 m long with an 80 m wingspan, Perfect 120 m tall. The Perfect Form is built 9.6 blocks tall like
+     * Godzilla and scaled up to 23 blocks, a head taller than Heisei and Burning Godzilla.
+     */
+    @Override
+    protected double variantScale() {
+        return getVariant() == PERFECT ? 2.4 : 1.0;
     }
 
     @Override
     protected Vec3 beamLocalOffset(int index) {
         return switch (getVariant()) {
-            case AGGREGATE -> new Vec3(0, 4.5, 3.4);
-            case FLYING -> new Vec3(0, 3.5, 3.0);
-            default -> new Vec3(0, 20.5, 2.6);
+            case AGGREGATE -> new Vec3(0, 5.0, 4.8);
+            case FLYING -> new Vec3(0, 4.4, 5.8);
+            default -> new Vec3(0, 8.5, 2.8);
         };
     }
 
     @Override
     protected double baseStepHeight() {
-        return getVariant() == PERFECT ? 4.0 : 2.5;
+        return getVariant() == PERFECT ? 2.0 : 2.5;
     }
 
     @Override

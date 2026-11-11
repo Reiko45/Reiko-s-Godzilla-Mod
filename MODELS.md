@@ -42,10 +42,10 @@ Reiko's Blockbench models are in for everything here. Heisei Godzilla's was buil
 | `battra` | Battra | 3.6 blocks (58 px) | 3.6 tall · 8.9 long · 16.6 wide |
 | `space_godzilla` | SpaceGodzilla | 9.6 blocks (154 px) | 23 tall · 25.4 long · 11.5 wide |
 | `space_crystal` | Space crystal | 8 blocks (128 px) | 8 tall · 2.6 long · 2.5 wide |
-| `destoroyah_juvenile` | Destoroyah juvenile | 4.4 blocks (70 px) | 4.4 tall · 11.6 long · 4.6 wide |
-| `destoroyah_aggregate` | Destoroyah (aggregate) | 4.4 blocks (70 px) | 4.4 tall · 11.6 long · 4.6 wide |
-| `destoroyah_flying` | Destoroyah (flying) | 5.4 blocks (87 px) | 5.4 tall · 7.6 long · 14.8 wide |
-| `destoroyah_perfect` | Destoroyah (perfect) | 9.6 blocks (154 px) | 9.6 tall · 10.6 long · 13 wide |
+| `destoroyah_juvenile` | Destoroyah juvenile | 2.2 blocks (35 px) | 2.2 tall · 5.8 long · 2.3 wide |
+| `destoroyah_aggregate` | Destoroyah (aggregate) | 7.7 blocks (123 px) | 7.7 tall · 11.6 long · 4.6 wide |
+| `destoroyah_flying` | Destoroyah (flying) | 5.2 blocks (84 px) | 5.2 tall · 12.5 long · 15.4 wide |
+| `destoroyah_perfect` | Destoroyah (perfect) | 9.6 blocks (154 px) | 23 tall · 25.4 long · 31.2 wide |
 | `mechagodzilla_heisei` | Mechagodzilla (Heisei) | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide |
 | `super_mechagodzilla` | Super Mechagodzilla | 9.6 blocks (154 px) | 19.2 tall · 21.2 long · 8.6 wide |
 | `garuda` | Garuda | 2.4 blocks (38 px) | 2.4 tall · 5 long · 4.6 wide |
@@ -56,6 +56,8 @@ Reiko's Blockbench models are in for everything here. Heisei Godzilla's was buil
 | `super_x2` | Super X2 | 1.9 blocks (30 px) | 1.9 tall · 7 long · 6.6 wide |
 | `super_x3` | Super X3 | 2 blocks (32 px) | 2 tall · 7.4 long · 10.8 wide |
 | `freezer_tank` | Freezer Tank | 2.8 blocks (44 px) | 2.8 tall · 3.7 long · 2.8 wide |
+
+Destoroyah's forms follow the film's sizes at the same scale as Heisei Godzilla (100 m = 19.2 blocks): Aggregate 40 m tall and 60 m long, Flying 65 m long with an 80 m wingspan, Perfect 120 m tall, so the Perfect Form stands a head taller than Heisei and Burning Godzilla. Perfect Destoroyah is built 9.6 blocks tall and scaled 2.4×; in the film he's 230 m long with the tail and has a 210 m wingspan, so a film-accurate model is about 18.4 blocks long with a 16.8-block wingspan at build size.
 
 Super Mechagodzilla is Mechagodzilla with Garuda docked on its back: same size as the Heisei Mechagodzilla.
 
